@@ -5,6 +5,8 @@
 
 ##Features
 
-##Examples
+##Microsyntax
 
-##Syntax
+##Macrosyntax
+
+##Examples
