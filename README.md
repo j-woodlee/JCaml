@@ -1,3 +1,3 @@
 # JCaml
-JCaml introfuction
-<p><img src="jcaml.png" width="400" height="400"></p>
+JCaml introduction
+<p><img src="jcaml.png" width="250" height="250"></p>
