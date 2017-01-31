@@ -1,0 +1,22 @@
+{
+  "name": "jcaml",
+  "version": "1.0.0",
+  "description": "JCaml is a new programming language",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidTParks/JCaml.git"
+  },
+  "keywords": [
+    "JCaml"
+  ],
+  "author": "Jake Woodlee, Matthew Sanders, David Parks, George Sarantinos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavidTParks/JCaml/issues"
+  },
+  "homepage": "https://github.com/DavidTParks/JCaml#readme"
+}
