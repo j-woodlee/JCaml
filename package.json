@@ -18,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/DavidTParks/JCaml/issues"
   },
+  "devDependencies": {
+    "mocha": "latest",
+    "should": "latest"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
   "homepage": "https://github.com/DavidTParks/JCaml#readme"
 }
