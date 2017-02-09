@@ -1,7 +1,7 @@
 JCaml {
     Program       =  Block
     Block         =  (Stmt ":")*
-    Stmt          =  "Decl" | "id" | Exp | stringlit | numlit
+    Stmt          =  Decl | id | Exp | stringlit | numlit
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
