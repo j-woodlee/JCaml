@@ -23,11 +23,11 @@ JCaml                            | JavaScript
 ###Fibonacci Numbers
 JCaml                              | JavaScript
 -----------------------------------|-------------------------------------------------------------------------------------------
-let fun fib = (int a) => (int):    | javascript
-                                   |        let fib = (a) => {
-    if(a == 0 || a == 1):          |   if (a == 0 || a == 1) {
-        hump 1                     |       return 1;
-    else:                          |   } else {
-        hump fib(a-1) + fib(1-2)   |       return fib(a - 1) + fib(a - 2);
-;;                                 |   }
-                                   | };
+let fun fib = (int a) => (int):
+                                    let fib = (a) => {
+    if(a == 0 || a == 1):             if (a == 0 || a == 1) {
+        hump 1                            return 1;
+    else:                             } else {
+        hump fib(a-1) + fib(1-2)          return fib(a - 1) + fib(a - 2);
+;;                                    }
+                                    };
