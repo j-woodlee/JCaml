@@ -7,10 +7,17 @@ const gram = ohm.grammar(jcaml);
 
 
 describe('Arithmetic', () => {
-  describe('3 + 2', () => {
-    it('should be equivilent to result', () => {
-      let match = gram.match('2 + 3');
+  describe('3 + 1', () => {
+    it('should equal result', () => {
+      let match = gram.match('1 + 3');
       assert.ok(match.succeeded());
+    });
+  });
+  describe('a > b', () => {
+    it('should be eqvuielant to result', () => {
+      let a = 16;
+      let b = 15 - 1;
+      assert.ok('a > b');
     });
   });
 });
