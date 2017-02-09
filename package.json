@@ -32,6 +32,7 @@
     "extends": "eslint:recommended",
     "rules": {
       "curly": 2,
+      "no-extra-semi": 0,
       "no-eval": 2,
       "no-global-assign": 2,
       "no-lone-blocks": 2,
@@ -46,7 +47,7 @@
       "indent": 2,
       "key-spacing": 2,
       "keyword-spacing": 2,
-      "semi-spacing": 2,
+      "semi-spacing": 0,
       "space-in-parens": 2,
       "space-infix-ops": 2,
       "space-unary-ops": 2,
