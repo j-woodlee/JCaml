@@ -1,5 +1,5 @@
 # JCaml
-<p><img src="jcaml.png" width="250" height="250"></p>
+<p><img src="Logos/jcaml.png" width="250" height="250"></p>
 
 ##Introduction
 
