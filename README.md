@@ -10,7 +10,7 @@
 
 ##Macrosyntax
 
-```
+```Ohm
 JCaml {
     Program       =  Block
     Block         =  (Stmt)*
@@ -29,13 +29,13 @@ JCaml {
     Body          =  ":" Block ";;"
     Exp           =  "match" id "with" "\n" matches
     Exp1          =  Exp1 adlop Exp1                            -- binary
-                  |  Exp1
-    Exp2          =  Exp2 mullop Exp2                           -- binary
                   |  Exp2
-    Exp3          =  prefixop Exp3                              -- binary
+    Exp2          =  Exp2 mullop Exp2                           -- binary
                   |  Exp3
-    Exp4          =  Exp4 expops Exp4                           -- binary
+    Exp3          =  prefixop Exp3                              -- binary
                   |  Exp4
+    Exp4          =  Exp4 expops Exp4                           -- binary
+                  |  Exp5
     Exp5          =  "(" Exp ")"                                -- parens
 
     matches       =  ("|" Exp "->" Exp "\n")+
