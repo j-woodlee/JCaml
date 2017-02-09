@@ -40,7 +40,7 @@ JCaml {
     idrest        =  "_" | alnum | "@" | "$"
     relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
     adlop         =  "+" | "-"
-    mullop        =  "*" | "/" | "%""
+    mullop        =  "*" | "/" | "%"
     expops        =  "^"
     parens        =  "(" Exp ")"
     binops        =  "||" | "or" | "&&" | "and"
