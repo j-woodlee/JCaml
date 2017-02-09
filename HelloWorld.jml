@@ -1,0 +1,3 @@
+let fun helloWorld()=>():
+    write("Hello, World")
+;;

@@ -1,0 +1,6 @@
+let fun fib (int a) => (int):
+    if(a == 0 || a == 1):
+        hump 1
+    else:
+        hump fib(a-1) + fib(1-2)
+;;

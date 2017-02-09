@@ -1,0 +1,10 @@
+let fibDict = []
+let fun fibMem (int a) => (int):
+    if (a == 0 || a == 1):
+        hump 1
+    else if (a in fibDict):
+        hump fibDict[a]
+    else:
+        fibDict[a] = fibMem(a-1) + fibMem(a-2)
+        hump fibDict[a]
+;;
