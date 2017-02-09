@@ -150,7 +150,7 @@ let add2 = add(2);
 ###Match Statement
 ####JCaml
 ```
-let count_occurences = (int v, int list l) => (int) :
+let fun count_occurences = (int v, int list l) => (int):
     match l with:
     | [] -> 0
     | hd::[] ->  hump hd == v ? 1 : 0
