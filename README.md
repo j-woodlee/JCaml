@@ -12,4 +12,82 @@
 ##Macrosyntax
 
 ##Examples
-#Hello World
+
+
+###Hello World
+JCaml                            | JavaScript
+---------------------------------|-------------------------------------------------------------------------------------------
+`spit("Hello, World");;`         | `console.log("Hello World");`
+
+###Fibonacci Numbers
+####JCaml
+```
+let fun fib = (int a) => (int):
+    if(a == 0 || a == 1):
+        hump 1
+    else:
+        hump fib(a-1) + fib(1-2)
+;;
+```
+
+####JavaScript
+```javascript
+let fib = (a) => {
+    if (a == 0 || a == 1) {
+        return 1;
+    } else {
+        return fib(a - 1) + fib(a - 2);
+    }
+};
+```
+
+###Fibonacci Numbers Memoized
+####JCaml
+```
+let fibDict = []
+let fun fibMem = (int a) => (int):
+    if (a == 0 || a == 1):
+        hump 1
+    else if (a in fibDict):
+        hump fibDict[a]
+    else:
+        fibDict[a] = fibMem(a-1) + fibMem(a-2)
+        hump fibDict[a]
+;;
+```
+
+####JavaScript
+```javascript
+let dictionary = {};
+let fibMem = (a) => {
+    if(a == 0 || a == 1) {
+        return 1;
+    } else if(a in dictionary) {
+        return dictionary[a];
+    } else {
+        dictionary[a] = fibMem(a - 1) + fibMem(a - 2);
+        return dictionary[a];
+    }
+};
+```
+
+###Currying and Higher Order Functions
+####JCaml
+```
+let fun add = (int a, int b) => (int):
+    hump a + b;
+;;
+let fun add2 = add(2);;
+
+```
+####Javascript
+```javascript
+let add = (a) => {
+    return (b) => {
+        return a + b;
+    };
+};
+
+let add2 = add(2);
+
+```
