@@ -1,15 +1,69 @@
 # JCaml
-<p><img src="jcaml.png" width="250" height="250"></p>
+<p><img src="Logos/jcaml.png" width="250" height="250"></p>
 
 ##Introduction
 
-####Welcome to the world of JCaml. Do you like to hump? Do you like to spit? Then JCaml is perfect for you. To give you all the features of OCaml with the simplicity and ubiquity of JavaScript, JCaml has it all. This is our statically-typed, statically-scoped, superb language that cannot be beat.
+####Welcome to the world of JCaml. Do you like to hump? Do you like to spit? JCaml has all these functions for you. To give you all the features of OCaml with the simplicity and ubiquity of JavaScript, JCaml has it all. This is our statically-typed, statically-scoped, superb language that cannot be beat.
 ##Features
 
-####This language has everything. It has pattern-matching, dictionary capabilities, list comprehensio, recursive functions, higher-order functions, currying, and tuples. If you want it, it has it.
-##Microsyntax
+####This language has everything. It has pattern-matching, dictionary capabilities, list comprehension, recursive functions, higher-order functions, currying, and tuples. If you want it, it has it.
 
 ##Macrosyntax
+
+```
+    Program       =  Block
+    Block         =  (Stmt ":")*
+    Stmt          =  Decl | id | Exp | stringlit | numlit
+                  |  "if" Exp Block
+                     ("else if" Exp Block)*
+                     ("else" Block)                             -- if
+                  |  Exp "?" Exp ";" Exp
+
+    Decl          =  "let" id "=" Exp
+                  |  "let fun" id "=" Params "=>" returnVal ":" Body
+    Params        =  "(" Param ("," Param)* ")"
+    Param         =  id 
+    returnVal     =  id
+
+    Body          =  ":" Block ";;"
+    Exp           =  "match" val "with" "\n" matches
+    Exp1          =  Exp1 adlop Exp1                            -- binary
+                  |  Exp1
+    Exp2          =  Exp2 mullop Exp2                           -- binary
+                  |  Exp2 
+    Exp3          =  prefixop Exp3                              -- binary 
+                  |  Exp3
+    Exp4          =  Exp4 expo Exp4                             -- binary 
+                  |  Exp4 
+    Exp5          =  "(" Exp ")"                                -- parens
+
+    matches       =  ("|" Exp  "->"   Exp "\n")+
+
+    keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" 
+
+    prefixop      =  ~"--" "not" | "!" | "-" |
+
+    id            =  ~keyword (letter | $) idrest*
+    tuplit        =  "(" Exp "," Exp ")"
+    list          =  "[" Exp ("," Exp)* "]"
+                  |  "[" tuplit ("," tuplit)* "]"
+                  |   Exp"::"list
+    idrest        =  "_" | alnum | "@" | "$"
+    relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
+    adlop         =  "+" | "-"
+    mullop        =  "*" | "/" | "%""
+    expops        =  "^"
+    parens        =  "(" Exp ")"
+    binops        =  "||" | "or" | "&&" | "and"
+    numlit        =  digit+
+    char          =  escape
+    escape        =  "\\\" | "\\n" | "\\'" 
+                  | "\\t" | "\\"" | "\\u{" hexDigit*4 "}"       -- codepoint
+    charlit       =  "'" (char | "\"") "'"
+    stringlit     =  "\"" (char | "\'")* "\""
+    comment       =  "##" (~"\n" any)* "\n"
+```
 
 ##Examples
 
@@ -89,5 +143,31 @@ let add = (a) => {
 };
 
 let add2 = add(2);
+
+```
+
+
+###Match Statement
+####JCaml
+```
+let fun count_occurences = (int v, int list l) => (int):
+    match l with:
+    | [] -> 0
+    | hd::[] ->  hump hd == v ? 1 : 0
+    | hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)
+;;
+
+```
+####Javascript
+```javascript
+let count_occurences = (v, l) => {
+    let sum = 0;
+    for (let value of l) {
+      if(v === value) {
+          sum++;
+      }
+    }
+    return sum;
+};
 
 ```
