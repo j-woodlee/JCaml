@@ -29,6 +29,7 @@
       "node": true,
       "es6": true
     },
+    "extends": "eslint:recommended",
     "rules": {
       "curly": 2,
       "eqeqeq": 2,
@@ -59,6 +60,5 @@
       "no-console": 1,
       "semi": [2, "always"]
     }
-    "extends": "eslint:recommended",
-    "homepage": "https://github.com/DavidTParks/JCaml#readme"
+  }
 }
