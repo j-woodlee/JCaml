@@ -60,7 +60,7 @@ JCaml {
     numlit        =  digit+
     char          =  escape
     escape        =  "\\""" | "\\n" | "\\'"
-                  | "\\t" | "\\""" | "\\u{" hexDigit+ "}"       -- codepoint
+                  | "\\t" | "\\""" | "\\u{" hexDigit*4 "}"       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
