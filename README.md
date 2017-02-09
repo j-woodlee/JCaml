@@ -12,17 +12,17 @@
 
 ```
     Program       =  Block
-    Block         =  (Stmt ":")*
+    Block         =  (Stmt)*
     Stmt          =  Decl | id | Exp | stringlit | numlit
                   |  "if" Exp Block
-                     ("else if" Exp Block)*
-                     ("else" Block)                             -- if
-                  |  Exp "?" Exp ";" Exp
+                     ("else if" Exp Body)*
+                     ("else" Body)                              -- if
+                  |  Exp1 "?" Exp1 ";" Exp1
 
     Decl          =  "let" id "=" Exp
-                  |  "let fun" id "=" Params "=>" returnVal ":" Body
-    Params        =  "(" Param ("," Param)* ")"
-    Param         =  id 
+                  |  "let fun" id "=" Params "=>" returnVal Body
+    Params        =  "(" (Param ("," Param)*)? ")"
+    Param         =  id
     returnVal     =  id
 
     Body          =  ":" Block ";;"
@@ -30,36 +30,36 @@
     Exp1          =  Exp1 adlop Exp1                            -- binary
                   |  Exp1
     Exp2          =  Exp2 mullop Exp2                           -- binary
-                  |  Exp2 
-    Exp3          =  prefixop Exp3                              -- binary 
+                  |  Exp2
+    Exp3          =  prefixop Exp3                              -- binary
                   |  Exp3
-    Exp4          =  Exp4 expo Exp4                             -- binary 
-                  |  Exp4 
+    Exp4          =  Exp4 expo Exp4                             -- binary
+                  |  Exp4
     Exp5          =  "(" Exp ")"                                -- parens
 
-    matches       =  ("|" Exp  "->"   Exp "\n")+
+    matches       =  ("|" Exp "->" Exp "\n")+
 
     keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
-                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" 
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit"
 
-    prefixop      =  ~"--" "not" | "!" | "-" |
+    prefixop      =  ~"--" "not" | "!" | "-"
 
-    id            =  ~keyword (letter | $) idrest*
+    id            =  ~keyword letter idrest*
     tuplit        =  "(" Exp "," Exp ")"
-    list          =  "[" Exp ("," Exp)* "]"
-                  |  "[" tuplit ("," tuplit)* "]"
+    list          =  "[" (Exp ("," Exp)*)* "]"
+                  |  "[" (tuplit ("," tuplit)*)* "]"
                   |   Exp"::"list
     idrest        =  "_" | alnum | "@" | "$"
     relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
     adlop         =  "+" | "-"
-    mullop        =  "*" | "/" | "%""
+    mullop        =  "*" | "/" | "%"
     expops        =  "^"
     parens        =  "(" Exp ")"
     binops        =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
     char          =  escape
-    escape        =  "\\\" | "\\n" | "\\'" 
-                  | "\\t" | "\\"" | "\\u{" hexDigit*4 "}"       -- codepoint
+    escape        =  "\\""" | "\\n" | "\\'"
+                  | "\\t" | "\\""" | "\\u{" hexDigit+ "}"       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"

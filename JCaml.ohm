@@ -1,6 +1,6 @@
 JCaml {
     Program       =  Block
-    Block         =  (Stmt ":")*
+    Block         =  (Stmt)*
     Stmt          =  Decl | id | Exp | stringlit | numlit
                   |  "if" Exp Block
                      ("else if" Exp Block)*
@@ -25,7 +25,7 @@ JCaml {
                   |  Exp4
     Exp5          =  "(" Exp ")"                                -- parens
 
-    matches       =  ("|" Exp  "->"   Exp "\n")+
+    matches       =  ("|" Exp "->" Exp "\n")+
 
     keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
                   |  "double" | "float" | "long" | "list" | "hump" | "tuplit" -- key
@@ -34,8 +34,8 @@ JCaml {
 
     id            =  ~keyword letter idrest*
     tuplit        =  "(" Exp "," Exp ")"
-    list          =  "[" Exp ("," Exp)* "]"
-                  |  "[" tuplit ("," tuplit)* "]"
+    list          =  "[" (Exp ("," Exp)*)* "]"
+                  |  "[" (tuplit ("," tuplit)*)* "]"
                   |   Exp"::"list
     idrest        =  "_" | alnum | "@" | "$"
     relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
@@ -47,7 +47,7 @@ JCaml {
     numlit        =  digit+
     char          =  escape
     escape        =  "\\""" | "\\n" | "\\'"
-                  | "\\t" | "\\""" | "\\u{" hexDigit*4 "}"       -- codepoint
+                  | "\\t" | "\\""" | "\\u{" hexDigit+ "}"       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
