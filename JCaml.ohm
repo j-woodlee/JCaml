@@ -1,3 +1,4 @@
+JCaml {
     Program       =  Block
     Block         =  (Stmt ":")*
     Stmt          =  "Decl" | "id" | Exp | stringlit | numlit
@@ -50,3 +51,4 @@
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
+}
