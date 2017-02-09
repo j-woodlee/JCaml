@@ -46,8 +46,8 @@ JCaml {
     binops        =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
     char          =  escape
-    escape        =  "\\\" | "\\n" | "\\'"
-                  | "\\t" | "\\"" | "\\u{" hexDigit*4 "}"       -- codepoint
+    escape        =  "\\""" | "\\n" | "\\'"
+                | "\\t" | "\\""" | "\\u{" hexDigit*4 "}"       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
