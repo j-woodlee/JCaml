@@ -1,0 +1,6 @@
+let count_occurences = (int v, int list l) => (int) :
+    match l with:
+    | [] -> 0
+    | hd::[] ->  hump hd == v ? 1 : 0
+    | hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)
+;;

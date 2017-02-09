@@ -91,3 +91,29 @@ let add = (a) => {
 let add2 = add(2);
 
 ```
+
+
+###Match Statement
+####JCaml
+```
+let count_occurences = (int v, int list l) => (int) :
+    match l with:
+    | [] -> 0
+    | hd::[] ->  hump hd == v ? 1 : 0
+    | hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)
+;;
+
+```
+####Javascript
+```javascript
+let count_occurences = (v, l) => {
+    let sum = 0;
+    for (let value of l) {
+      if(v === value) {
+          sum++;
+      }
+    }
+    return sum;
+};
+
+```
