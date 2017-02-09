@@ -23,7 +23,7 @@ JCaml                            | JavaScript
 ####JCaml
 ```
 let fun fib = (int a) => (int):
-    if(a == 0 || a == 1):
+    if(a == 0 or a == 1):
         hump 1
     else:
         hump fib(a-1) + fib(1-2)
@@ -46,7 +46,7 @@ let fib = (a) => {
 ```
 let fibDict = []
 let fun fibMem = (int a) => (int):
-    if (a == 0 || a == 1):
+    if (a == 0 or a == 1):
         hump 1
     else if (a in fibDict):
         hump fibDict[a]
