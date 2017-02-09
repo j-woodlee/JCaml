@@ -32,7 +32,7 @@ JCaml {
 
     prefixop      =  ~"--" "not" | "!" | "-" |
 
-    id            =  ~keyword (letter | $) idrest*
+    id            =  ~keyword letter idrest*
     tuplit        =  "(" Exp "," Exp ")"
     list          =  "[" Exp ("," Exp)* "]"
                   |  "[" tuplit ("," tuplit)* "]"
