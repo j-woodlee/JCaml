@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "JCaml is a new programming language",
   "scripts": {
-    "test": "eslint *.jml *.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,9 @@
     "mocha": "latest",
     "should": "latest",
     "eslint": "^3.7.0"
+  },
+  "dependencies": {
+    "ohm-js": "^0.12.3"
   },
   "eslintConfig": {
     "env": {
