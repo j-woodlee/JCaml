@@ -11,38 +11,39 @@
 ##Macrosyntax
 
 ```
+JCaml {
     Program       =  Block
     Block         =  (Stmt)*
     Stmt          =  Decl | id | Exp | stringlit | numlit
                   |  "if" Exp Block
-                     ("else if" Exp Body)*
-                     ("else" Body)                              -- if
-                  |  Exp1 "?" Exp1 ";" Exp1
+                     ("else if" Exp Block)*
+                     ("else" Block)                             -- if
+                  |  Exp "?" Exp ";" Exp                        -- ternary
 
-    Decl          =  "let" id "=" Exp
-                  |  "let fun" id "=" Params "=>" returnVal Body
-    Params        =  "(" (Param ("," Param)*)? ")"
+    Decl          =  "let" id "=" Exp                           -- decl
+                  |  "let fun" id "=" Params "=>" returnVal ":" Body -- declFun
+    Params        =  "(" Param ("," Param)* ")"
     Param         =  id
     returnVal     =  id
 
     Body          =  ":" Block ";;"
-    Exp           =  "match" val "with" "\n" matches
+    Exp           =  "match" id "with" "\n" matches
     Exp1          =  Exp1 adlop Exp1                            -- binary
                   |  Exp1
     Exp2          =  Exp2 mullop Exp2                           -- binary
                   |  Exp2
     Exp3          =  prefixop Exp3                              -- binary
                   |  Exp3
-    Exp4          =  Exp4 expo Exp4                             -- binary
+    Exp4          =  Exp4 expops Exp4                           -- binary
                   |  Exp4
     Exp5          =  "(" Exp ")"                                -- parens
 
     matches       =  ("|" Exp "->" Exp "\n")+
 
     keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
-                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit"
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" -- key
 
-    prefixop      =  ~"--" "not" | "!" | "-"
+    prefixop      =  ~"--" "not" | "!" | "-" -- prefix
 
     id            =  ~keyword letter idrest*
     tuplit        =  "(" Exp "," Exp ")"
@@ -63,6 +64,7 @@
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
+}
 ```
 
 ##Examples
