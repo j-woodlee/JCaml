@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "JCaml is a new programming language",
   "scripts": {
-    "test": "eslint *.jml *.js"
+    "test": "eslint *.js"
   },
   "repository": {
     "type": "git",
