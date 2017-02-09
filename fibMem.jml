@@ -1,5 +1,5 @@
 let fibDict = []
-let fun fibMem (int a) => (int):
+let fun fibMem = (int a) => (int):
     if (a == 0 || a == 1):
         hump 1
     else if (a in fibDict):

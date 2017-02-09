@@ -1,4 +1,4 @@
-let fun fib (int a) => (int):
+let fun fib = (int a) => (int):
     if(a == 0 || a == 1):
         hump 1
     else:

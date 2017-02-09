@@ -1,0 +1,4 @@
+let fun add = (int a, int b) => (int):
+    hump a + b;
+;;
+let fun add2 = add(2);;
