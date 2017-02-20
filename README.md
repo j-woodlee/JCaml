@@ -27,7 +27,7 @@ JCaml {
     returnVal     =  id
 
     Body          =  ":" Block ";;"
-    Exp           =  "match" id "with" "\n" matches
+    Exp           =  "match" id "with" "\n" Matches
     Exp1          =  Exp1 adlop Exp1                            -- binary
                   |  Exp2
     Exp2          =  Exp2 mullop Exp2                           -- binary
@@ -38,7 +38,7 @@ JCaml {
                   |  Exp5
     Exp5          =  "(" Exp ")"                                -- parens
 
-    matches       =  ("|" Exp "->" Exp "\n")+
+    Matches       =  ("|" Exp "->" Exp "\n")+
 
     keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
                   |  "double" | "float" | "long" | "list" | "hump" | "tuplit" -- key
@@ -46,21 +46,22 @@ JCaml {
     prefixop      =  ~"--" "not" | "!" | "-" -- prefix
 
     id            =  ~keyword letter idrest*
-    tuplit        =  "(" Exp "," Exp ")"
-    list          =  "[" (Exp ("," Exp)*)* "]"
-                  |  "[" (tuplit ("," tuplit)*)* "]"
-                  |   Exp"::"list
+    Tuplit        =  "(" Exp "," Exp ")"
+    List          =  "[" (Exp ("," Exp))* "]"
     idrest        =  "_" | alnum | "@" | "$"
     relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
-    adlop         =  "+" | "-"
+    adlop         =  "+" | "-" | "::"
     mullop        =  "*" | "/" | "%"
     expops        =  "^"
-    parens        =  "(" Exp ")"
     binops        =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
     char          =  escape
-    escape        =  "\\""" | "\\n" | "\\'"
-                  | "\\t" | "\\""" | "\\u{" hexDigit*4 "}"       -- codepoint
+    escape        =  "\""
+                  |  "\n"
+                  |  "'"
+                  |  "\t"
+                  | "\\"
+                  | "\\u{" hexDigit hexDigit hexDigit hexDigit "}"       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
