@@ -8,16 +8,15 @@ const gram = ohm.grammar(jcaml);
 
 describe('Arithmetic', () => {
   describe('3 + 1', () => {
-    it('should be equivilent to result', () => {
+    it('should be equivalent to result', () => {
       let match = gram.match('1 + 3');
       assert.ok(match.succeeded());
     });
   });
-  describe('a > b', () => {
+  describe('4 > 2', () => {
     it('should be equivilent to result', () => {
-      let a = 16;
-      let b = 15 - 1;
-      assert.ok('a > b');
+      let match = gram.match('4 > 2');
+      assert.ok(match.succeeded());
     });
   });
   describe('!a', () => {

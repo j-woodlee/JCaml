@@ -14,16 +14,21 @@ JCaml {
     returnVal     =  id
 
     Body          =  ":" Block ";;"
-    Exp           =  "match" id "with" "\n" Matches
-    Exp1          =  Exp1 adlop Exp1                            -- binary
+
+    Exp           =  Exp relops Exp1                            -- binary
+                  |  Exp1
+    Exp1          =  "match" id "with" "\n" Matches             -- matchexp
                   |  Exp2
-    Exp2          =  Exp2 mullop Exp2                           -- binary
+    Exp2          =  Exp2 adlop Exp3                            -- binary
                   |  Exp3
-    Exp3          =  prefixop Exp3                              -- binary
+    Exp3          =  Exp3 mullop Exp4                           -- binary
                   |  Exp4
-    Exp4          =  Exp4 expops Exp4                           -- binary
+    Exp4          =  prefixop Exp5                              -- binary
                   |  Exp5
-    Exp5          =  "(" Exp ")"                                -- parens
+    Exp5          =  Exp6 expops Exp5                           -- binary
+                  |  Exp6
+    Exp6          =  "(" Exp6 ")"                               -- parens
+                  | numlit
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
