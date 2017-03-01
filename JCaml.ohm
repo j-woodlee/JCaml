@@ -1,34 +1,38 @@
 JCaml {
     Program       =  Block
     Block         =  (Stmt)*
-    Stmt          =  Decl | id | Exp | stringlit | numlit
+    Stmt          =  Decl | Exp
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
-                  |  Exp "?" Exp ";" Exp                        -- ternary
 
     Decl          =  "let" id "=" Exp                           -- decl
-                  |  "let fun" id "=" Params "=>" returnVal ":" Body -- declFun
+                  |  "let fun" id "=" Params "=>" returnType ":" Body -- declFun
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
-    returnVal     =  id
+    returnType    =  id
 
     Body          =  ":" Block ";;"
 
-    Exp           =  Exp relops Exp1                            -- binary
+    Exp           =  Exp relop Exp1                             -- binary
+                  |  Exp1 "?" Exp1 ":" Exp1                     -- ternary
                   |  Exp1
     Exp1          =  "match" id "with" "\n" Matches             -- matchexp
                   |  Exp2
-    Exp2          =  Exp2 adlop Exp3                            -- binary
+    Exp2          =  Exp2 binop Exp3                            -- binary
                   |  Exp3
-    Exp3          =  Exp3 mullop Exp4                           -- binary
+    Exp3          =  Exp3 addop Exp4                            -- binary
                   |  Exp4
-    Exp4          =  prefixop Exp5                              -- binary
+    Exp4          =  Exp4 mullop Exp5                           -- binary
                   |  Exp5
-    Exp5          =  Exp6 expops Exp5                           -- binary
+    Exp5          =  prefixop Exp6                              -- binary
                   |  Exp6
-    Exp6          =  "(" Exp6 ")"                               -- parens
-                  | numlit
+    Exp6          =  Exp7 expop Exp6                            -- binary
+                  |  Exp7
+    Exp7          =  "(" Exp7 ")"                               -- parens
+                  |  numlit
+                  |  Tuplit
+                  |  List 
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
@@ -41,13 +45,14 @@ JCaml {
     Tuplit        =  "(" Exp "," Exp ")"
     List          =  "[" (Exp ("," Exp))* "]"
     idrest        =  "_" | alnum | "@" | "$"
-    relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
-    adlop         =  "+" | "-" | "::"
+    relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
+    addop         =  "+" | "-" | "::"
     mullop        =  "*" | "/" | "%"
-    expops        =  "^"
-    binops        =  "||" | "or" | "&&" | "and"
+    expop         =  "^"
+    binop         =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
-    char          =  escape
+    char          =  escape 
+                  |  letter
     escape        =  "\""
                   |  "\n"
                   |  "'"

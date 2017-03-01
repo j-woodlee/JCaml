@@ -14,15 +14,15 @@ describe('Arithmetic', () => {
     });
   });
   describe('4 > 2', () => {
-    it('should be equivilent to result', () => {
+    it('should be equivalent to result', () => {
       let match = gram.match('4 > 2');
       assert.ok(match.succeeded());
     });
   });
-  describe('!a', () => {
-    it('should not be equivelant to result' , () => {
-      let a = 5;
-      assert.ok('!a');
+  describe('!5', () => {
+    it('should not be equivalent to result' , () => {
+      let match = gram.match('!5');
+      assert.ok(match.succeeded());
     });
   });
 });
