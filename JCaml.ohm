@@ -1,6 +1,6 @@
 JCaml {
     Program       =  Block
-    Block         =  (Stmt)*
+    Block         =  Stmt*
     Stmt          =  Decl | Exp | Print
                   |  "if" Exp Block
                      ("else if" Exp Block)*
@@ -8,7 +8,7 @@ JCaml {
 
     Decl          =  "let" id "=" Exp                           -- decl
                   | FuncDec
-    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body -- declFun
+    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body  -- declFun
 
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
@@ -46,7 +46,7 @@ JCaml {
 
 
     id            =  ~keyword letter idrest*
-    TupleElement  =  charlit | BinExp                                           -- tupleElement
+    TupleElement  =  charlit | BinExp                           -- tupleElement
     Tuplit        =  "(" TupleElement "," TupleElement ")"
     List          =  "[]"
                   | "[" Tuplit ("," Tuplit)* "]"                -- list
