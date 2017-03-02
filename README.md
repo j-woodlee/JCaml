@@ -12,31 +12,43 @@
 
 ```Ohm
 JCaml {
+JCaml {
     Program       =  Block
     Block         =  (Stmt)*
-    Stmt          =  Decl | id | Exp | stringlit | numlit
+    Stmt          =  Decl | Exp
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
-                  |  Exp "?" Exp ";" Exp                        -- ternary
 
     Decl          =  "let" id "=" Exp                           -- decl
-                  |  "let fun" id "=" Params "=>" returnVal ":" Body -- declFun
+                  | FuncDec                 
+    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body -- declFun
+
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
-    returnVal     =  id
+    returnType    =  id
 
     Body          =  ":" Block ";;"
-    Exp           =  "match" id "with" "\n" Matches
-    Exp1          =  Exp1 adlop Exp1                            -- binary
-                  |  Exp2
-    Exp2          =  Exp2 mullop Exp2                           -- binary
-                  |  Exp3
-    Exp3          =  prefixop Exp3                              -- binary
-                  |  Exp4
-    Exp4          =  Exp4 expops Exp4                           -- binary
-                  |  Exp5
-    Exp5          =  "(" Exp ")"                                -- parens
+
+    Exp           =  Exp relop MatchExp                         -- binary
+                  |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
+                  |  MatchExp
+    MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
+                  |  BinExp
+    BinExp        =  BinExp binop AddExp                        -- binary
+                  |  AddExp
+    AddExp        =  AddExp addop MullExp                       -- binary
+                  |  MullExp
+    MullExp       =  MullExp mullop PrefixExp                   -- binary
+                  |  PrefixExp
+    PrefixExp     =  prefixop ExpoExp                           -- binary
+                  |  ExpoExp
+    ExpoExp       =  ParenExp expop ExpoExp                     -- binary
+                  |  ParenExp
+    ParenExp      =  "(" ParenExp ")"                           -- parens
+                  |  numlit
+                  |  Tuplit
+                  |  List 
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
@@ -49,13 +61,14 @@ JCaml {
     Tuplit        =  "(" Exp "," Exp ")"
     List          =  "[" (Exp ("," Exp))* "]"
     idrest        =  "_" | alnum | "@" | "$"
-    relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
-    adlop         =  "+" | "-" | "::"
+    relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
+    addop         =  "+" | "-" | "::"
     mullop        =  "*" | "/" | "%"
-    expops        =  "^"
-    binops        =  "||" | "or" | "&&" | "and"
+    expop         =  "^"
+    binop         =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
-    char          =  escape
+    char          =  escape 
+                  |  letter
     escape        =  "\""
                   |  "\n"
                   |  "'"
