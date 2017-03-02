@@ -10,8 +10,8 @@ class Program {
     this.block = block;
   }
 
-  toString() {
-    return '(Program #{this.block})';
+  static toString() {
+    return `(Program ${this.block})`;
   }
 }
 
@@ -20,10 +20,10 @@ class Block {
     this.stmt = stmt;
   }
 
-  toString() {
+  static toString() {
     let stmtString;
     for (const statements in this.stmt) {
-      stmtString += '\n (Block ${this.stmt[statements]})';
+      stmtString += `\n (Block ${this.stmt[statements]})`;
     }
     return stmtString;
   }
@@ -41,12 +41,12 @@ class StatementIfElse extends Stmt {
     this.finalBlock = finalBlock;
   }
 
-  toString() {
-    let ifString = '(ifStatement if ${this.exp} ${this.block})';
+  static toString() {
+    let ifString = `(ifStatement if ${this.exp} ${this.block})`;
     for (const blocks in this.elseBlock) {
-      ifString += '\n (else if ${this.elseBlock[blocks]})';
+      ifString += `\n (else if ${this.elseBlock[blocks]})`;
     }
-    ifString += '\n (else ${this.finalBlock})';
+    ifString += `\n (else ${this.finalBlock})`;
     return ifString;
   }
 }
@@ -58,8 +58,8 @@ class Decl extends Stmt {
     this.exp = exp;
   }
 
-  toString() {
-    const declString = '(Decl let ${this.id} = ${this.exp})';
+  static toString() {
+    const declString = `(Decl let ${this.id} = ${this.exp})`;
     return declString;
   }
 }
@@ -70,8 +70,8 @@ class Print extends Stmt {
     this.stringLit = stringLit;
   }
 
-  toString() {
-    return '(Print spit (${this.stringLit}))';
+  static toString() {
+    return `(Print spit (${this.stringLit}))`;
   }
 }
 
@@ -83,8 +83,8 @@ class FuncDec extends Decl {
     this.returnType = returnType;
   }
 
-  toString() {
-    const funcDecString = 'FuncDec let fun ${this.id} = ${this.params} => ${this.returnType}: ${this.body}';
+  static toString() {
+    const funcDecString = `FuncDec let fun ${this.id} = ${this.params} => ${this.returnType}: ${this.body}`;
     return funcDecString;
   }
 }
@@ -95,10 +95,10 @@ class Params {
     this.moreParams = moreParams;
   }
 
-  toString() {
-    let paramsString = 'Params (${this.param}';
+  static toString() {
+    let paramsString = `Params (${this.param}`;
     for (const params in this.moreParams) {
-      paramsString += ', ${params}';
+      paramsString += `, ${params}`;
     }
     paramsString += ')';
     return paramsString;
@@ -110,8 +110,8 @@ class Param {
     this.id = id;
   }
 
-  toString() {
-    const paramString = 'Param ${this.id}';
+  static toString() {
+    const paramString = `Param ${this.id}`;
     return paramString;
   }
 }
@@ -121,8 +121,8 @@ class ReturnType {
     this.id = id;
   }
 
-  toString() {
-    const returnTypeString = 'ReturnType ${this.id}';
+  static toString() {
+    const returnTypeString = `ReturnType ${this.id}`;
     return returnTypeString;
   }
 }
@@ -132,8 +132,8 @@ class Body {
     this.block = block;
   }
 
-  toString() {
-    const bodyString = '(Body :${this.block};;)';
+  static toString() {
+    const bodyString = `(Body :${this.block};;)`;
     return bodyString;
   }
 }
@@ -148,8 +148,8 @@ class MatchExp extends Exp {
     this.matches = matches;
   }
 
-  toString() {
-    return '(MatchExp match ${this.id} with \n ${this.matches})';
+  static toString() {
+    return `(MatchExp match ${this.id} with \n ${this.matches})`;
   }
 }
 
@@ -161,8 +161,8 @@ class BinExp extends Exp {
     this.addexp = addexp;
   }
 
-  toString() {
-    return '(BinExp ${this.binexp} ${this.op} ${this.addexp})';
+  static toString() {
+    return `(BinExp ${this.binexp} ${this.op} ${this.addexp})`;
   }
 }
 
@@ -174,8 +174,8 @@ class AddExp extends Exp {
     this.mullexp = mullexp;
   }
 
-  toString() {
-    return '(AddExp ${this.addexp} ${this.op} ${this.mullexp})';
+  static toString() {
+    return `(AddExp ${this.addexp} ${this.op} ${this.mullexp})`;
   }
 }
 
@@ -187,8 +187,8 @@ class MullExp extends Exp {
     this.prefixexp = prefixexp;
   }
 
-  toString() {
-    return '(Mullexp ${this.mullexp} ${this.op} ${this.prefixexp})';
+  static toString() {
+    return `(Mullexp ${this.mullexp} ${this.op} ${this.prefixexp})`;
   }
 }
 
@@ -199,8 +199,8 @@ class PrefixExp extends Exp {
     this.expoexp = expoexp;
   }
 
-  toString() {
-    return '(Prefixexp ${this.op} ${this.expoexp})';
+  static toString() {
+    return `(Prefixexp ${this.op} ${this.expoexp})`;
   }
 }
 
@@ -212,8 +212,8 @@ class ExpoExp extends Exp {
     this.expoexp = expoexp;
   }
 
-  toString() {
-    return '(Expoexp ${this.Parenexp} ${this.op} ${this.Expoexp})';
+  static toString() {
+    return `(Expoexp ${this.Parenexp} ${this.op} ${this.Expoexp})`;
   }
 }
 
@@ -223,8 +223,8 @@ class ParenExp extends Exp {
     this.parenexp = parenexp;
   }
 
-  toString() {
-    return '(Parenexp (${this.parenexp}))';
+  static toString() {
+    return `(Parenexp (${this.parenexp}))`;
   }
 }
 
@@ -234,8 +234,8 @@ class Matches {
     this.exp2 = exp2;
   }
 
-  toString() {
-    return '(Matches | ${this.exp1} -> ${this.exp2} \n)';
+  static toString() {
+    return `(Matches | ${this.exp1} -> ${this.exp2} \n)`;
   }
 }
 
@@ -245,8 +245,8 @@ class TupleElement {
     this.binexp = binexp;
   }
 
-  toString() {
-    return '(TupleElement ${this.charlit})';
+  static toString() {
+    return `(TupleElement ${this.charlit})`;
   }
 }
 
@@ -256,8 +256,8 @@ class Tuplit {
     this.exp2 = exp2;
   }
 
-  toString() {
-    return '(Tuplit (${this.exp1}, ${this.exp2}))';
+  static toString() {
+    return `(Tuplit (${this.exp1}, ${this.exp2}))`;
   }
 }
 
@@ -270,10 +270,10 @@ class TupList extends List {
     this.tuplit2 = tuplit2;
   }
 
-  toString() {
-    let listString = '(TupList ${this.tuplit1}';
+  static toString() {
+    let listString = `(TupList ${this.tuplit1}`;
     for (const tuplits in this.tuplit2) {
-      listString += ', ${this.tuplit2[tuplits]}';
+      listString += `, ${this.tuplit2[tuplits]}`;
     }
     listString += ')]';
     return listString;
@@ -286,10 +286,10 @@ class CharList extends List {
     this.charlit1 = charlit2;
     this.charlit2 = charlit2;
   }
-  toString() {
-    let listString = 'CharList ${this.charlit1}';
+  static toString() {
+    let listString = `CharList ${this.charlit1}`;
     for (const charlits in this.charlit2) {
-      listString += ', ${this.charlit2[charlits]}';
+      listString += `, ${this.charlit2[charlits]}`;
     }
     listString += ')]';
     return listString;
@@ -302,10 +302,10 @@ class NumList extends List {
     this.numlit1 = numlit1;
     this.numlit2 = numlit2;
   }
-  toString() {
-    let numString = 'NumList ${this.numlit1}';
+  static toString() {
+    let numString = `NumList ${this.numlit1}`;
     for (const numlits in this.numlit2) {
-      numString += ', ${this.numlit2[numlits]}';
+      numString += `, ${this.numlit2[numlits]}`;
     }
     numString += ')]';
     return numString;
@@ -319,10 +319,10 @@ class StringList extends List {
     this.stringlit2 = stringlit2;
   }
 
-  toString() {
-    let listString = 'StringList ${this.stringlit1}';
+  static toString() {
+    let listString = `StringList ${this.stringlit1}`;
     for (const stringlits in this.stringlit2) {
-      listString += ', #{this.stringLis2[stringlits]}';
+      listString += `, ${this.stringLis2[stringlits]}`;
     }
     listString += ')]';
     return listString;
@@ -333,10 +333,10 @@ class Numlit {
   constructor(value) {
     this.value = value;
   }
-  toString() {
+  static toString() {
     let numberString = '(Numlit ';
     for (const numbers in this.value) {
-      numberString += '#{this.value[numbers]}';
+      numberString += `${this.value[numbers]}`;
     }
     numberString += ')';
     return numberString;
@@ -347,8 +347,8 @@ class Charlit {
   constructor(value) {
     this.value = value;
   }
-  toString() {
-    return '(Charlit ${this.value})';
+  static toString() {
+    return `(Charlit ${this.value})`;
   }
 }
 
@@ -356,10 +356,10 @@ class Stringlit {
   constructor(value) {
     this.value = value;
   }
-  toString() {
+  static toString() {
     let charString = '(Stringlit ';
     for (const lit in this.value) {
-      charString += '${this.value[lit]}';
+      charString += `${this.value[lit]}`;
     }
     charString += ')';
     return charString;
