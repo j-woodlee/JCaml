@@ -17,6 +17,11 @@
   "bugs": {
     "url": "https://github.com/DavidTParks/JCaml/issues"
   },
+  "scripts": {
+      "test": "mocha",
+      "start": "node index.js",
+      "lint": "eslint ."
+  },
   "devDependencies": {
     "eslint": "^3.16.1",
     "eslint-config-airbnb-base": "^11.1.0",
