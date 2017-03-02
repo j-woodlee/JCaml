@@ -1,11 +1,11 @@
-fs = require('fs');
-ohm = require('ohm-js');
-parserContents = fs.readFileSync('JCaml.ohm');
-JCamlGrammar = ohm.grammar(parserContents);
+let fs = require('fs');
+let ohm = require('ohm-js');
+let parserContents = fs.readFileSync('JCaml.ohm');
+let JCamlGrammar = ohm.grammar(parserContents);
 
 class Program {
     contructor(block) {
-       this.block = block;
+        this.block = block;
     }
 
     toString() {
@@ -15,12 +15,12 @@ class Program {
 
 class Block {
     constructor(stmt) {
-       this.stmt = stmt;
-   }
+        this.stmt = stmt;
+    }
 
-   toString() {
-       var stmtString;
-       for(statements in stmt) {
+    toString() {
+        var stmtString;
+        for (let statements in this.stmt) {
             stmtString += '\n (Block ${this.stmt[statements]})';
         }
         return stmtString;
@@ -30,8 +30,9 @@ class Block {
 class Stmt {
 }
 
-class ifStatement extends Stmt {
+class StatementIfElse extends Stmt {
     constructor(exp, block, elseBlock, finalBlock) {
+        super();
         this.exp = exp;
         this.block = block;
         this.elseBlock = elseBlock;
@@ -40,7 +41,7 @@ class ifStatement extends Stmt {
 
     toString() {
         var ifString = '(ifStatement if ${this.exp} ${this.block})';
-        for(blocks in elseBlock) {
+        for (var blocks in this.elseBlock) {
             ifString += '\n (else if ${this.elseBlock[blocks]})';
         }
         ifString += '\n (else ${this.finalBlock})';
@@ -50,6 +51,7 @@ class ifStatement extends Stmt {
 
 class Decl extends Stmt {
     constructor(id, exp) {
+        super();
         this.id = id;
         this.exp = exp;
     }
@@ -62,6 +64,7 @@ class Decl extends Stmt {
 
 class Print extends Stmt {
     constructor(stringLit) {
+        super();
         this.stringLit = stringLit;
     }
 
@@ -70,9 +73,9 @@ class Print extends Stmt {
     }
 }
 
-class FuncDec extends Dec {
+class FuncDec extends Decl {
     constructor(id, params, returnType, body){
-        this.id = id;
+        super(id);
         this.params = params;
         this.body = body;
         this.returnType = returnType;
@@ -92,7 +95,7 @@ class Params{
 
     toString() {
         var paramsString = 'Params (${this.param}';
-        for (params in moreParams) {
+        for (let params in this.moreParams) {
             paramsString += ', ${params}';
         }
         paramsString += ')';
@@ -136,8 +139,9 @@ class Body {
 class Exp {
 }
 
-class MatchExp extends Exp{
+class MatchExp extends Exp {
     constructor(id, matches) {
+        super();
         this.id = id;
         this.matches = matches;
     }
@@ -150,6 +154,7 @@ class MatchExp extends Exp{
 
 class BinExp extends Exp {
     constructor(binexp, op, addexp){
+        super();
         this.binexp = binexp;
         this.op = op;
         this.addexp = addexp;
@@ -162,6 +167,7 @@ class BinExp extends Exp {
 
 class AddExp extends Exp {
     constructor(addexp, op, mullexp) {
+        super();
         this.addexp = addexp;
         this.op = op;
         this.mullexp = mullexp;
@@ -174,6 +180,7 @@ class AddExp extends Exp {
 
 class MullExp extends Exp {
     constructor(mullexp, op, prefixexp) {
+        super();
         this.mullexp = mullexp;
         this.op = op;
         this.prefixexp = prefixexp;
@@ -186,8 +193,9 @@ class MullExp extends Exp {
 
 class PrefixExp extends Exp {
     constructor(op, expoexp) {
+        super();
         this.op = op;
-        this.expoexp;
+        this.expoexp = expoexp;
     }
 
     toString() {
@@ -197,7 +205,8 @@ class PrefixExp extends Exp {
 
 class ExpoExp extends Exp {
     constructor(parenexp, op, expoexp) {
-        this.parenexp = prenexp;
+        super();
+        this.parenexp = parenexp;
         this.op = op;
         this.expoexp = expoexp;
     }
@@ -209,6 +218,7 @@ class ExpoExp extends Exp {
 
 class ParenExp extends Exp {
     constructor(parenexp) {
+        super();
         this.parenexp = parenexp;
     }
 
@@ -228,7 +238,7 @@ class Matches {
     }
 }
 
-class TupleElement{
+class TupleElement {
     constructor(charlit) {
         this.charlit = charlit;
     }
@@ -253,13 +263,14 @@ class List {}
 
 class TupList extends List{
     constructor(tuplit1, tuplit2){
+        super();
         this.tuplit1 = tuplit1;
         this.tuplit2 = tuplit2;
     }
 
     toString() {
         var listString = '(TupList ${this.tuplit1}';
-        for(tuplits in this.tuplit2) {
+        for (let tuplits in this.tuplit2) {
             listString += ', ${this.tuplit2[tuplits]}';
         }
         listString += ')]';
@@ -269,12 +280,13 @@ class TupList extends List{
 
 class CharList extends List{
     constructor(charlit1, charlit2) {
+        super();
         this.charlit1 = charlit2;
         this.charlit2 = charlit2;
     }
     toString() {
         var listString = 'CharList ${this.charlit1}';
-        for(charlits in this.charlit2) {
+        for (let charlits in this.charlit2) {
             listString += ', ${this.charlit2[charlits]}';
         }
         listString += ')]';
@@ -284,12 +296,13 @@ class CharList extends List{
 
 class NumList extends List{
     constructor(numlit1, numlit2) {
+        super();
         this.numlit1 = numlit1;
         this.numlit2 = numlit2;
     }
     toString() {
         var numString = 'NumList ${this.numlit1}';
-        for(numlits in this.numlit2) {
+        for (let numlits in this.numlit2) {
             numString += ', ${this.numlit2[numlits]}';
         }
         numString += ')]';
@@ -299,13 +312,14 @@ class NumList extends List{
 
 class StringList extends List {
     constructor(stringlit1, stringlit2) {
+        super();
         this.stringlit1 = stringlit1;
         this.stringlit2 = stringlit2;
     }
 
     toString() {
         var listString = 'StringList ${this.stringlit1}';
-        for(stringlits in this.stringlit2) {
+        for (let stringlits in this.stringlit2) {
             listString += ', ${this.stringLis2[stringlits]}';
         }
         listString += ')]';
@@ -319,7 +333,7 @@ class Numlit {
     }
     toString() {
         var numberString = '(Numlit ';
-        for(numbers in value) {
+        for (let numbers in this.value) {
             numberString += '${this.value[numbers]}';
         }
         numberString += ')';
@@ -332,7 +346,7 @@ class Charlit {
         this.value = value;
     }
     toString() {
-        return '(Charlit ${this.value})'
+        return '(Charlit ${this.value})';
     }
 }
 
@@ -342,7 +356,7 @@ class Stringlit {
     }
     toString() {
         var charString = '(Stringlit ';
-        for(lit in value) {
+        for (let lit in this.value) {
             charString += '${this.value[lit]}';
         }
         charString += ')';
@@ -353,27 +367,29 @@ class Stringlit {
 const semantics = JCamlGrammar.createSemantics().addOperation('tree', {
     Program(block) {return new Program(block.tree());},
     Block(stmt) {return new Block(stmt.tree());},
-    Statement_ifElse(exp, block, elseBlock, finalBlock) {return new Statement_ifElse(exp.tree(), block.tree(), elseBlock.tree(), finalBlock.tree());},
-    Decl(id, exp) {return new Decl(id.tree(), exp.tree());}
-    Print(stringLit) {return new Print(stringLit.tree());}
-    FuncDec(id, params, returnType, body) {return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());}
-    Params(param, moreParams) {return new Params(param.tree(), moreParams.tree());}
-    Param(id) {return new Param(id.tree());}
-    ReturnType(id) {return new ReturnType(id.tree());}
-    Body(block) {return new Body(block.tree());}
-    BinExp(binexp, op, addexp) {return new BinExp(binexp.tree(), op.tree(), addexp.tree());}
-    AddExp(addexp, op, mullexp) {return new AddExp(addexp.tree(), op.tree(), mullexp.tree());}
-    MullExp(mullexp, op, prefixexp) {return new MullExp(mullexp.tree(), op.tree(), prefixexp.tree());}
-    PrefixExp(op, expoexp) {return new PrefixExp(op.tree(), expoexp.tree());}
-    ExpoExp(parenexp, op, expoexp) {return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());}
-    ParenExp(parenexp) {return new Parenexp(parenexp.tree());}
-    Matches(exp1, exp2) {return new Matches(exp1.tree(), exp2.tree());}
-    Tuplit(exp1, exp2) {return new Tuplit(exp1.tree(), exp2.tree());}
-    TupList(tuplit1, tuplit2) {return new TupList(tuplit1.tree(), tuplit2.tree());}
-    CharList(charlit1, charlit2) {return new CharList(charlit1.tree(), charlit2.tree());}
-    NumList(numlit1, numlit2) {return new NumList(numlit1.tree(), numlit2.tree());}
-    StringList(stringlit1, stringlit2) {return new StringList(stringlit1.tree(), stringlit2.tree());}
-    Numlit(value) {return new Numlit(value.tree());}
-    Charlit(value) {return new Charlit(value.tree());}
+    StatementIfElse(exp, block, elseBlock, finalBlock) {
+        return new StatementIfElse(exp.tree(), block.tree(), elseBlock.tree(), finalBlock.tree());
+    },
+    Decl(id, exp) {return new Decl(id.tree(), exp.tree());},
+    Print(stringLit) {return new Print(stringLit.tree());},
+    FuncDec(id, params, returnType, body) {return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());},
+    Params(param, moreParams) {return new Params(param.tree(), moreParams.tree());},
+    Param(id) {return new Param(id.tree());},
+    ReturnType(id) {return new ReturnType(id.tree());},
+    Body(block) {return new Body(block.tree());},
+    BinExp(binexp, op, addexp) {return new BinExp(binexp.tree(), op.tree(), addexp.tree());},
+    AddExp(addexp, op, mullexp) {return new AddExp(addexp.tree(), op.tree(), mullexp.tree());},
+    MullExp(mullexp, op, prefixexp) {return new MullExp(mullexp.tree(), op.tree(), prefixexp.tree());},
+    PrefixExp(op, expoexp) {return new PrefixExp(op.tree(), expoexp.tree());},
+    ExpoExp(parenexp, op, expoexp) {return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());},
+    ParenExp(parenexp) {return new ParenExp(parenexp.tree());},
+    Matches(exp1, exp2) {return new Matches(exp1.tree(), exp2.tree());},
+    Tuplit(exp1, exp2) {return new Tuplit(exp1.tree(), exp2.tree());},
+    TupList(tuplit1, tuplit2) {return new TupList(tuplit1.tree(), tuplit2.tree());},
+    CharList(charlit1, charlit2) {return new CharList(charlit1.tree(), charlit2.tree());},
+    NumList(numlit1, numlit2) {return new NumList(numlit1.tree(), numlit2.tree());},
+    StringList(stringlit1, stringlit2) {return new StringList(stringlit1.tree(), stringlit2.tree());},
+    Numlit(value) {return new Numlit(value.tree());},
+    Charlit(value) {return new Charlit(value.tree());},
     Stringlit(value) {return new Stringlit(value.tree());}
 });
