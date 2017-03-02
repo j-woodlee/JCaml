@@ -12,17 +12,16 @@
 
 ```Ohm
 JCaml {
-JCaml {
     Program       =  Block
-    Block         =  (Stmt)*
-    Stmt          =  Decl | Exp
+    Block         =  Stmt*
+    Stmt          =  Decl | Exp | Print
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
 
     Decl          =  "let" id "=" Exp                           -- decl
-                  | FuncDec                 
-    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body -- declFun
+                  | FuncDec
+    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body  -- declFun
 
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
@@ -48,18 +47,26 @@ JCaml {
     ParenExp      =  "(" ParenExp ")"                           -- parens
                   |  numlit
                   |  Tuplit
-                  |  List 
+                  |  List
+                  |  stringlit
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
     keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
-                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" -- key
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit" -- key
 
     prefixop      =  ~"--" "not" | "!" | "-" -- prefix
 
+
     id            =  ~keyword letter idrest*
-    Tuplit        =  "(" Exp "," Exp ")"
-    List          =  "[" (Exp ("," Exp))* "]"
+    TupleElement  =  charlit | BinExp                           -- tupleElement
+    Tuplit        =  "(" TupleElement "," TupleElement ")"
+    List          =  "[]"
+                  | "[" Tuplit ("," Tuplit)* "]"                -- list
+                  | "[" char ("," char)* "]"                    -- list2
+                  | "[" numlit ("," numlit)* "]"                -- list3
+                  | "[" stringlit ("," stringlit)* "]"          -- list4
+    Print         =  "spit" "(" stringlit ")"                   -- print
     idrest        =  "_" | alnum | "@" | "$"
     relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
     addop         =  "+" | "-" | "::"
@@ -67,14 +74,11 @@ JCaml {
     expop         =  "^"
     binop         =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
-    char          =  escape 
-                  |  letter
-    escape        =  "\""
-                  |  "\n"
-                  |  "'"
-                  |  "\t"
-                  | "\\"
-                  | "\\u{" hexDigit hexDigit hexDigit hexDigit "}"       -- codepoint
+    char          =  escape
+                  |  ~"\\" ~"\"" ~"\'" ~"\\n" any
+
+    escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
+                  |  "\\u{" hexDigit+ "}"                       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
