@@ -7,29 +7,31 @@ JCaml {
                      ("else" Block)                             -- if
 
     Decl          =  "let" id "=" Exp                           -- decl
-                  |  "let fun" id "=" Params "=>" returnType ":" Body -- declFun
+                  | FuncDec                 
+    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body -- declFun
+
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
     returnType    =  id
 
     Body          =  ":" Block ";;"
 
-    Exp           =  Exp relop Exp1                             -- binary
-                  |  Exp1 "?" Exp1 ":" Exp1                     -- ternary
-                  |  Exp1
-    Exp1          =  "match" id "with" "\n" Matches             -- matchexp
-                  |  Exp2
-    Exp2          =  Exp2 binop Exp3                            -- binary
-                  |  Exp3
-    Exp3          =  Exp3 addop Exp4                            -- binary
-                  |  Exp4
-    Exp4          =  Exp4 mullop Exp5                           -- binary
-                  |  Exp5
-    Exp5          =  prefixop Exp6                              -- binary
-                  |  Exp6
-    Exp6          =  Exp7 expop Exp6                            -- binary
-                  |  Exp7
-    Exp7          =  "(" Exp7 ")"                               -- parens
+    Exp           =  Exp relop MatchExp                         -- binary
+                  |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
+                  |  MatchExp
+    MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
+                  |  BinExp
+    BinExp        =  BinExp binop AddExp                        -- binary
+                  |  AddExp
+    AddExp        =  AddExp addop MullExp                       -- binary
+                  |  MullExp
+    MullExp       =  MullExp mullop PrefixExp                   -- binary
+                  |  PrefixExp
+    PrefixExp     =  prefixop ExpoExp                           -- binary
+                  |  ExpoExp
+    ExpoExp       =  ParenExp expop ExpoExp                     -- binary
+                  |  ParenExp
+    ParenExp      =  "(" ParenExp ")"                           -- parens
                   |  numlit
                   |  Tuplit
                   |  List 
