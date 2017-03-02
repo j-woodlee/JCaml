@@ -61,13 +61,13 @@ class Decl extends Stmt {
 }
 
 class Print extends Stmt {
-	constructor(stringLit) {
-		this.stringLit = stringLit;
-	}
+    constructor(stringLit) {
+        this.stringLit = stringLit;
+    }
 
-	toString() {
-		return '(Print spit (${this.stringLit}))';
-	}
+    toString() {
+        return '(Print spit (${this.stringLit}))';
+    }
 }
 
 class FuncDec extends Dec {
@@ -229,13 +229,13 @@ class Matches {
 }
 
 class TupleElement{
-	constructor(charlit) {
-		this.charlit = charlit;
-	}
+    constructor(charlit) {
+        this.charlit = charlit;
+    }
 
-	toString() {
-		return '(TupleElement ${this.charlit})';
-	}
+    toString() {
+        return '(TupleElement ${this.charlit})';
+    }
 }
 
 class Tuplit {
@@ -268,49 +268,49 @@ class TupList extends List{
 }
 
 class CharList extends List{
-	constructor(charlit1, charlit2) {
-		this.charlit1 = charlit2;
-		this.charlit2 = charlit2;
-	}
-	toString() {
-		var listString = 'CharList ${this.charlit1}';
-		for(charlits in this.charlit2) {
-			listString += ', ${this.charlit2[charlits]}';
-		}
-		listString += ')]';
-		return listString;
-	}
+    constructor(charlit1, charlit2) {
+        this.charlit1 = charlit2;
+        this.charlit2 = charlit2;
+    }
+    toString() {
+        var listString = 'CharList ${this.charlit1}';
+        for(charlits in this.charlit2) {
+            listString += ', ${this.charlit2[charlits]}';
+        }
+        listString += ')]';
+        return listString;
+    }
 }
 
 class NumList extends List{
-	constructor(numlit1, numlit2) {
-		this.numlit1 = numlit1;
-		this.numlit2 = numlit2;
-	}
-	toString() {
-		var numString = 'NumList ${this.numlit1}';
-		for(numlits in this.numlit2) {
-			numString += ', ${this.numlit2[numlits]}';
-		}
-		numString += ')]';
-		return numString;
-	}
+    constructor(numlit1, numlit2) {
+        this.numlit1 = numlit1;
+        this.numlit2 = numlit2;
+    }
+    toString() {
+        var numString = 'NumList ${this.numlit1}';
+        for(numlits in this.numlit2) {
+            numString += ', ${this.numlit2[numlits]}';
+        }
+        numString += ')]';
+        return numString;
+    }
 }
 
 class StringList extends List {
-	constructor(stringlit1, stringlit2) {
-		this.stringlit1 = stringlit1;
-		this.stringlit2 = stringlit2;
-	}
+    constructor(stringlit1, stringlit2) {
+        this.stringlit1 = stringlit1;
+        this.stringlit2 = stringlit2;
+    }
 
-	toString() {
-		var listString = 'StringList ${this.stringlit1}';
-		for(stringlits in this.stringlit2) {
-			listString += ', ${this.stringLis2[stringlits]}';
-		}
-		listString += ')]';
-		return listString;
-	}
+    toString() {
+        var listString = 'StringList ${this.stringlit1}';
+        for(stringlits in this.stringlit2) {
+            listString += ', ${this.stringLis2[stringlits]}';
+        }
+        listString += ')]';
+        return listString;
+    }
 }
 
 class Numlit {
