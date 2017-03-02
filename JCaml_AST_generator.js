@@ -31,7 +31,7 @@ class Stmt {
 }
 
 class ifStatement extends Stmt {
-	constructor(exp, block) {
+	constructor(exp, block, elseBlock, finalBlock) {
 		this.exp = exp;
 		this.block = block;
 		this.elseBlock = elseBlock;
@@ -162,7 +162,7 @@ class AddExp extends Exp {
     }
 }
 
-class Mullexp extends Exp {
+class MullExp extends Exp {
 	constructor(mullexp, op, prefixexp) {
 		this.mullexp = mullexp;
 		this.op = op;
@@ -174,7 +174,7 @@ class Mullexp extends Exp {
 	}
 }
 
-class Prefixexp extends Exp {
+class PrefixExp extends Exp {
 	constructor(op, expoexp) {
 		this.op = op;
 		this.expoexp;
@@ -185,11 +185,11 @@ class Prefixexp extends Exp {
 	}
 }
 
-class Expoexp extends Exp {
-	constructor(Parenexp, op, Expoexp) {
-		this.Parenexp = Prenexp;
+class ExpoExp extends Exp {
+	constructor(parenexp, op, expoexp) {
+		this.parenexp = prenexp;
 		this.op = op;
-		this.Expoexp = Expoexp;
+		this.expoexp = expoexp;
 	}
 
 	toString() {
@@ -197,7 +197,7 @@ class Expoexp extends Exp {
 	}
 }
 
-class Parenexp extends Exp {
+class ParenExp extends Exp {
 	constructor(parenexp) {
 		this.parenexp = parenexp;
 	}
@@ -282,9 +282,26 @@ class Stringlit {
 	}
 }
 
-
-
-
-
-
-
+const semantics = JCamlGrammar.createSemantics().addOperation('tree', {
+    Program(block) {return new Program(block.tree());},
+    Block(stmt) {return new Block(stmt.tree());},
+    Statement_ifElse(exp, block, elseBlock, finalBlock) {return new Statement_ifElse(exp.tree(), block.tree(), elseBlock.tree(), finalBlock.tree());},
+    Decl(id, exp) {return new Decl(id.tree(), exp.tree());}
+    FuncDec(id, params, returnType, body) {return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());}
+    Params(param, moreParams) {return new Params(param.tree(), moreParams.tree());}
+    Param(id) {return new Param(id.tree());}
+    ReturnType(id) {return new ReturnType(id.tree());}
+    Body(block) {return new Body(block.tree());}
+    BinExp(binexp, op, addexp) {return new BinExp(binexp.tree(), op.tree(), addexp.tree());}
+    AddExp(addexp, op, mullexp) {return new AddExp(addexp.tree(), op.tree(), mullexp.tree());}
+    MullExp(mullexp, op, prefixexp) {return new MullExp(mullexp.tree(), op.tree(), prefixexp.tree());}
+    PrefixExp(op, expoexp) {return new PrefixExp(op.tree(), expoexp.tree());}
+    ExpoExp(parenexp, op, expoexp) {return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());}
+	ParenExp(parenexp) {return new Parenexp(parenexp.tree());}
+	Matches(exp1, exp2) {return new Matches(exp1.tree(), exp2.tree());}
+	Tuplit(exp1, exp2) {return new Tuplit(exp1.tree(), exp2.tree());}
+	List(exp1, exp2) {return new List(exp1.tree(), exp2.tree());}
+	Numlit(value) {return new Numlit(value.tree());}
+	Charlit(value) {return new Charlit(value.tree());}
+	Stringlit(value) {return new Stringlit(value.tree());}
+});
