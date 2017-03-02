@@ -239,8 +239,9 @@ class Matches {
 }
 
 class TupleElement {
-    constructor(charlit) {
+    constructor(charlit, binexp) {
         this.charlit = charlit;
+        this.binexp = binexp;
     }
 
     toString() {
@@ -378,12 +379,14 @@ const semantics = JCamlGrammar.createSemantics().addOperation('tree', {
     ReturnType(id) {return new ReturnType(id.tree());},
     Body(block) {return new Body(block.tree());},
     BinExp(binexp, op, addexp) {return new BinExp(binexp.tree(), op.tree(), addexp.tree());},
+    MatchExp(id, matches) {return new MatchExp(id.tree(), matches.tree());},
     AddExp(addexp, op, mullexp) {return new AddExp(addexp.tree(), op.tree(), mullexp.tree());},
     MullExp(mullexp, op, prefixexp) {return new MullExp(mullexp.tree(), op.tree(), prefixexp.tree());},
     PrefixExp(op, expoexp) {return new PrefixExp(op.tree(), expoexp.tree());},
     ExpoExp(parenexp, op, expoexp) {return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());},
     ParenExp(parenexp) {return new ParenExp(parenexp.tree());},
     Matches(exp1, exp2) {return new Matches(exp1.tree(), exp2.tree());},
+    TupleElement(charlit, binexp) {return new TupleElement(charlit.tree(), binexp.tree());},
     Tuplit(exp1, exp2) {return new Tuplit(exp1.tree(), exp2.tree());},
     TupList(tuplit1, tuplit2) {return new TupList(tuplit1.tree(), tuplit2.tree());},
     CharList(charlit1, charlit2) {return new CharList(charlit1.tree(), charlit2.tree());},
