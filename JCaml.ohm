@@ -1,7 +1,7 @@
 JCaml {
     Program       =  Block
     Block         =  (Stmt)*
-    Stmt          =  Decl | Exp
+    Stmt          =  Decl | Exp | Print
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
@@ -35,17 +35,23 @@ JCaml {
                   |  numlit
                   |  Tuplit
                   |  List 
+                  |  stringlit
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
     keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
-                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" -- key
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit" -- key
 
     prefixop      =  ~"--" "not" | "!" | "-" -- prefix
-
+    
+    Print         =  "spit" "(" stringlit ")"                   -- print
     id            =  ~keyword letter idrest*
     Tuplit        =  "(" Exp "," Exp ")"
-    List          =  "[" (Exp ("," Exp))* "]"
+    List          =  "[]" 
+                  | "[" Tuplit ("," Tuplit)* "]"                -- list        
+                  | "[" char ("," char)* "]"                    -- list2
+                  | "[" numlit ("," numlit)* "]"                -- list3  
+                  | "[" stringlit ("," stringlit)* "]"          -- list4        
     idrest        =  "_" | alnum | "@" | "$"
     relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
     addop         =  "+" | "-" | "::"
@@ -54,7 +60,8 @@ JCaml {
     binop         =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
     char          =  escape 
-                  |  letter
+                  |  ~"\\" ~"\"" ~"\'" ~"\\n" any
+
     escape        =  "\""
                   |  "\n"
                   |  "'"
