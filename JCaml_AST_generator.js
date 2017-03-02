@@ -60,6 +60,16 @@ class Decl extends Stmt {
     }
 }
 
+class Print extends Stmt {
+	constructor(stringLit) {
+		this.stringLit = stringLit;
+	}
+
+	toString() {
+		return '(Print spit (${this.stringLit}))';
+	}
+}
+
 class FuncDec extends Dec {
     constructor(id, params, returnType, body){
         this.id = id;
@@ -218,6 +228,16 @@ class Matches {
     }
 }
 
+class TupleElement{
+	constructor(charlit) {
+		this.charlit = charlit;
+	}
+
+	toString() {
+		return '(TupleElement ${this.charlit})';
+	}
+}
+
 class Tuplit {
     constructor(exp1, exp2) {
         this.exp1 = exp1;
@@ -229,20 +249,68 @@ class Tuplit {
     }
 }
 
-class List {
-    constructor(exp1, exp2){
-        this.exp1 = exp1;
-        this.exp2 = exp2;
+class List {}
+
+class TupList extends List{
+    constructor(tuplit1, tuplit2){
+        this.tuplit1 = tuplit1;
+        this.tuplit2 = tuplit2;
     }
 
     toString() {
-        var listString = '(List [${this.exp1}';
-        for(exps in exp2) {
-            listString += ', ${this.exp2[exps]}';
+        var listString = '(TupList ${this.tuplit1}';
+        for(tuplits in this.tuplit2) {
+            listString += ', ${this.tuplit2[tuplits]}';
         }
         listString += ')]';
         return listString;
     }
+}
+
+class CharList extends List{
+	constructor(charlit1, charlit2) {
+		this.charlit1 = charlit2;
+		this.charlit2 = charlit2;
+	}
+	toString() {
+		var listString = 'CharList ${this.charlit1}';
+		for(charlits in this.charlit2) {
+			listString += ', ${this.charlit2[charlits]}';
+		}
+		listString += ')]';
+		return listString;
+	}
+}
+
+class NumList extends List{
+	constructor(numlit1, numlit2) {
+		this.numlit1 = numlit1;
+		this.numlit2 = numlit2;
+	}
+	toString() {
+		var numString = 'NumList ${this.numlit1}';
+		for(numlits in this.numlit2) {
+			numString += ', ${this.numlit2[numlits]}';
+		}
+		numString += ')]';
+		return numString;
+	}
+}
+
+class StringList extends List {
+	constructor(stringlit1, stringlit2) {
+		this.stringlit1 = stringlit1;
+		this.stringlit2 = stringlit2;
+	}
+
+	toString() {
+		var listString = 'StringList ${this.stringlit1}';
+		for(stringlits in this.stringlit2) {
+			listString += ', ${this.stringLis2[stringlits]}';
+		}
+		listString += ')]';
+		return listString;
+	}
 }
 
 class Numlit {
@@ -287,6 +355,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation('tree', {
     Block(stmt) {return new Block(stmt.tree());},
     Statement_ifElse(exp, block, elseBlock, finalBlock) {return new Statement_ifElse(exp.tree(), block.tree(), elseBlock.tree(), finalBlock.tree());},
     Decl(id, exp) {return new Decl(id.tree(), exp.tree());}
+    Print(stringLit) {return new Print(stringLit.tree());}
     FuncDec(id, params, returnType, body) {return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());}
     Params(param, moreParams) {return new Params(param.tree(), moreParams.tree());}
     Param(id) {return new Param(id.tree());}
@@ -300,7 +369,10 @@ const semantics = JCamlGrammar.createSemantics().addOperation('tree', {
     ParenExp(parenexp) {return new Parenexp(parenexp.tree());}
     Matches(exp1, exp2) {return new Matches(exp1.tree(), exp2.tree());}
     Tuplit(exp1, exp2) {return new Tuplit(exp1.tree(), exp2.tree());}
-    List(exp1, exp2) {return new List(exp1.tree(), exp2.tree());}
+    TupList(tuplit1, tuplit2) {return new TupList(tuplit1.tree(), tuplit2.tree());}
+    CharList(charlit1, charlit2) {return new CharList(charlit1.tree(), charlit2.tree());}
+    NumList(numlit1, numlit2) {return new NumList(numlit1.tree(), numlit2.tree());}
+    StringList(stringlit1, stringlit2) {return new StringList(stringlit1.tree(), stringlit2.tree());}
     Numlit(value) {return new Numlit(value.tree());}
     Charlit(value) {return new Charlit(value.tree());}
     Stringlit(value) {return new Stringlit(value.tree());}
