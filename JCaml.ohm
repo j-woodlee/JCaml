@@ -62,12 +62,8 @@ JCaml {
     char          =  escape 
                   |  ~"\\" ~"\"" ~"\'" ~"\\n" any
 
-    escape        =  "\""
-                  |  "\n"
-                  |  "'"
-                  |  "\t"
-                  | "\\"
-                  | "\\u{" hexDigit hexDigit hexDigit hexDigit "}"       -- codepoint
+    escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
+                  |  "\\u{" hexDigit+ "}"                       --codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
