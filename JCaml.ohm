@@ -7,7 +7,7 @@ JCaml {
                      ("else" Block)                             -- if
 
     Decl          =  "let" id "=" Exp                           -- decl
-                  | FuncDec                 
+                  | FuncDec
     FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body -- declFun
 
     Params        =  "(" Param ("," Param)* ")"
@@ -34,7 +34,7 @@ JCaml {
     ParenExp      =  "(" ParenExp ")"                           -- parens
                   |  numlit
                   |  Tuplit
-                  |  List 
+                  |  List
                   |  stringlit
 
     Matches       =  ("|" Exp "->" Exp "\n")+
@@ -43,15 +43,17 @@ JCaml {
                   |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit" -- key
 
     prefixop      =  ~"--" "not" | "!" | "-" -- prefix
-    
-    Print         =  "spit" "(" stringlit ")"                   -- print
+
+
     id            =  ~keyword letter idrest*
-    Tuplit        =  "(" Exp "," Exp ")"
-    List          =  "[]" 
-                  | "[" Tuplit ("," Tuplit)* "]"                -- list        
+    TupleElement  =  charlit | BinExp                                           -- tupleElement
+    Tuplit        =  "(" TupleElement "," TupleElement ")"
+    List          =  "[]"
+                  | "[" Tuplit ("," Tuplit)* "]"                -- list
                   | "[" char ("," char)* "]"                    -- list2
-                  | "[" numlit ("," numlit)* "]"                -- list3  
-                  | "[" stringlit ("," stringlit)* "]"          -- list4        
+                  | "[" numlit ("," numlit)* "]"                -- list3
+                  | "[" stringlit ("," stringlit)* "]"          -- list4
+    Print         =  "spit" "(" stringlit ")"                   -- print
     idrest        =  "_" | alnum | "@" | "$"
     relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
     addop         =  "+" | "-" | "::"
@@ -59,11 +61,11 @@ JCaml {
     expop         =  "^"
     binop         =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
-    char          =  escape 
+    char          =  escape
                   |  ~"\\" ~"\"" ~"\'" ~"\\n" any
 
     escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
-                  |  "\\u{" hexDigit+ "}"                       --codepoint
+                  |  "\\u{" hexDigit+ "}"                       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
