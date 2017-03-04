@@ -1,8 +1,8 @@
-const fs = require('fs');
+const fs = require("fs");
 
-const ohm = require('ohm-js');
+const ohm = require("ohm-js");
 
-const parserContents = fs.readFileSync('JCaml.ohm');
+const parserContents = fs.readFileSync("JCaml.ohm");
 const JCamlGrammar = ohm.grammar(parserContents);
 
 class Program {
@@ -100,7 +100,7 @@ class Params {
     for (const params in this.moreParams) {
       paramsString += `, ${params}`;
     }
-    paramsString += ')';
+    paramsString += ")";
     return paramsString;
   }
 }
@@ -275,7 +275,7 @@ class TupList extends List {
     for (const tuplits in this.tuplit2) {
       listString += `, ${this.tuplit2[tuplits]}`;
     }
-    listString += ')]';
+    listString += ")]";
     return listString;
   }
 }
@@ -291,7 +291,7 @@ class CharList extends List {
     for (const charlits in this.charlit2) {
       listString += `, ${this.charlit2[charlits]}`;
     }
-    listString += ')]';
+    listString += ")]";
     return listString;
   }
 }
@@ -307,7 +307,7 @@ class NumList extends List {
     for (const numlits in this.numlit2) {
       numString += `, ${this.numlit2[numlits]}`;
     }
-    numString += ')]';
+    numString += ")]";
     return numString;
   }
 }
@@ -324,7 +324,7 @@ class StringList extends List {
     for (const stringlits in this.stringlit2) {
       listString += `, ${this.stringLis2[stringlits]}`;
     }
-    listString += ')]';
+    listString += ")]";
     return listString;
   }
 }
@@ -334,11 +334,11 @@ class Numlit {
     this.value = value;
   }
   static toString() {
-    let numberString = '(Numlit ';
+    let numberString = "(Numlit ";
     for (const numbers in this.value) {
       numberString += `${this.value[numbers]}`;
     }
-    numberString += ')';
+    numberString += ")";
     return numberString;
   }
 }
@@ -357,16 +357,16 @@ class Stringlit {
     this.value = value;
   }
   static toString() {
-    let charString = '(Stringlit ';
+    let charString = "(Stringlit ";
     for (const lit in this.value) {
       charString += `${this.value[lit]}`;
     }
-    charString += ')';
+    charString += ")";
     return charString;
   }
 }
 
-const semantics = JCamlGrammar.createSemantics().addOperation('tree', {
+const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Program(block) { return new Program(block.tree()); },
   Block(stmt) { return new Block(stmt.tree()); },
   StatementIfElse(exp, block, elseBlock, finalBlock) {
