@@ -1,14 +1,14 @@
 # JCaml
 <p><img src="Logos/jcaml.png" width="250" height="250"></p>
 
-##Introduction
+## Introduction
 
-####Welcome to the world of JCaml. Do you like to hump? Do you like to spit? JCaml has all these functions for you. To give you all the features of OCaml with the simplicity and ubiquity of JavaScript, JCaml has it all. This is our statically-typed, statically-scoped, superb language that cannot be beat.
+Welcome to the world of JCaml. Do you like to hump? Do you like to spit? JCaml has all these functions for you. To give you all the features of OCaml with the simplicity and ubiquity of JavaScript, JCaml has it all. This is our statically-typed, statically-scoped, superb language that cannot be beat.
 ##Features
 
-####This language has everything. It has pattern-matching, dictionary capabilities, list comprehension, recursive functions, higher-order functions, currying, and tuples. If you want it, it has it.
+This language has everything. It has pattern-matching, dictionary capabilities, list comprehension, recursive functions, higher-order functions, currying, and tuples. If you want it, it has it.
 
-##Macrosyntax
+## Macrosyntax
 
 ```Ohm
 JCaml {
@@ -85,16 +85,18 @@ JCaml {
 }
 ```
 
-##Examples
+## Examples
 
 
-###Hello World
+### Hello World
+
 JCaml                            | JavaScript
 ---------------------------------|-------------------------------------------------------------------------------------------
 `spit("Hello, World");;`         | `console.log("Hello World");`
 
-###Fibonacci Numbers
-####JCaml
+### Fibonacci Numbers
+
+#### JCaml
 ```
 let fun fib = (int a) => (int):
     if(a == 0 or a == 1):
@@ -104,7 +106,7 @@ let fun fib = (int a) => (int):
 ;;
 ```
 
-####JavaScript
+#### JavaScript
 ```javascript
 let fib = (a) => {
     if (a == 0 || a == 1) {
@@ -115,8 +117,8 @@ let fib = (a) => {
 };
 ```
 
-###Fibonacci Numbers Memoized
-####JCaml
+### Fibonacci Numbers Memoized
+#### JCaml
 ```
 let fibDict = []
 let fun fibMem = (int a) => (int):
@@ -130,7 +132,7 @@ let fun fibMem = (int a) => (int):
 ;;
 ```
 
-####JavaScript
+#### JavaScript
 ```javascript
 let dictionary = {};
 let fibMem = (a) => {
@@ -145,8 +147,8 @@ let fibMem = (a) => {
 };
 ```
 
-###Currying and Higher Order Functions
-####JCaml
+### Currying and Higher Order Functions
+#### JCaml
 ```
 let fun add = (int a, int b) => (int):
     hump a + b;
@@ -154,7 +156,7 @@ let fun add = (int a, int b) => (int):
 let fun add2 = add(2);;
 
 ```
-####Javascript
+#### Javascript
 ```javascript
 let add = (a) => {
     return (b) => {
@@ -167,8 +169,8 @@ let add2 = add(2);
 ```
 
 
-###Match Statement
-####JCaml
+### Match Statement
+#### JCaml
 ```
 let fun count_occurences = (int v, int list l) => (int):
     match l with:
@@ -178,7 +180,7 @@ let fun count_occurences = (int v, int list l) => (int):
 ;;
 
 ```
-####Javascript
+#### Javascript
 ```javascript
 let count_occurences = (v, l) => {
     let sum = 0;
