@@ -8,7 +8,7 @@ Welcome to the world of JCaml. Do you like to hump? Do you like to spit? JCaml h
 
 This language has everything. It has pattern-matching, dictionary capabilities, list comprehension, recursive functions, higher-order functions, currying, and tuples. If you want it, it has it.
 
-## Macrosyntax
+## Syntax
 
 ```Ohm
 JCaml {
