@@ -94,13 +94,13 @@ describe("Arithmetic", () => {
   describe("list", () => {
     it("should be equivalent to result", () => {
       const match = gram.match("[(4, 5), (57, 78), 420]");
-      assert.ok(!match.succeeded());
+      assert.ok(match.succeeded());
     });
   });
   describe("list", () => {
     it("should be equivalent to result", () => {
       const match = gram.match("[(4, 5), (57, 78), \"hello\"]");
-      assert.ok(!match.succeeded());
+      assert.ok(match.succeeded());
     });
   });
   describe("print", () => {
@@ -118,7 +118,7 @@ describe("Arithmetic", () => {
   describe("list", () => {
     it("should be equivalent to result", () => {
       const match = gram.match("[\"string\", 67]");
-      assert.ok(!match.succeeded());
+      assert.ok(match.succeeded());
     });
   });
 });

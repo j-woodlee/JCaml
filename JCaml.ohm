@@ -36,6 +36,7 @@ JCaml {
                   |  Tuplit
                   |  List
                   |  stringlit
+                  |  charlit
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
@@ -44,16 +45,11 @@ JCaml {
 
     prefixop      =  ~"--" "not" | "!" | "-" -- prefix
 
-
     id            =  ~keyword letter idrest*
-    TupleElement  =  charlit | BinExp                           -- tupleElement
-    Tuplit        =  "(" TupleElement "," TupleElement ")"
+    Tuplit        =  "(" BinExp "," BinExp ")"
     List          =  "[]"
-                  | "[" Tuplit ("," Tuplit)* "]"                -- list
-                  | "[" char ("," char)* "]"                    -- list2
-                  | "[" numlit ("," numlit)* "]"                -- list3
-                  | "[" stringlit ("," stringlit)* "]"          -- list4
-    Print         =  "spit" "(" BinExp ")"                   -- print
+                  | "[" BinExp ("," BinExp)* "]"                -- list
+    Print         =  "spit" "(" BinExp ")"                      -- print
     idrest        =  "_" | alnum | "@" | "$"
     relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
     addop         =  "+" | "-" | "::"
