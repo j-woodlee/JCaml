@@ -34,7 +34,6 @@ class Stmt {
 
 class StatementIfElse extends Stmt {
   constructor(exp, block, elseBlock, finalBlock) {
-    super();
     this.exp = exp;
     this.block = block;
     this.elseBlock = elseBlock;
@@ -53,7 +52,6 @@ class StatementIfElse extends Stmt {
 
 class Decl extends Stmt {
   constructor(id, exp) {
-    super();
     this.id = id;
     this.exp = exp;
   }
@@ -65,13 +63,12 @@ class Decl extends Stmt {
 }
 
 class Print extends Stmt {
-  constructor(stringLit) {
-    super();
-    this.stringLit = stringLit;
+  constructor(binexp) {
+    this.binexp = binexp;
   }
 
   static toString() {
-    return `(Print spit (${this.stringLit}))`;
+    return `(Print spit (${this.binexp}))`;
   }
 }
 
@@ -90,16 +87,16 @@ class FuncDec extends Decl {
 }
 
 class Params {
-  constructor(param, moreParams) {
-    this.param = param;
-    this.moreParams = moreParams;
+  constructor(params) {
+    this.params = params;
   }
 
   static toString() {
-    let paramsString = `Params (${this.param}`;
-    for (const params in this.moreParams) {
+    let paramsString = "Params (";
+    for (const params in this.params) {
       paramsString += `, ${params}`;
     }
+
     paramsString += ")";
     return paramsString;
   }
@@ -239,17 +236,6 @@ class Matches {
   }
 }
 
-class TupleElement {
-  constructor(charlit, binexp) {
-    this.charlit = charlit;
-    this.binexp = binexp;
-  }
-
-  static toString() {
-    return `(TupleElement ${this.charlit})`;
-  }
-}
-
 class Tuplit {
   constructor(exp1, exp2) {
     this.exp1 = exp1;
@@ -261,71 +247,13 @@ class Tuplit {
   }
 }
 
-class List {}
-
-class TupList extends List {
-  constructor(tuplit1, tuplit2) {
-    super();
-    this.tuplit1 = tuplit1;
-    this.tuplit2 = tuplit2;
+class List {
+  constructor(args) {
+    this.args = args;
   }
 
   static toString() {
-    let listString = `(TupList ${this.tuplit1}`;
-    for (const tuplits in this.tuplit2) {
-      listString += `, ${this.tuplit2[tuplits]}`;
-    }
-    listString += ")]";
-    return listString;
-  }
-}
-
-class CharList extends List {
-  constructor(charlit1, charlit2) {
-    super();
-    this.charlit1 = charlit2;
-    this.charlit2 = charlit2;
-  }
-  static toString() {
-    let listString = `CharList ${this.charlit1}`;
-    for (const charlits in this.charlit2) {
-      listString += `, ${this.charlit2[charlits]}`;
-    }
-    listString += ")]";
-    return listString;
-  }
-}
-
-class NumList extends List {
-  constructor(numlit1, numlit2) {
-    super();
-    this.numlit1 = numlit1;
-    this.numlit2 = numlit2;
-  }
-  static toString() {
-    let numString = `NumList ${this.numlit1}`;
-    for (const numlits in this.numlit2) {
-      numString += `, ${this.numlit2[numlits]}`;
-    }
-    numString += ")]";
-    return numString;
-  }
-}
-
-class StringList extends List {
-  constructor(stringlit1, stringlit2) {
-    super();
-    this.stringlit1 = stringlit1;
-    this.stringlit2 = stringlit2;
-  }
-
-  static toString() {
-    let listString = `StringList ${this.stringlit1}`;
-    for (const stringlits in this.stringlit2) {
-      listString += `, ${this.stringLis2[stringlits]}`;
-    }
-    listString += ")]";
-    return listString;
+    return `List ${this.args}`;
   }
 }
 
@@ -377,7 +305,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   FuncDec(id, params, returnType, body) {
     return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());
   },
-  Params(param, moreParams) { return new Params(param.tree(), moreParams.tree()); },
+  Params(params) { return new Params(params.tree()); },
   Param(id) { return new Param(id.tree()); },
   ReturnType(id) { return new ReturnType(id.tree()); },
   Body(block) { return new Body(block.tree()); },

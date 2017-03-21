@@ -43,12 +43,12 @@ JCaml {
     keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "String"
                   |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
 
-    prefixop      =  ~"--" "not" | "!" | "-" -- prefix
+    prefixop      =  ~"--" "not" | "!" | "-"                    -- prefix
 
     id            =  ~keyword letter idrest*
     Tuplit        =  "(" BinExp "," BinExp ")"
-    List          =  "[]"
-                  | "[" BinExp ("," BinExp)* "]"                -- list
+    List          =  | "[" BinExp ("," BinExp)* "]"     -- list
+                     | "[]"
     Print         =  "spit" "(" BinExp ")"                      -- print
     idrest        =  "_" | alnum | "@" | "$"
     relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
