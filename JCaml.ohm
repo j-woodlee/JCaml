@@ -53,7 +53,7 @@ JCaml {
                   | "[" char ("," char)* "]"                    -- list2
                   | "[" numlit ("," numlit)* "]"                -- list3
                   | "[" stringlit ("," stringlit)* "]"          -- list4
-    Print         =  "spit" "(" stringlit ")"                   -- print
+    Print         =  "spit" "(" BinExp ")"                   -- print
     idrest        =  "_" | alnum | "@" | "$"
     relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
     addop         =  "+" | "-" | "::"
