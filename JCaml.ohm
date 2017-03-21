@@ -40,8 +40,8 @@ JCaml {
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
-    keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
-                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit" -- key
+    keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "String"
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
 
     prefixop      =  ~"--" "not" | "!" | "-" -- prefix
 
