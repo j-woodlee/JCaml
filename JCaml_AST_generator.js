@@ -321,14 +321,8 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   },
   ParenExp(parenexp) { return new ParenExp(parenexp.tree()); },
   Matches(exp1, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
-  TupleElement(charlit, binexp) { return new TupleElement(charlit.tree(), binexp.tree()); },
   Tuplit(exp1, exp2) { return new Tuplit(exp1.tree(), exp2.tree()); },
-  TupList(tuplit1, tuplit2) { return new TupList(tuplit1.tree(), tuplit2.tree()); },
-  CharList(charlit1, charlit2) { return new CharList(charlit1.tree(), charlit2.tree()); },
-  NumList(numlit1, numlit2) { return new NumList(numlit1.tree(), numlit2.tree()); },
-  StringList(stringlit1, stringlit2) {
-    return new StringList(stringlit1.tree(), stringlit2.tree());
-  },
+  List(args) { return new List(tuplit1.tree(), tuplit2.tree()); }, // to do
   Numlit(value) { return new Numlit(value.tree()); },
   Charlit(value) { return new Charlit(value.tree()); },
   Stringlit(value) { return new Stringlit(value.tree()); },
