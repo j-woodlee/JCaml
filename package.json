@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "JCaml is a new programming language",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node index.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -17,15 +19,11 @@
   "bugs": {
     "url": "https://github.com/DavidTParks/JCaml/issues"
   },
-  "scripts": {
-      "test": "mocha",
-      "start": "node index.js",
-      "lint": "eslint ."
-  },
   "devDependencies": {
-    "eslint": "^3.16.1",
+    "eslint": "^3.18.0",
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-standard": "^2.1.1",
     "mocha": "latest",
     "should": "latest"
   },

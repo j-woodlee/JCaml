@@ -1,6 +1,7 @@
 extends: airbnb-base
 plugins:
   - import
+  - standard
 env:
     browser: true
     node: true

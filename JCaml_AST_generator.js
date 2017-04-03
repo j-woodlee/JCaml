@@ -318,7 +318,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   PrefixExp(op, expoexp) { return new PrefixExp(op.tree(), expoexp.tree()); },
   ExpoExp(parenexp, op, expoexp) {
     return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());
-  },
+},
   ParenExp(parenexp) { return new ParenExp(parenexp.tree()); },
   Matches(exp1, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
   Tuplit(exp1, exp2) { return new Tuplit(exp1.tree(), exp2.tree()); },
