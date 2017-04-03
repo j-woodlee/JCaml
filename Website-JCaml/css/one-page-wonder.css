@@ -12,11 +12,12 @@ body {
     display: block;
     width: 100%;
     text-align: center;
-    background: url('http://placehold.it/1900x500') no-repeat center center scroll;
-    -webkit-background-size: cover;
+    /*background: url('http://weknowyourdreams.com/image.php?pic=/images/orange-color/orange-color-01.jpg') no-repeat center center scroll;*/
+    background-color: orange;
+    /*-webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
-    -o-background-size: cover;
+    -o-background-size: cover;*/
 }
 
 .headline {
