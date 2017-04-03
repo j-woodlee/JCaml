@@ -13,7 +13,7 @@ body {
     width: 100%;
     text-align: center;
     /*background: url('http://weknowyourdreams.com/image.php?pic=/images/orange-color/orange-color-01.jpg') no-repeat center center scroll;*/
-    background-color: orange;
+    background-image: url("images/orange.jpg");
     /*-webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
