@@ -142,9 +142,8 @@ class Body {
 class Exp {
 }
 
-class MatchExp extends Exp {
+class MatchExp {
   constructor(id, matches) {
-    super();
     this.id = id;
     this.matches = matches;
   }
@@ -166,11 +165,10 @@ class BinExp {
   }
 }
 
-class AddExp extends Exp {
-  constructor(addexp, op, mullexp) {
-    super();
-    this.addexp = addexp;
+class AddExp {
+  constructor(op, addexp, mullexp) {
     this.op = op;
+    this.addexp = addexp;
     this.mullexp = mullexp;
   }
 
@@ -179,11 +177,10 @@ class AddExp extends Exp {
   }
 }
 
-class MullExp extends Exp {
-  constructor(mullexp, op, prefixexp) {
-    super();
-    this.mullexp = mullexp;
+class MullExp {
+  constructor(op, mullexp, prefixexp) {
     this.op = op;
+    this.mullexp = mullexp;
     this.prefixexp = prefixexp;
   }
 
@@ -192,9 +189,8 @@ class MullExp extends Exp {
   }
 }
 
-class PrefixExp extends Exp {
+class PrefixExp {
   constructor(op, expoexp) {
-    super();
     this.op = op;
     this.expoexp = expoexp;
   }
@@ -204,11 +200,10 @@ class PrefixExp extends Exp {
   }
 }
 
-class ExpoExp extends Exp {
-  constructor(parenexp, op, expoexp) {
-    super();
-    this.parenexp = parenexp;
+class ExpoExp {
+  constructor(op, parenexp, expoexp) {
     this.op = op;
+    this.parenexp = parenexp;
     this.expoexp = expoexp;
   }
 
@@ -217,9 +212,8 @@ class ExpoExp extends Exp {
   }
 }
 
-class ParenExp extends Exp {
+class ParenExp {
   constructor(parenexp) {
-    super();
     this.parenexp = parenexp;
   }
 
@@ -307,18 +301,18 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Param(id) { return new Param(id.tree()); },
   ReturnType(id) { return new ReturnType(id.tree()); },
   Body(_1, block, _2) { return new Body(block.tree()); },
-  BinExp(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
-  MatchExp(id, matches) { return new MatchExp(id.tree(), matches.tree()); },
-  AddExp(addexp, op, mullexp) { return new AddExp(addexp.tree(), op.tree(), mullexp.tree()); },
-  MullExp(mullexp, op, prefixexp) {
+  BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
+  MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.tree(), matches.tree()); },
+  AddExp_binary(addexp, op, mullexp) { return new AddExp(addexp.tree(), op.tree(), mullexp.tree()); },
+  MullExp_binary(mullexp, op, prefixexp) {
     return new MullExp(mullexp.tree(), op.tree(), prefixexp.tree());
   },
-  PrefixExp(op, expoexp) { return new PrefixExp(op.tree(), expoexp.tree()); },
-  ExpoExp(parenexp, op, expoexp) {
+  PrefixExp_binary(op, expoexp) { return new PrefixExp(op.tree(), expoexp.tree()); },
+  ExpoExp_binary(parenexp, op, expoexp) {
     return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());
 },
-  ParenExp(parenexp) { return new ParenExp(parenexp.tree()); },
-  Matches(exp1, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
+  ParenExp_parens(_1, parenexp, _2) { return new ParenExp(parenexp.tree()); },
+  Matches(_1, exp1, _2, exp2, _3) { return new Matches(exp1.tree(), exp2.tree()); },
   Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
   List(args) { return new List(tuplit1.tree(), tuplit2.tree()); }, // to do
   Numlit(value) { return new Numlit(value.tree()); },
