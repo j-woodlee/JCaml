@@ -8,7 +8,7 @@ JCaml {
 
     Decl          =  "let" id "=" Exp                           -- decl
                   |  FuncDec
-    FuncDec       =  "let fun" id "=" Params "=>" returnType Body  -- declFun
+    FuncDec       =  "let fun" id "=" Params "=>" ReturnType Body
 
     FuncCall      =  id "(" Args ")"
     Arg           =  (id)?
@@ -16,7 +16,7 @@ JCaml {
 
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
-    returnType    =  id
+    ReturnType    =  id
 
     Body          =  ":" Block ";;"
 
