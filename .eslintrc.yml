@@ -1,0 +1,16 @@
+extends: airbnb-base
+plugins:
+  - import
+  - standard
+env:
+    browser: true
+    node: true
+    jasmine: true
+rules:
+  eqeqeq: off
+  curly: error
+  quotes:
+    - error
+    - double
+  guard-for-in: off
+  no-restricted-syntax: off

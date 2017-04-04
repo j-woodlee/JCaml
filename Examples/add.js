@@ -1,7 +1,3 @@
-let add = (a) => {
-    return (b) => {
-        return a + b;
-    };
-};
+const add = a => b => a + b;
 
-let add2 = add(2);
+const add2 = add(2);

@@ -1,82 +1,102 @@
 # JCaml
 <p><img src="Logos/jcaml.png" width="250" height="250"></p>
 
-##Introduction
+## Introduction
 
-####Welcome to the world of JCaml. Do you like to hump? Do you like to spit? JCaml has all these functions for you. To give you all the features of OCaml with the simplicity and ubiquity of JavaScript, JCaml has it all. This is our statically-typed, statically-scoped, superb language that cannot be beat.
+Welcome to the world of JCaml. Do you like to hump? Do you like to spit? JCaml has all these functions for you. To give you all the features of OCaml with the simplicity and ubiquity of JavaScript, JCaml has it all. This is our statically-typed, statically-scoped, superb language that cannot be beat.
 ##Features
 
-####This language has everything. It has pattern-matching, dictionary capabilities, list comprehension, recursive functions, higher-order functions, currying, and tuples. If you want it, it has it.
+This language has everything. It has pattern-matching, dictionary capabilities, list comprehension, recursive functions, higher-order functions, currying, and tuples. If you want it, it has it.
 
-##Macrosyntax
+## Syntax
 
 ```Ohm
 JCaml {
     Program       =  Block
-    Block         =  (Stmt)*
-    Stmt          =  Decl | id | Exp | stringlit | numlit
+    Block         =  Stmt*
+    Stmt          =  Decl | Exp | Print
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
-                  |  Exp "?" Exp ";" Exp                        -- ternary
 
     Decl          =  "let" id "=" Exp                           -- decl
-                  |  "let fun" id "=" Params "=>" returnVal ":" Body -- declFun
+                  | FuncDec
+    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body  -- declFun
+
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
-    returnVal     =  id
+    returnType    =  id
 
     Body          =  ":" Block ";;"
-    Exp           =  "match" id "with" "\n" matches
-    Exp1          =  Exp1 adlop Exp1                            -- binary
-                  |  Exp2
-    Exp2          =  Exp2 mullop Exp2                           -- binary
-                  |  Exp3
-    Exp3          =  prefixop Exp3                              -- binary
-                  |  Exp4
-    Exp4          =  Exp4 expops Exp4                           -- binary
-                  |  Exp5
-    Exp5          =  "(" Exp ")"                                -- parens
 
-    matches       =  ("|" Exp "->" Exp "\n")+
+    Exp           =  Exp relop MatchExp                         -- binary
+                  |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
+                  |  MatchExp
+    MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
+                  |  BinExp
+    BinExp        =  BinExp binop AddExp                        -- binary
+                  |  AddExp
+    AddExp        =  AddExp addop MullExp                       -- binary
+                  |  MullExp
+    MullExp       =  MullExp mullop PrefixExp                   -- binary
+                  |  PrefixExp
+    PrefixExp     =  prefixop ExpoExp                           -- binary
+                  |  ExpoExp
+    ExpoExp       =  ParenExp expop ExpoExp                     -- binary
+                  |  ParenExp
+    ParenExp      =  "(" ParenExp ")"                           -- parens
+                  |  numlit
+                  |  Tuplit
+                  |  List
+                  |  stringlit
+
+    Matches       =  ("|" Exp "->" Exp "\n")+
 
     keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
-                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" -- key
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit" -- key
 
     prefixop      =  ~"--" "not" | "!" | "-" -- prefix
 
+
     id            =  ~keyword letter idrest*
-    tuplit        =  "(" Exp "," Exp ")"
-    list          =  "[" (Exp ("," Exp)*)* "]"
-                  |  "[" (tuplit ("," tuplit)*)* "]"
-                  |   Exp"::"list
+    TupleElement  =  charlit | BinExp                           -- tupleElement
+    Tuplit        =  "(" TupleElement "," TupleElement ")"
+    List          =  "[]"
+                  | "[" Tuplit ("," Tuplit)* "]"                -- list
+                  | "[" char ("," char)* "]"                    -- list2
+                  | "[" numlit ("," numlit)* "]"                -- list3
+                  | "[" stringlit ("," stringlit)* "]"          -- list4
+    Print         =  "spit" "(" stringlit ")"                   -- print
     idrest        =  "_" | alnum | "@" | "$"
-    relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
-    adlop         =  "+" | "-"
+    relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
+    addop         =  "+" | "-" | "::"
     mullop        =  "*" | "/" | "%"
-    expops        =  "^"
-    parens        =  "(" Exp ")"
-    binops        =  "||" | "or" | "&&" | "and"
+    expop         =  "^"
+    binop         =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
     char          =  escape
-    escape        =  "\\""" | "\\n" | "\\'"
-                  | "\\t" | "\\""" | "\\u{" hexDigit*4 "}"       -- codepoint
+                  |  ~"\\" ~"\"" ~"\'" ~"\\n" any
+
+    escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
+                  |  "\\u{" hexDigit+ "}"                       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
 }
 ```
 
-##Examples
+## Examples
 
 
-###Hello World
+### Hello World
+
 JCaml                            | JavaScript
 ---------------------------------|-------------------------------------------------------------------------------------------
 `spit("Hello, World");;`         | `console.log("Hello World");`
 
-###Fibonacci Numbers
-####JCaml
+### Fibonacci Numbers
+
+#### JCaml
 ```
 let fun fib = (int a) => (int):
     if(a == 0 or a == 1):
@@ -86,7 +106,7 @@ let fun fib = (int a) => (int):
 ;;
 ```
 
-####JavaScript
+#### JavaScript
 ```javascript
 let fib = (a) => {
     if (a == 0 || a == 1) {
@@ -97,8 +117,8 @@ let fib = (a) => {
 };
 ```
 
-###Fibonacci Numbers Memoized
-####JCaml
+### Fibonacci Numbers Memoized
+#### JCaml
 ```
 let fibDict = []
 let fun fibMem = (int a) => (int):
@@ -112,7 +132,7 @@ let fun fibMem = (int a) => (int):
 ;;
 ```
 
-####JavaScript
+#### JavaScript
 ```javascript
 let dictionary = {};
 let fibMem = (a) => {
@@ -127,8 +147,8 @@ let fibMem = (a) => {
 };
 ```
 
-###Currying and Higher Order Functions
-####JCaml
+### Currying and Higher Order Functions
+#### JCaml
 ```
 let fun add = (int a, int b) => (int):
     hump a + b;
@@ -136,7 +156,7 @@ let fun add = (int a, int b) => (int):
 let fun add2 = add(2);;
 
 ```
-####Javascript
+#### Javascript
 ```javascript
 let add = (a) => {
     return (b) => {
@@ -149,8 +169,8 @@ let add2 = add(2);
 ```
 
 
-###Match Statement
-####JCaml
+### Match Statement
+#### JCaml
 ```
 let fun count_occurences = (int v, int list l) => (int):
     match l with:
@@ -160,7 +180,7 @@ let fun count_occurences = (int v, int list l) => (int):
 ;;
 
 ```
-####Javascript
+#### Javascript
 ```javascript
 let count_occurences = (v, l) => {
     let sum = 0;

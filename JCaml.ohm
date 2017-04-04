@@ -1,59 +1,67 @@
 JCaml {
     Program       =  Block
-    Block         =  (Stmt)*
-    Stmt          =  Decl | id | Exp | stringlit | numlit
+    Block         =  Stmt*
+    Stmt          =  Decl | Exp | Print
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
-                  |  Exp "?" Exp ";" Exp                        -- ternary
 
     Decl          =  "let" id "=" Exp                           -- decl
-                  |  "let fun" id "=" Params "=>" returnVal ":" Body -- declFun
+                  | FuncDec
+    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body  -- declFun
+
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
-    returnVal     =  id
+    returnType    =  id
 
     Body          =  ":" Block ";;"
 
-    Exp           =  Exp relops Exp1                            -- binary
-                  |  Exp1
-    Exp1          =  "match" id "with" "\n" Matches             -- matchexp
-                  |  Exp2
-    Exp2          =  Exp2 adlop Exp3                            -- binary
-                  |  Exp3
-    Exp3          =  Exp3 mullop Exp4                           -- binary
-                  |  Exp4
-    Exp4          =  prefixop Exp5                              -- binary
-                  |  Exp5
-    Exp5          =  Exp6 expops Exp5                           -- binary
-                  |  Exp6
-    Exp6          =  "(" Exp6 ")"                               -- parens
-                  | numlit
+    Exp           =  Exp relop MatchExp                         -- binary
+                  |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
+                  |  MatchExp
+    MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
+                  |  BinExp
+    BinExp        =  BinExp binop AddExp                        -- binary
+                  |  AddExp
+    AddExp        =  AddExp addop MullExp                       -- binary
+                  |  MullExp
+    MullExp       =  MullExp mullop PrefixExp                   -- binary
+                  |  PrefixExp
+    PrefixExp     =  prefixop ExpoExp                           -- binary
+                  |  ExpoExp
+    ExpoExp       =  ParenExp expop ExpoExp                     -- binary
+                  |  ParenExp
+    ParenExp      =  "(" ParenExp ")"                           -- parens
+                  |  numlit
+                  |  Tuplit
+                  |  List
+                  |  stringlit
+                  |  charlit
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
-    keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
-                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" -- key
+    keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "String"
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
 
-    prefixop      =  ~"--" "not" | "!" | "-" -- prefix
+    prefixop      =  ~"--" "not" | "!" | "-"                    -- prefix
 
     id            =  ~keyword letter idrest*
-    Tuplit        =  "(" Exp "," Exp ")"
-    List          =  "[" (Exp ("," Exp))* "]"
+    Tuplit        =  "(" BinExp "," BinExp ")"
+    List          =  | "[" BinExp ("," BinExp)* "]"     -- list
+                     | "[]"
+    Print         =  "spit" "(" BinExp ")"                      -- print
     idrest        =  "_" | alnum | "@" | "$"
-    relops        =  ">" | ">=" | "==" | "!=" | "<" | "<="
-    adlop         =  "+" | "-" | "::"
+    relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
+    addop         =  "+" | "-" | "::"
     mullop        =  "*" | "/" | "%"
-    expops        =  "^"
-    binops        =  "||" | "or" | "&&" | "and"
+    expop         =  "^"
+    binop         =  "||" | "or" | "&&" | "and"
     numlit        =  digit+
     char          =  escape
-    escape        =  "\""
-                  |  "\n"
-                  |  "'"
-                  |  "\t"
-                  | "\\"
-                  | "\\u{" hexDigit hexDigit hexDigit hexDigit "}"       -- codepoint
+                  |  ~"\\" ~"\"" ~"\'" ~"\\n" any
+
+    escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
+                  |  "\\u{" hexDigit+ "}"                       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
