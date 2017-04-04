@@ -297,18 +297,18 @@ class Stringlit {
 const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Program(block) { return new Program(block.tree()); },
   Block(stmt) { return new Block(stmt.tree()); },
-  StatementIfElse(exp, block, elseBlock, finalBlock) {
+  Stmt_if(_1, exp, block, _2, elseIfExprs, elseIfBlocks, _3, finalBlock) {
     return new StatementIfElse(exp.tree(), block.tree(), elseBlock.tree(), finalBlock.tree());
   },
-  Decl(id, exp) { return new Decl(id.tree(), exp.tree()); },
+  Decl_decl(_1, id, _2, exp) { return new Decl(id.tree(), exp.tree()); },
   Print(stringLit) { return new Print(stringLit.tree()); },
-  FuncDec(id, params, returnType, body) {
+  FuncDec(_1, id, _2, params, _3, returnType, body) {
     return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());
   },
-  Params(params) { return new Params(params.tree()); },
+  Params(_1, firstParam, _2,  moreParams, _3) { return new Params([firstParam.tree()].concat(moreParams.tree())); },
   Param(id) { return new Param(id.tree()); },
   ReturnType(id) { return new ReturnType(id.tree()); },
-  Body(block) { return new Body(block.tree()); },
+  Body(_1, block, _2) { return new Body(block.tree()); },
   BinExp(binexp, op, addexp) { return new BinExp(binexp.tree(), op.tree(), addexp.tree()); },
   MatchExp(id, matches) { return new MatchExp(id.tree(), matches.tree()); },
   AddExp(addexp, op, mullexp) { return new AddExp(addexp.tree(), op.tree(), mullexp.tree()); },
