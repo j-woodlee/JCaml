@@ -92,7 +92,101 @@
         <!-- Second Featurette -->
         <div class="featurette" id="examples">
             <h2 class="featurette-heading">Examples</h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <h3>Hello World!</h3>
+              <h4>JCaml</h4>
+                <code>spit("Hello, World");;</code>
+              <h4>JavaScript</h4>
+                <code>console.log("Hello World");</code>
+            <h3>Fibonacci Numbers</h3>
+              <h4>JCaml</h4>
+                <code>
+                  let fun fib = (int a) => (int):<br/>
+                  &nbsp&nbspif(a == 0 or a == 1):<br/>
+                  &nbsp&nbsp&nbsp&nbsphump 1<br/>
+                  &nbsp&nbspelse:<br/>
+                  &nbsp&nbsp&nbsp&nbsphump fib(a-1) + fib(1-2)<br/>
+                  ;;<br/>
+                </code>
+              <h4>JavaScript</h4>
+                <code>
+                  let fib = (a) => {<br/>
+                  &nbsp&nbspif (a == 0 || a == 1) {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn 1;<br/>
+                  &nbsp&nbsp} else {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn fib(a - 1) + fib(a - 2);<br/>
+                  &nbsp&nbsp}<br/>
+                  };
+                </code>
+
+            <h3>Fibonacci Numbers Memoized</h3>
+              <h4>JCaml</h4>
+                <code>
+                  let fibDict = []<br/>
+                  let fun fibMem = (int a) => (int):<br/>
+                  &nbsp&nbspif (a == 0 or a == 1):<br/>
+                  &nbsp&nbsp&nbsp&nbsphump 1<br/>
+                  &nbsp&nbspelse if (a in fibDict):<br/>
+                  &nbsp&nbsp&nbsp&nbsphump fibDict[a]<br/>
+                  &nbsp&nbspelse:<br/>
+                  &nbsp&nbsp&nbsp&nbspfibDict[a] = fibMem(a-1) + fibMem(a-2)<br/>
+                  &nbsp&nbsp&nbsp&nbsphump fibDict[a]<br/>
+                  ;;
+                </code>
+              <h4>JavaScript</h4>
+                <code>
+                  let dictionary = {};<br/>
+                  let fibMem = (a) => {<br/>
+                  &nbsp&nbspif(a == 0 || a == 1) {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn 1;<br/>
+                  &nbsp&nbsp} else if(a in dictionary) {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn dictionary[a];<br/>
+                  &nbsp&nbsp} else {<br/>
+                  &nbsp&nbsp&nbsp&nbspdictionary[a] = fibMem(a - 1) + fibMem(a - 2);<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn dictionary[a];<br/>
+                  &nbsp&nbsp}<br/>
+                  };
+                </code>
+
+            <h3>Currying and Higher Order Functions</h3>
+              <h4>JCaml</h4>
+                <code>
+                  let fun add = (int a, int b) => (int):<br/>
+                  &nbsp&nbsphump a + b;<br/>
+                  ;;<br/>
+                  let fun add2 = add(2);;
+                </code>
+              <h4>JavaScript</h4>
+                <code>
+                  let add = (a) => {<br/>
+                  &nbsp&nbspreturn (b) => {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn a + b;<br/>
+                  &nbsp&nbsp};<br/>
+                  };<br/>
+                  let add2 = add(2);
+                </code>
+
+            <h3>Match Statement</h3>
+              <h4>JCaml</h4>
+                <code>
+                  let fun count_occurences = (int v, int list l) => (int):<br/>
+                  &nbsp&nbspmatch l with:<br/>
+                  &nbsp&nbsp| [] -> 0<br/>
+                  &nbsp&nbsp| hd::[] ->  hump hd == v ? 1 : 0<br/>
+                  &nbsp&nbsp| hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)<br/>
+                  ;;
+                </code>
+              <h4>JavaScript</h4>
+                <code>
+                  let count_occurences = (v, l) => {<br/>
+                  let sum = 0;<br/>
+                  for (let value of l) {<br/>
+                  &nbsp&nbspif(v === value) {<br/>
+                  &nbsp&nbsp&nbsp&nbspsum++;<br/>
+                  &nbsp&nbsp}<br/>
+                  }<br/>
+                  &nbsp&nbspreturn sum;<br/>
+                  };
+                </code>
         </div>
 
         <hr class="featurette-divider">
