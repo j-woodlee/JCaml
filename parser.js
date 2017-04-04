@@ -33,17 +33,21 @@ class Stmt {
 }
 
 class StatementIfElse extends Stmt {
-  constructor(exp, block, elseBlock, finalBlock) {
+  constructor(exp, block, elseBlock, exp2, finalBlock) {
     this.exp = exp;
     this.block = block;
     this.elseBlock = elseBlock;
+    this.exp2 = exp2
     this.finalBlock = finalBlock;
   }
 
   static toString() {
     let ifString = `(ifStatement if ${this.exp} ${this.block})`;
+    for (const exps in this.exp2) {
+      ifString += `\n (else if ${this.exp2[exps]})`;
+    }
     for (const blocks in this.elseBlock) {
-      ifString += `\n (else if ${this.elseBlock[blocks]})`;
+      ifString += `\n (${this.elseBlock[blocks]})`;
     }
     ifString += `\n (else ${this.finalBlock})`;
     return ifString;
@@ -150,11 +154,10 @@ class MatchExp extends Exp {
   }
 }
 
-class BinExp extends Exp {
-  constructor(binexp, op, addexp) {
-    super();
-    this.binexp = binexp;
+class BinExp {
+  constructor(op, binexp, addexp) {
     this.op = op;
+    this.binexp = binexp;
     this.addexp = addexp;
   }
 
@@ -285,12 +288,7 @@ class Stringlit {
     this.value = value;
   }
   static toString() {
-    let charString = "(Stringlit ";
-    for (const lit in this.value) {
-      charString += `${this.value[lit]}`;
-    }
-    charString += ")";
-    return charString;
+    return `(Stringlit ${this.value})`;
   }
 }
 
@@ -309,7 +307,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Param(id) { return new Param(id.tree()); },
   ReturnType(id) { return new ReturnType(id.tree()); },
   Body(_1, block, _2) { return new Body(block.tree()); },
-  BinExp(binexp, op, addexp) { return new BinExp(binexp.tree(), op.tree(), addexp.tree()); },
+  BinExp(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
   MatchExp(id, matches) { return new MatchExp(id.tree(), matches.tree()); },
   AddExp(addexp, op, mullexp) { return new AddExp(addexp.tree(), op.tree(), mullexp.tree()); },
   MullExp(mullexp, op, prefixexp) {
@@ -321,11 +319,11 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
 },
   ParenExp(parenexp) { return new ParenExp(parenexp.tree()); },
   Matches(exp1, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
-  Tuplit(exp1, exp2) { return new Tuplit(exp1.tree(), exp2.tree()); },
+  Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
   List(args) { return new List(tuplit1.tree(), tuplit2.tree()); }, // to do
   Numlit(value) { return new Numlit(value.tree()); },
-  Charlit(value) { return new Charlit(value.tree()); },
-  Stringlit(value) { return new Stringlit(value.tree()); },
+  Charlit(_1, value, _2) { return new Charlit(value.sourceString); },
+  Stringlit(_1, value, _2) { return new Stringlit(value.sourceString); },
 });
 
 function parse(text) {
