@@ -14,10 +14,10 @@ body {
     text-align: center;
     /*background: url('http://weknowyourdreams.com/image.php?pic=/images/orange-color/orange-color-01.jpg') no-repeat center center scroll;*/
     background-image: url("../images/orange.jpg");
-    /*-webkit-background-size: cover;
+    -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
-    -o-background-size: cover;*/
+    -o-background-size: cover;
 }
 
 .headline {
@@ -26,13 +26,13 @@ body {
 
 .headline h1 {
     font-size: 130px;
-    background: #FFA500;
+    background: #FFF;
     background: rgba(255,255,255,0.9);
 }
 
 .headline h2 {
     font-size: 77px;
-    background: #FFA500;
+    background: #FFF;
     background: rgba(255,255,255,0.9);
 }
 
