@@ -13,7 +13,7 @@ body {
     width: 100%;
     text-align: center;
     /*background: url('http://weknowyourdreams.com/image.php?pic=/images/orange-color/orange-color-01.jpg') no-repeat center center scroll;*/
-    background-image: url("images/orange.jpg");
+    background-image: url("../images/orange.jpg");
     /*-webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -33,7 +33,7 @@ body {
 .headline h2 {
     font-size: 77px;
     background: #FFA500;
-    background: rgba(255,165,0,0.9);
+    background: rgba(255,255,255,0.9);
 }
 
 .featurette-divider {
