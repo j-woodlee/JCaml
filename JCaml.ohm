@@ -1,14 +1,18 @@
 JCaml {
     Program       =  Block
     Block         =  Stmt*
-    Stmt          =  Decl | Exp | Print
+    Stmt          =  Decl | Exp | Print | FuncCall
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
 
     Decl          =  "let" id "=" Exp                           -- decl
-                  | FuncDec
-    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body  -- declFun
+                  |  FuncDec
+    FuncDec       =  "let fun" id "=" Params "=>" returnType Body  -- declFun
+
+    FuncCall      =  id "(" Args ")"
+    Arg           =  (id)?
+    Args          =  ListOf<Arg, ",">
 
     Params        =  "(" Param ("," Param)* ")"
     Param         =  id
@@ -32,11 +36,11 @@ JCaml {
     ExpoExp       =  ParenExp expop ExpoExp                     -- binary
                   |  ParenExp
     ParenExp      =  "(" ParenExp ")"                           -- parens
-                  |  numlit
+                  |  Numlit
                   |  Tuplit
                   |  List
-                  |  stringlit
-                  |  charlit
+                  |  Stringlit
+                  |  Charlit
 
     Matches       =  ("|" Exp "->" Exp "\n")+
 
@@ -47,7 +51,7 @@ JCaml {
 
     id            =  ~keyword letter idrest*
     Tuplit        =  "(" BinExp "," BinExp ")"
-    List          =  | "[" BinExp ("," BinExp)* "]"     -- list
+    List          =  | "[" BinExp ("," BinExp)* "]"             -- list
                      | "[]"
     Print         =  "spit" "(" BinExp ")"                      -- print
     idrest        =  "_" | alnum | "@" | "$"
@@ -56,13 +60,13 @@ JCaml {
     mullop        =  "*" | "/" | "%"
     expop         =  "^"
     binop         =  "||" | "or" | "&&" | "and"
-    numlit        =  digit+
+    Numlit        =  digit+
     char          =  escape
                   |  ~"\\" ~"\"" ~"\'" ~"\\n" any
 
     escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
                   |  "\\u{" hexDigit+ "}"                       -- codepoint
-    charlit       =  "'" (char | "\"") "'"
-    stringlit     =  "\"" (char | "\'")* "\""
+    Charlit       =  "'" (char | "\"") "'"
+    Stringlit     =  "\"" (char | "\'")* "\""
     comment       =  "##" (~"\n" any)* "\n"
 }
