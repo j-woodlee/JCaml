@@ -90,6 +90,37 @@ class FuncDec extends Decl {
   }
 }
 
+class FuncCall extends Stmt {
+  constructor(id, args) {
+    this.id = id;
+    this.args = args;
+  }
+
+  static toString() {
+    return `(funcCall ${this.id} ($this.args))`;
+  }
+}
+
+class Args {
+  constructor(args) {
+    this.args = args;
+  }
+
+  static toString() {
+    return `(Args ${this.args})`;
+  }
+}
+
+class Arg {
+  constructor(id) {
+    this.id = id;
+  }
+
+  static toString() {
+    return `(Arg ${this.id})`;
+  }
+}
+
 class Params {
   constructor(params) {
     this.params = params;
@@ -139,7 +170,28 @@ class Body {
   }
 }
 
-class Exp {
+class Exp_binary {
+  constructor(op, exp, matchexp) {
+    this.op = op;
+    this.exp = exp;
+    this.matchexp = matchexp;
+  }
+
+  static toString() {
+    return `(Exp_binary ${this.exp} ${this.op} ${this.matchexp})`;
+  }
+}
+
+class Exp_ternary {
+  constructor(op, matchexp1, matchexp2, matchexp3) {
+    this.matchexp1 = matchexp1;
+    this.matchexp2 = matchexp2;
+    this.matchexp3 = matchexp3;
+  }
+
+  static toString() {
+    return `(Exp_ternary ${this.matchexp1} ? ${this.matchexp2} : ${this.matchexp3})`; 
+  }
 }
 
 class MatchExp {
@@ -297,10 +349,16 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   FuncDec(_1, id, _2, params, _3, returnType, body) {
     return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());
   },
+  FuncCall(id, _1, args, _2) { return new FuncCall(id.tree(), args.tree()); },
+  Args(arg) { return new Args(arg.tree()); },
+  Arg(id) { return new Arg(id.tree()); },
   Params(_1, firstParam, _2,  moreParams, _3) { return new Params([firstParam.tree()].concat(moreParams.tree())); },
   Param(id) { return new Param(id.tree()); },
   ReturnType(id) { return new ReturnType(id.tree()); },
   Body(_1, block, _2) { return new Body(block.tree()); },
+  Exp_binary(exp, op, matchexp) { return new Exp(exp.tree(), op.tree(), addexp.tree()); },
+  Exp_ternary(matchexp1, _1, matchexp2, _2, matchexp3) { 
+    return new Exp(matchexp1.tree(), matchexp2.tree(), matchexp3.tree()); },
   BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
   MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.tree(), matches.tree()); },
   AddExp_binary(addexp, op, mullexp) { return new AddExp(addexp.tree(), op.tree(), mullexp.tree()); },
