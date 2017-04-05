@@ -33,17 +33,21 @@ class Stmt {
 }
 
 class StatementIfElse extends Stmt {
-  constructor(exp, block, elseBlock, finalBlock) {
+  constructor(exp, block, elseBlock, exp2, finalBlock) {
     this.exp = exp;
     this.block = block;
     this.elseBlock = elseBlock;
+    this.exp2 = exp2
     this.finalBlock = finalBlock;
   }
 
   static toString() {
     let ifString = `(ifStatement if ${this.exp} ${this.block})`;
+    for (const exps in this.exp2) {
+      ifString += `\n (else if ${this.exp2[exps]})`;
+    }
     for (const blocks in this.elseBlock) {
-      ifString += `\n (else if ${this.elseBlock[blocks]})`;
+      ifString += `\n (${this.elseBlock[blocks]})`;
     }
     ifString += `\n (else ${this.finalBlock})`;
     return ifString;
@@ -83,6 +87,37 @@ class FuncDec extends Decl {
   static toString() {
     const funcDecString = `FuncDec let fun ${this.id} = ${this.params} => ${this.returnType}: ${this.body}`;
     return funcDecString;
+  }
+}
+
+class FuncCall extends Stmt {
+  constructor(id, args) {
+    this.id = id;
+    this.args = args;
+  }
+
+  static toString() {
+    return `(funcCall ${this.id} ($this.args))`;
+  }
+}
+
+class Args {
+  constructor(args) {
+    this.args = args;
+  }
+
+  static toString() {
+    return `(Args ${this.args})`;
+  }
+}
+
+class Arg {
+  constructor(id) {
+    this.id = id;
+  }
+
+  static toString() {
+    return `(Arg ${this.id})`;
   }
 }
 
@@ -135,12 +170,32 @@ class Body {
   }
 }
 
-class Exp {
+class Exp_binary {
+  constructor(op, exp, matchexp) {
+    this.op = op;
+    this.exp = exp;
+    this.matchexp = matchexp;
+  }
+
+  static toString() {
+    return `(Exp_binary ${this.exp} ${this.op} ${this.matchexp})`;
+  }
 }
 
-class MatchExp extends Exp {
+class Exp_ternary {
+  constructor(op, matchexp1, matchexp2, matchexp3) {
+    this.matchexp1 = matchexp1;
+    this.matchexp2 = matchexp2;
+    this.matchexp3 = matchexp3;
+  }
+
+  static toString() {
+    return `(Exp_ternary ${this.matchexp1} ? ${this.matchexp2} : ${this.matchexp3})`; 
+  }
+}
+
+class MatchExp {
   constructor(id, matches) {
-    super();
     this.id = id;
     this.matches = matches;
   }
@@ -150,11 +205,10 @@ class MatchExp extends Exp {
   }
 }
 
-class BinExp extends Exp {
-  constructor(binexp, op, addexp) {
-    super();
-    this.binexp = binexp;
+class BinExp {
+  constructor(op, binexp, addexp) {
     this.op = op;
+    this.binexp = binexp;
     this.addexp = addexp;
   }
 
@@ -163,11 +217,10 @@ class BinExp extends Exp {
   }
 }
 
-class AddExp extends Exp {
-  constructor(addexp, op, mullexp) {
-    super();
-    this.addexp = addexp;
+class AddExp {
+  constructor(op, addexp, mullexp) {
     this.op = op;
+    this.addexp = addexp;
     this.mullexp = mullexp;
   }
 
@@ -176,11 +229,10 @@ class AddExp extends Exp {
   }
 }
 
-class MullExp extends Exp {
-  constructor(mullexp, op, prefixexp) {
-    super();
-    this.mullexp = mullexp;
+class MullExp {
+  constructor(op, mullexp, prefixexp) {
     this.op = op;
+    this.mullexp = mullexp;
     this.prefixexp = prefixexp;
   }
 
@@ -189,9 +241,8 @@ class MullExp extends Exp {
   }
 }
 
-class PrefixExp extends Exp {
+class PrefixExp {
   constructor(op, expoexp) {
-    super();
     this.op = op;
     this.expoexp = expoexp;
   }
@@ -201,11 +252,10 @@ class PrefixExp extends Exp {
   }
 }
 
-class ExpoExp extends Exp {
-  constructor(parenexp, op, expoexp) {
-    super();
-    this.parenexp = parenexp;
+class ExpoExp {
+  constructor(op, parenexp, expoexp) {
     this.op = op;
+    this.parenexp = parenexp;
     this.expoexp = expoexp;
   }
 
@@ -214,9 +264,8 @@ class ExpoExp extends Exp {
   }
 }
 
-class ParenExp extends Exp {
+class ParenExp {
   constructor(parenexp) {
-    super();
     this.parenexp = parenexp;
   }
 
@@ -285,47 +334,48 @@ class Stringlit {
     this.value = value;
   }
   static toString() {
-    let charString = "(Stringlit ";
-    for (const lit in this.value) {
-      charString += `${this.value[lit]}`;
-    }
-    charString += ")";
-    return charString;
+    return `(Stringlit ${this.value})`;
   }
 }
 
 const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Program(block) { return new Program(block.tree()); },
   Block(stmt) { return new Block(stmt.tree()); },
-  StatementIfElse(exp, block, elseBlock, finalBlock) {
+  Stmt_if(_1, exp, block, _2, elseIfExprs, elseIfBlocks, _3, finalBlock) {
     return new StatementIfElse(exp.tree(), block.tree(), elseBlock.tree(), finalBlock.tree());
   },
-  Decl(id, exp) { return new Decl(id.tree(), exp.tree()); },
+  Decl_decl(_1, id, _2, exp) { return new Decl(id.tree(), exp.tree()); },
   Print(stringLit) { return new Print(stringLit.tree()); },
-  FuncDec(id, params, returnType, body) {
+  FuncDec(_1, id, _2, params, _3, returnType, body) {
     return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());
   },
-  Params(params) { return new Params(params.tree()); },
+  FuncCall(id, _1, args, _2) { return new FuncCall(id.tree(), args.tree()); },
+  Args(arg) { return new Args(arg.tree()); },
+  Arg(id) { return new Arg(id.tree()); },
+  Params(_1, firstParam, _2,  moreParams, _3) { return new Params([firstParam.tree()].concat(moreParams.tree())); },
   Param(id) { return new Param(id.tree()); },
   ReturnType(id) { return new ReturnType(id.tree()); },
-  Body(block) { return new Body(block.tree()); },
-  BinExp(binexp, op, addexp) { return new BinExp(binexp.tree(), op.tree(), addexp.tree()); },
-  MatchExp(id, matches) { return new MatchExp(id.tree(), matches.tree()); },
-  AddExp(addexp, op, mullexp) { return new AddExp(addexp.tree(), op.tree(), mullexp.tree()); },
-  MullExp(mullexp, op, prefixexp) {
+  Body(_1, block, _2) { return new Body(block.tree()); },
+  Exp_binary(exp, op, matchexp) { return new Exp(exp.tree(), op.tree(), addexp.tree()); },
+  Exp_ternary(matchexp1, _1, matchexp2, _2, matchexp3) { 
+    return new Exp(matchexp1.tree(), matchexp2.tree(), matchexp3.tree()); },
+  BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
+  MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.tree(), matches.tree()); },
+  AddExp_binary(addexp, op, mullexp) { return new AddExp(addexp.tree(), op.tree(), mullexp.tree()); },
+  MullExp_binary(mullexp, op, prefixexp) {
     return new MullExp(mullexp.tree(), op.tree(), prefixexp.tree());
   },
-  PrefixExp(op, expoexp) { return new PrefixExp(op.tree(), expoexp.tree()); },
-  ExpoExp(parenexp, op, expoexp) {
+  PrefixExp_binary(op, expoexp) { return new PrefixExp(op.tree(), expoexp.tree()); },
+  ExpoExp_binary(parenexp, op, expoexp) {
     return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());
 },
-  ParenExp(parenexp) { return new ParenExp(parenexp.tree()); },
-  Matches(exp1, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
-  Tuplit(exp1, exp2) { return new Tuplit(exp1.tree(), exp2.tree()); },
+  ParenExp_parens(_1, parenexp, _2) { return new ParenExp(parenexp.tree()); },
+  Matches(_1, exp1, _2, exp2, _3) { return new Matches(exp1.tree(), exp2.tree()); },
+  Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
   List(args) { return new List(tuplit1.tree(), tuplit2.tree()); }, // to do
   Numlit(value) { return new Numlit(value.tree()); },
-  Charlit(value) { return new Charlit(value.tree()); },
-  Stringlit(value) { return new Stringlit(value.tree()); },
+  Charlit(_1, value, _2) { return new Charlit(value.sourceString); },
+  Stringlit(_1, value, _2) { return new Stringlit(value.sourceString); },
 });
 
 function parse(text) {
