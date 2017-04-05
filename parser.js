@@ -378,10 +378,8 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Stringlit(_1, value, _2) { return new Stringlit(value.sourceString); },
 });
 
-module.exports = (text) => {
-  const match = JCamlGrammar.match(parserContents(text));
-  if (!match.succeeded()) {
-    throw new Error(`Syntax Error: ${match.message}`);
-  }
+function parse(text) {
+  const match = JCamlGrammar.match(text);
   return semantics(match).ast();
-};
+}
+module.exports = parse;
