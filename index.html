@@ -211,13 +211,17 @@
 
                 <div>Block</div>
                 <script>
-                Diagram(OneOrMore(Sequence(NonTerminal('Stmt'), ';'))).addTo();
+                Diagram(OneOrMore(Sequence(NonTerminal('Stmt')))).addTo();
                 </script>
 
                 <div>Stmt</div>
                 <script>
+                // Decl | Exp | Print
+                //              |  "if" Exp Block
+                //                 ("else if" Exp Block)*
+                //                 ("else" Block)
                 Diagram(Choice(0,
-                  Sequence('var', NonTerminal('id'), ':', NonTerminal('Type')),
+                  Sequence('Decl', NonTerminal('id'), ':', NonTerminal('Type')),
                   Sequence(NonTerminal('VarExp'), '=', NonTerminal('Exp')),
                   Sequence('read', OneOrMore(NonTerminal('VarExp'), ',')),
                   Sequence('write', OneOrMore(NonTerminal('Exp'), ',')),
@@ -226,7 +230,7 @@
 
                 <div>Type</div>
                 <script>
-                Diagram(Choice(0, NonTerminal('int'), NonTerminal('bool'))).addTo();
+                Diagram(Choice(0, NonTerminal('int'), NonTerminal('bool'), NonTerminal('bool'))).addTo();
                 </script>
 
                 <div>Exp</div>
