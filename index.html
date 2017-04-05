@@ -211,81 +211,146 @@
 
                 <div>Block</div>
                 <script>
-                Diagram(OneOrMore(Sequence(NonTerminal('Stmt')))).addTo();
+                Diagram(ZeroOrMore(Sequence(NonTerminal('Stmt')))).addTo();
                 </script>
 
                 <div>Stmt</div>
                 <script>
-                // Decl | Exp | Print
+                // Decl | Exp | Print | FuncCall
                 //              |  "if" Exp Block
                 //                 ("else if" Exp Block)*
                 //                 ("else" Block)
-                Diagram(Choice(0,
-                  Sequence('Decl', NonTerminal('id'), ':', NonTerminal('Type')),
-                  Sequence(NonTerminal('VarExp'), '=', NonTerminal('Exp')),
-                  Sequence('read', OneOrMore(NonTerminal('VarExp'), ',')),
-                  Sequence('write', OneOrMore(NonTerminal('Exp'), ',')),
-                  Sequence('while', NonTerminal('Exp'), 'loop', NonTerminal('Block'), 'end'))).addTo();
+                Diagram(
+                   Choice(0,
+                     NonTerminal("Decl"),
+                     NonTerminal("Exp"),
+                     NonTerminal("Print"),
+                     NonTerminal("FuncCall"),
+                     Sequence(
+                          "if",
+                           NonTerminal("Exp"),
+                           NonTerminal("Block"),
+                          ZeroOrMore( Sequence("else if", NonTerminal("Exp"), NonTerminal("Block"))
+                           ),
+                            Optional(Sequence("else", NonTerminal("Block")), 'skip')
+                      )
+                  )).addTo();
                 </script>
 
-                <div>Type</div>
+                <div>Decl</div>
                 <script>
-                Diagram(Choice(0, NonTerminal('int'), NonTerminal('bool'), NonTerminal('bool'))).addTo();
+                // Decl          =  "let" id "=" Exp                           -- decl
+                //               |  FuncDec
+                Diagram(
+                  Choice(0,
+                    Sequence("let", NonTerminal("id"), "=", NonTerminal("Exp")),
+                    NonTerminal("FuncDec")
+                  )).addTo();
+                </script>
+
+                <div>FuncDec</div>
+                <script>
+
+                  // FuncDec       =  "let fun" id "=" Params "=>" ReturnType Body
+
+                Diagram(
+                  Sequence(
+                     "let fun",
+                     NonTerminal("id"),
+                     "=",
+                     NonTerminal("Params"),
+                     "=>",
+                     NonTerminal("ReturnType"),
+                     NonTerminal("Body")
+                  )).addTo();
+                </script>
+
+                <div>FuncCall</div>
+                <script>
+
+                  // FuncCall      =  id "(" Args ")"
+                Diagram(
+                  Sequence(
+                    NonTerminal("id"),
+                    "(",
+                    NonTerminal("Args"),
+                    ")"
+                  )
+                ).addTo();
+                </script>
+
+                <div>Arg</div>
+                <script>
+
+                // Arg           =  (id)?
+                Diagram(
+                  Optional(NonTerminal("id"),'skip')
+                ).addTo();
+                </script>
+
+                <div>Args</div>
+                <script>
+                // Args          =  ListOf<Arg, ",">
+                Diagram(
+                  NonTerminal("ListOf<Arg, \",\">") // Is this right?
+                ).addTo();
+                </script>
+
+                <div>Params</div>
+                <script>
+                // Params        =  "(" Param ("," Param)* ")"
+                Diagram(
+                  Sequence(
+                    "(",
+                    NonTerminal("Param"),
+                    ZeroOrMore(Sequence(",", NonTerminal("Param"))),
+                    ")"
+                  )
+                ).addTo();
+                </script>
+
+                <div>Param</div>
+                <script>
+                // Param         =  id
+                Diagram(NonTerminal("id")).addTo();
+                </script>
+
+                <div>Return Type</div>
+                <script>
+                // ReturnType    =  id
+                Diagram(
+                  NonTerminal("id")
+                ).addTo();
+                </script>
+
+                <div>Body</div>
+                <script>
+                // Body          =  ":" Block ";;"
+                Diagram(
+                  Sequence(":", NonTerminal("Block"), ";;")
+                ).addTo();
                 </script>
 
                 <div>Exp</div>
                 <script>
-                Diagram(OneOrMore('Exp1', 'or')).addTo();
-                </script>
+                // Exp           =  Exp relop MatchExp                         -- binary
+                //               |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
+                //               |  MatchExp
+                Diagram(
+                  Choice(0,
+                    Sequence(NonTerminal("Exp"), NonTerminal("relop"), NonTerminal("MatchExp")),
+                    Sequence(NonTerminal("MatchExp"), "?", NonTerminal("MatchExp"), ":", NonTerminal("MatchExp")),
+                    NonTerminal("MatchExp")
+                  )
 
-                <div>Exp1</div>
-                <script>
-                Diagram(OneOrMore(NonTerminal('Exp2'), 'and')).addTo();
-                </script>
-
-                <div>Exp2</div>
-                <script>
-                Diagram(Sequence(NonTerminal('Exp3'),
-                  Optional(Sequence(NonTerminal('relop'), NonTerminal('Exp3')), 'skip'))).addTo();
-                </script>
-
-                <div>Exp3</div>
-                <script>
-                Diagram(OneOrMore(NonTerminal('Exp4'), NonTerminal('addop'))).addTo();
-                </script>
-
-                <div>Exp4</div>
-                <script>
-                Diagram(OneOrMore(NonTerminal('Exp5'), NonTerminal('mulop'))).addTo();
-                </script>
-
-                <div>Exp5</div>
-                <script>
-                Diagram(Sequence(
-                  Optional('prefixop', 'skip'),
-                  NonTerminal('Exp6'))).addTo();
-                </script>
-
-                <div>Exp6</div>
-                <script>
-                Diagram(Choice(0, NonTerminal('boollit'), NonTerminal('intlint'), NonTerminal('VarExp'),
-                  Sequence('(', NonTerminal('Exp'), ')'))).addTo();
-                </script>
-
-                <div>VarExp</div>
-                <script>
-                Diagram(NonTerminal('id')).addTo();
-                </script>
-
-                <div>keyword</div>
-                <script>
-                Diagram(Sequence(
-                  Choice(0,'var','read','write','while','loop','end','int','bool','true','false'),
-                  Comment('NEGLOOKAHEAD:(alnum|"_")'))).addTo();
+                ).addTo();
                 </script>
 
                 <div>id</div>
                 <script>
+                // MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
+                //               |  BinExp
+
                 Diagram(Sequence(Comment(`NEGLOOKAHEAD:keyword`), NonTerminal('letter'), ZeroOrMore(Choice(0, NonTerminal('alnum'), '_')))).addTo();
                 </script>
 
