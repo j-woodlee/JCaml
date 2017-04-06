@@ -345,7 +345,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     return new StatementIfElse(exp.tree(), block.tree(), elseBlock.tree(), finalBlock.tree());
   },
   Decl_decl(_1, id, _2, exp) { return new Decl(id.tree(), exp.tree()); },
-  Print(stringLit) { return new Print(stringLit.tree()); },
+  Print_print(_1, _2, binexp, _3) { return new Print(binexp.tree()); },
   FuncDec(_1, id, _2, params, _3, returnType, body) {
     return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());
   },
@@ -380,6 +380,6 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
 
 function parse(text) {
   const match = JCamlGrammar.match(text);
-  return semantics(match).ast();
+  return semantics(match).tree();
 }
 module.exports = parse;
