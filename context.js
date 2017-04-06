@@ -1,5 +1,5 @@
-const FunctionDeclaration = require('ast/funcDec');
-const Parameter = require('ast/param');
+const FunctionDeclaration = require("./ast/funcDec");
+const Parameter = require("./ast/param");
 
 class Context {
   constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
@@ -35,6 +35,13 @@ class Context {
     this.variables[entity.id] = entity;
   }
 
+  isPresent(id) {
+    if (id in this.variables) {
+      return true;
+    }
+    return false;
+  }
+
   lookup(id) {
     if (id in this.variables) {
       return this.variables[id];
@@ -59,7 +66,7 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-new FunctionDeclaration('print', [new Parameter('_', null)], null).analyze(Context.INITIAL);
-new FunctionDeclaration('sqrt', [new Parameter('_', null)], null).analyze(Context.INITIAL);
+new FunctionDeclaration("print", [new Parameter("_", null)], null).analyze(Context.INITIAL);
+new FunctionDeclaration("sqrt", [new Parameter("_", null)], null).analyze(Context.INITIAL);
 
 module.exports = Context;

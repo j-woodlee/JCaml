@@ -8,4 +8,9 @@ module.exports = class ExpBinary {
   toString() {
     return `(Exp_binary ${this.exp} ${this.op} ${this.matchexp})`;
   }
+
+  analyze(context) {
+    this.exp.analyze(context);
+    this.matchexp.analyze(context);
+  }
 };

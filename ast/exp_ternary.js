@@ -8,4 +8,10 @@ module.exports = class ExpTernary {
   toString() {
     return `(Exp_ternary ${this.matchexp1} ? ${this.matchexp2} : ${this.matchexp3})`;
   }
+
+  analyze(context) {
+    this.matchexp1.analyze(context);
+    this.matchexp2.analyze(context);
+    this.matchexp3.analyze(context);
+  }
 };

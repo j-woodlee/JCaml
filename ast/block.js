@@ -1,6 +1,6 @@
 module.exports = class Block {
-  constructor(stmt) {
-    this.stmt = stmt;
+  constructor(stmts) {
+    this.stmts = stmts;
   }
 
   toString() {
@@ -9,5 +9,9 @@ module.exports = class Block {
       stmtString += `\n (Block ${this.stmt[statements]})`;
     }
     return stmtString;
+  }
+
+  analyze(context) {
+    this.stmts.forEach(s => s.analyze(context));
   }
 };

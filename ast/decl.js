@@ -9,4 +9,9 @@ module.exports = class Decl extends module.exports.Stmt {
     const declString = `(Decl let ${this.id} = ${this.exp})`;
     return declString;
   }
+
+  analyze(context) {
+    this.exp.analyze(context);
+    context.addVariable(this);
+  }
 };
