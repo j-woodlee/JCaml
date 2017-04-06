@@ -174,7 +174,7 @@ class Body {
   }
 }
 
-class expBinary {
+class ExpBinary {
   constructor(op, exp, matchexp) {
     this.op = op;
     this.exp = exp;
@@ -186,7 +186,7 @@ class expBinary {
   }
 }
 
-class Exp_ternary {
+class ExpTernary {
   constructor(op, matchexp1, matchexp2, matchexp3) {
     this.matchexp1 = matchexp1;
     this.matchexp2 = matchexp2;
@@ -362,13 +362,15 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Param(id) { return new Param(id.tree()); },
   ReturnType(id) { return new ReturnType(id.tree()); },
   Body(_1, block, _2) { return new Body(block.tree()); },
-  Exp_binary(exp, op, matchexp) { return new Exp(exp.tree(), op.tree(), addexp.tree()); },
-  Exp_ternary(matchexp1, _1, matchexp2, _2, matchexp3) {
+  ExpBinary(exp, op, matchexp) { return new Exp(exp.tree(), op.tree(), addexp.tree()); },
+  ExpTernary(matchexp1, _1, matchexp2, _2, matchexp3) {
     return new Exp(matchexp1.tree(), matchexp2.tree(), matchexp3.tree());
   },
   BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
   MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.tree(), matches.tree()); },
-  AddExp_binary(addexp, op, mullexp) { return new AddExp(addexp.tree(), op.tree(), mullexp.tree()); },
+  AddExp_binary(addexp, op, mullexp) {
+    return new AddExp(addexp.tree(), op.tree(), mullexp.tree());
+  },
   MullExp_binary(mullexp, op, prefixexp) {
     return new MullExp(mullexp.tree(), op.tree(), prefixexp.tree());
   },
