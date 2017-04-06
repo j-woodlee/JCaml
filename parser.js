@@ -10,7 +10,7 @@ class Program {
     this.block = block;
   }
 
-  static toString() {
+  toString() {
     return `(Program ${this.block})`;
   }
 }
@@ -20,7 +20,7 @@ class Block {
     this.stmt = stmt;
   }
 
-  static toString() {
+  toString() {
     let stmtString;
     for (const statements in this.stmt) {
       stmtString += `\n (Block ${this.stmt[statements]})`;
@@ -34,14 +34,15 @@ class Stmt {
 
 class StatementIfElse extends Stmt {
   constructor(exp, block, elseBlock, exp2, finalBlock) {
+    super();
     this.exp = exp;
     this.block = block;
     this.elseBlock = elseBlock;
-    this.exp2 = exp2
+    this.exp2 = exp2;
     this.finalBlock = finalBlock;
   }
 
-  static toString() {
+  toString() {
     let ifString = `(ifStatement if ${this.exp} ${this.block})`;
     for (const exps in this.exp2) {
       ifString += `\n (else if ${this.exp2[exps]})`;
@@ -56,11 +57,12 @@ class StatementIfElse extends Stmt {
 
 class Decl extends Stmt {
   constructor(id, exp) {
+    super();
     this.id = id;
     this.exp = exp;
   }
 
-  static toString() {
+  toString() {
     const declString = `(Decl let ${this.id} = ${this.exp})`;
     return declString;
   }
@@ -68,10 +70,11 @@ class Decl extends Stmt {
 
 class Print extends Stmt {
   constructor(binexp) {
+    super();
     this.binexp = binexp;
   }
 
-  static toString() {
+  toString() {
     return `(Print spit (${this.binexp}))`;
   }
 }
@@ -84,7 +87,7 @@ class FuncDec extends Decl {
     this.returnType = returnType;
   }
 
-  static toString() {
+  toString() {
     const funcDecString = `FuncDec let fun ${this.id} = ${this.params} => ${this.returnType}: ${this.body}`;
     return funcDecString;
   }
@@ -92,11 +95,12 @@ class FuncDec extends Decl {
 
 class FuncCall extends Stmt {
   constructor(id, args) {
+    super();
     this.id = id;
     this.args = args;
   }
 
-  static toString() {
+  toString() {
     return `(funcCall ${this.id} ($this.args))`;
   }
 }
@@ -106,7 +110,7 @@ class Args {
     this.args = args;
   }
 
-  static toString() {
+  toString() {
     return `(Args ${this.args})`;
   }
 }
@@ -116,7 +120,7 @@ class Arg {
     this.id = id;
   }
 
-  static toString() {
+  toString() {
     return `(Arg ${this.id})`;
   }
 }
@@ -126,7 +130,7 @@ class Params {
     this.params = params;
   }
 
-  static toString() {
+  toString() {
     let paramsString = "Params (";
     for (const params in this.params) {
       paramsString += `, ${params}`;
@@ -142,7 +146,7 @@ class Param {
     this.id = id;
   }
 
-  static toString() {
+  toString() {
     const paramString = `Param ${this.id}`;
     return paramString;
   }
@@ -153,7 +157,7 @@ class ReturnType {
     this.id = id;
   }
 
-  static toString() {
+  toString() {
     const returnTypeString = `ReturnType ${this.id}`;
     return returnTypeString;
   }
@@ -164,7 +168,7 @@ class Body {
     this.block = block;
   }
 
-  static toString() {
+  toString() {
     const bodyString = `(Body :${this.block};;)`;
     return bodyString;
   }
@@ -177,7 +181,7 @@ class Exp_binary {
     this.matchexp = matchexp;
   }
 
-  static toString() {
+  toString() {
     return `(Exp_binary ${this.exp} ${this.op} ${this.matchexp})`;
   }
 }
@@ -189,8 +193,8 @@ class Exp_ternary {
     this.matchexp3 = matchexp3;
   }
 
-  static toString() {
-    return `(Exp_ternary ${this.matchexp1} ? ${this.matchexp2} : ${this.matchexp3})`; 
+  toString() {
+    return `(Exp_ternary ${this.matchexp1} ? ${this.matchexp2} : ${this.matchexp3})`;
   }
 }
 
@@ -200,7 +204,7 @@ class MatchExp {
     this.matches = matches;
   }
 
-  static toString() {
+  toString() {
     return `(MatchExp match ${this.id} with \n ${this.matches})`;
   }
 }
@@ -212,7 +216,7 @@ class BinExp {
     this.addexp = addexp;
   }
 
-  static toString() {
+  toString() {
     return `(BinExp ${this.binexp} ${this.op} ${this.addexp})`;
   }
 }
@@ -224,7 +228,7 @@ class AddExp {
     this.mullexp = mullexp;
   }
 
-  static toString() {
+  toString() {
     return `(AddExp ${this.addexp} ${this.op} ${this.mullexp})`;
   }
 }
@@ -236,7 +240,7 @@ class MullExp {
     this.prefixexp = prefixexp;
   }
 
-  static toString() {
+  toString() {
     return `(Mullexp ${this.mullexp} ${this.op} ${this.prefixexp})`;
   }
 }
@@ -247,7 +251,7 @@ class PrefixExp {
     this.expoexp = expoexp;
   }
 
-  static toString() {
+  toString() {
     return `(Prefixexp ${this.op} ${this.expoexp})`;
   }
 }
@@ -259,7 +263,7 @@ class ExpoExp {
     this.expoexp = expoexp;
   }
 
-  static toString() {
+  toString() {
     return `(Expoexp ${this.Parenexp} ${this.op} ${this.Expoexp})`;
   }
 }
@@ -269,7 +273,7 @@ class ParenExp {
     this.parenexp = parenexp;
   }
 
-  static toString() {
+  toString() {
     return `(Parenexp (${this.parenexp}))`;
   }
 }
@@ -280,7 +284,7 @@ class Matches {
     this.exp2 = exp2;
   }
 
-  static toString() {
+  toString() {
     return `(Matches | ${this.exp1} -> ${this.exp2} \n)`;
   }
 }
@@ -291,7 +295,7 @@ class Tuplit {
     this.exp2 = exp2;
   }
 
-  static toString() {
+  toString() {
     return `(Tuplit (${this.exp1}, ${this.exp2}))`;
   }
 }
@@ -301,7 +305,7 @@ class List {
     this.args = args;
   }
 
-  static toString() {
+  toString() {
     return `List ${this.args}`;
   }
 }
@@ -310,7 +314,7 @@ class Numlit {
   constructor(value) {
     this.value = value;
   }
-  static toString() {
+  toString() {
     let numberString = "(Numlit ";
     for (const numbers in this.value) {
       numberString += `${this.value[numbers]}`;
@@ -324,7 +328,7 @@ class Charlit {
   constructor(value) {
     this.value = value;
   }
-  static toString() {
+  toString() {
     return `(Charlit ${this.value})`;
   }
 }
@@ -333,7 +337,7 @@ class Stringlit {
   constructor(value) {
     this.value = value;
   }
-  static toString() {
+  toString() {
     return `(Stringlit ${this.value})`;
   }
 }
@@ -357,7 +361,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   ReturnType(id) { return new ReturnType(id.tree()); },
   Body(_1, block, _2) { return new Body(block.tree()); },
   Exp_binary(exp, op, matchexp) { return new Exp(exp.tree(), op.tree(), addexp.tree()); },
-  Exp_ternary(matchexp1, _1, matchexp2, _2, matchexp3) { 
+  Exp_ternary(matchexp1, _1, matchexp2, _2, matchexp3) {
     return new Exp(matchexp1.tree(), matchexp2.tree(), matchexp3.tree()); },
   BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
   MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.tree(), matches.tree()); },
