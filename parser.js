@@ -75,7 +75,7 @@ class Print extends Stmt {
   }
 
   toString() {
-    return `(Print spit (${this.binexp}))`;
+    return `(Print (${this.binexp}))`;
   }
 }
 
