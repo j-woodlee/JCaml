@@ -1,5 +1,6 @@
-module.exports = class Decl extends Stmt {
+module.exports = class Decl extends module.exports.Stmt {
   constructor(id, exp) {
+    super();
     this.id = id;
     this.exp = exp;
   }
@@ -8,4 +9,4 @@ module.exports = class Decl extends Stmt {
     const declString = `(Decl let ${this.id} = ${this.exp})`;
     return declString;
   }
-}
+};

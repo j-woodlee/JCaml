@@ -7,4 +7,4 @@ module.exports = class Param {
     const paramString = `Param ${this.id}`;
     return paramString;
   }
-}
+};

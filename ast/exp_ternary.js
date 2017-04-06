@@ -1,4 +1,4 @@
-module.exports = class Exp_ternary {
+module.exports = class ExpTernary {
   constructor(op, matchexp1, matchexp2, matchexp3) {
     this.matchexp1 = matchexp1;
     this.matchexp2 = matchexp2;
@@ -6,6 +6,6 @@ module.exports = class Exp_ternary {
   }
 
   toString() {
-    return `(Exp_ternary ${this.matchexp1} ? ${this.matchexp2} : ${this.matchexp3})`; 
+    return `(Exp_ternary ${this.matchexp1} ? ${this.matchexp2} : ${this.matchexp3})`;
   }
-}
+};

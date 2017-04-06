@@ -7,4 +7,4 @@ module.exports = class ReturnType {
     const returnTypeString = `ReturnType ${this.id}`;
     return returnTypeString;
   }
-}
+};

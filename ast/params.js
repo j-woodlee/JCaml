@@ -12,4 +12,4 @@ module.exports = class Params {
     paramsString += ")";
     return paramsString;
   }
-}
+};

@@ -8,4 +8,4 @@ module.exports = class AddExp {
   toString() {
     return `(AddExp ${this.addexp} ${this.op} ${this.mullexp})`;
   }
-}
+};
