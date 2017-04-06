@@ -362,10 +362,6 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Param(id) { return new Param(id.tree()); },
   ReturnType(id) { return new ReturnType(id.tree()); },
   Body(_1, block, _2) { return new Body(block.tree()); },
-  ExpBinary(exp, op, matchexp) { return new Exp(exp.tree(), op.tree(), addexp.tree()); },
-  ExpTernary(matchexp1, _1, matchexp2, _2, matchexp3) {
-    return new Exp(matchexp1.tree(), matchexp2.tree(), matchexp3.tree());
-  },
   BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
   MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.tree(), matches.tree()); },
   AddExp_binary(addexp, op, mullexp) {
@@ -381,7 +377,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   ParenExp_parens(_1, parenexp, _2) { return new ParenExp(parenexp.tree()); },
   Matches(_1, exp1, _2, exp2, _3) { return new Matches(exp1.tree(), exp2.tree()); },
   Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
-  List(args) { return new List(tuplit1.tree(), tuplit2.tree()); }, // to do
+  List(args) { return new List(binexp1.tree(), binexp2.tree()); }, // to do
   Numlit(value) { return new Numlit(value.tree()); },
   Charlit(_1, value, _2) { return new Charlit(value.sourceString); },
   Stringlit(_1, value, _2) { return new Stringlit(value.sourceString); },
