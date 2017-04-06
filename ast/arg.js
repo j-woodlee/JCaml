@@ -6,4 +6,4 @@ module.exports = class Arg {
   toString() {
     return `(Arg ${this.id})`;
   }
-}
+};

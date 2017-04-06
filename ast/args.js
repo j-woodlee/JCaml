@@ -6,4 +6,4 @@ module.exports = class Args {
   toString() {
     return `(Args ${this.args})`;
   }
-}
+};

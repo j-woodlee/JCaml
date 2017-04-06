@@ -7,4 +7,4 @@ module.exports = class MatchExp {
   toString() {
     return `(MatchExp match ${this.id} with \n ${this.matches})`;
   }
-}
+};

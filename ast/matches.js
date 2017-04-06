@@ -7,4 +7,4 @@ module.exports = class Matches {
   toString() {
     return `(Matches | ${this.exp1} -> ${this.exp2} \n)`;
   }
-}
+};
