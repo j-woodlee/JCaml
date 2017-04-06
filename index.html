@@ -346,60 +346,333 @@
                 ).addTo();
                 </script>
 
-                <div>id</div>
+                <div>MatchExp</div>
                 <script>
                 // MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
                 //               |  BinExp
 
-                Diagram(Sequence(Comment(`NEGLOOKAHEAD:keyword`), NonTerminal('letter'), ZeroOrMore(Choice(0, NonTerminal('alnum'), '_')))).addTo();
+                Diagram(
+                  Choice(0,
+                          Sequence("match", NonTerminal("id"), "with", "\n", NonTerminal("Matches")),
+                          NonTerminal("BinExp")
+                  )
+                ).addTo();
                 </script>
 
-                <div>intlit</div>
+                <div>BinExp</div>
                 <script>
-                Diagram(OneOrMore(NonTerminal('digit'))).addTo();
+
+                // BinExp        =  BinExp binop AddExp                        -- binary
+                              // |  AddExp
+                Diagram(
+                  Choice(0,
+                    Sequence(NonTerminal("BinExp"), NonTerminal("binop"), NonTerminal("AddExp")),
+                    NonTerminal("AddExp")
+                  )
+                ).addTo();
                 </script>
 
-                <div>boollit</div>
+                <div>AddExp</div>
                 <script>
-                Diagram(Choice(0, 'true', 'false')).addTo();
-                </script>
 
-                <div>addop</div>
-                <script>
-                Diagram(Choice(0, '+', '-')).addTo();
-                </script>
 
-                <div>relop</div>
-                <script>
+                // AddExp        =  AddExp addop MullExp                       -- binary
+                //               |  MullExp
+
                 Diagram(Choice(0,
-                  Sequence(Choice(0, '<', '>'), Choice(0, Skip(), '=')),
-                  '==',
-                  '!='
+                  Sequence(NonTerminal("AddExp"), NonTerminal("addop"), NonTerminal("MullExp")),
+                  NonTerminal("MullExp")
                 )).addTo();
                 </script>
 
-                <div>mulop</div>
+                <div>MullExp</div>
                 <script>
-                Diagram(Choice(1, '*', '/', '%')).addTo();
+
+                // MullExp       =  MullExp mullop PrefixExp                   -- binary
+                              // |  PrefixExp
+
+                Diagram(Choice(0,
+                  Sequence(NonTerminal("MullExp"), NonTerminal("mullop"), NonTerminal("PrefixExp")),
+                  NonTerminal("PrefixExp")
+                )).addTo();
+                </script>
+
+                <div>PrefixExp</div>
+                <script>
+
+                // PrefixExp     =  prefixop ExpoExp                           -- binary
+                //               |  ExpoExp
+                Diagram(Choice(0,
+                  Sequence(NonTerminal("prefixop"), NonTerminal("ExpoExp")),
+                  NonTerminal("ExpoExp")
+                )).addTo();
+                </script>
+
+                <div>ExpoExp</div>
+                <script>
+
+                // ExpoExp       =  ParenExp expop ExpoExp                     -- binary
+                //               |  ParenExp
+
+                Diagram(
+                  Choice(0,
+                    Sequence(NonTerminal("ParenExp"), NonTerminal("expop"), NonTerminal("ExpoExp")),
+                    NonTerminal("ParenExp")
+                  )
+                ).addTo();
+                </script>
+
+                <div>ParenExp</div>
+                <script>
+
+                // ParenExp      =  "(" ParenExp ")"                           -- parens
+                //               |  Numlit
+                //               |  Tuplit
+                //               |  List
+                //               |  Stringlit
+                //               |  Charlit
+
+
+                Diagram(
+                  Choice(0,
+                    Sequence("(", NonTerminal("ParenExp"), ")"),
+                    NonTerminal("Numlit"),
+                    NonTerminal("Tuplit"),
+                    NonTerminal("List"),
+                    NonTerminal("Stringlit"),
+                    NonTerminal("Charlit")
+                )).addTo();
+                </script>
+
+                <div>Matches</div>
+                <script>
+                // Matches       =  ("|" Exp "->" Exp "\n")+
+
+                Diagram(
+                  OneOrMore(
+                    Sequence("|",
+                      NonTerminal("Exp"),
+                      "->",
+                      NonTerminal("Exp"),
+                      "\n"
+                    )
+                  )
+                ).addTo();
+                </script>
+
+                <div>keyword</div>
+                <script>
+                // keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "String"
+                //               |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
+                Diagram(
+                  Choice(0,
+                    "if",
+                    "else",
+                    "with",
+                    "in",
+                    "bool",
+                    "int",
+                    "String",
+                    "double",
+                    "float",
+                    "long",
+                    "list",
+                    "hump",
+                    "tuplit",
+                    "spit"
+                  )
+                ).addTo();
                 </script>
 
                 <div>prefixop</div>
                 <script>
-                Diagram(Choice(0, '-', 'not')).addTo();
+
+                // prefixop      =  ~"--" "not" | "!" | "-"                    -- prefix
+                Diagram(
+                  Choice(0,
+                    Sequence("~\"--\"", "not"),
+                    "!",
+                    "-"
+                  )
+                ).addTo();
                 </script>
 
-                <div>space</div>
+                <div>id</div>
                 <script>
-                Diagram(Choice(0,
-                  Comment('any character in range \\x09..\\x0d '),
-                  Comment('any character in category Zs '),
-                  '\\ufeff',
-                  NonTerminal('comment'))).addTo();
+                // id            =  ~keyword letter idrest*
+                Diagram(
+                  Sequence(
+                    NonTerminal("~keyword"),
+                    NonTerminal("letter"),
+                    ZeroOrMore("idrest")
+                  )
+                ).addTo();
+                </script>
+
+                <div>Tuplit</div>
+                <script>
+                // Tuplit        =  "(" BinExp "," BinExp ")"
+                Diagram(
+                  Sequence("(", NonTerminal("BinExp"), ",", NonTerminal("BinExp"), ")")
+                ).addTo();
+                </script>
+
+                <div>List</div>
+
+                <script>
+                // List          =  "[" BinExp ("," BinExp)* "]"             -- list
+                                //  | "[]"
+                Diagram(
+                  Choice(0,
+                    Sequence(
+                      "[",
+                      NonTerminal("BinExp"),
+                      ZeroOrMore(Sequence(",", NonTerminal("BinExp"))),
+                      "]"
+                  ),
+                  "[]"
+                )).addTo();
+                </script>
+
+                <div>Print</div>
+                <script>
+                // Print         =  "spit" "(" BinExp ")"
+                Diagram(
+                  Sequence(
+                    "spit",
+                    "(",
+                    NonTerminal("BinExp"),
+                    ")"
+                  )
+                ).addTo();
+                </script>
+
+                <div>idrest</div>
+                <script>
+                // idrest        =  "_" | alnum | "@" | "$"
+                Diagram(
+                  Choice(0,
+                    "_",
+                    NonTerminal("alnum"),
+                    "@",
+                    "$"
+                  )
+                ).addTo();
+                </script>
+
+                <div>relop</div>
+                <script>
+                  // relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
+                Diagram(
+                  Choice(0,">", ">=", "==", "!=", "<", "<=")
+                ).addTo();
+                </script>
+
+                <div>addop</div>
+                <script>
+                  // addop         =  "+" | "-" | "::"
+                Diagram(
+                  Choice(0, "+", "-", "::")
+                ).addTo();
+                </script>
+
+                <div>mullop</div>
+                <script>
+                  // mullop        =  "*" | "/" | "%"
+                  Diagram(
+                    Choice(0, "*", "/", "%")
+                  ).addTo();
+                </script>
+
+                <div>expop</div>
+                <script>
+                // expop         =  "^"
+                Diagram(
+                  Choice(0, "^")
+                ).addTo();
+                </script>
+
+                <div>binop</div>
+                <script>
+                // binop         =  "||" | "or" | "&&" | "and"
+                Diagram(
+                  Choice(0, "||", "or", "&&", "and")
+                ).addTo();
+                </script>
+
+                <div>Numlit</div>
+                <script>
+                // Numlit        =  digit+
+                Diagram(
+                  OneOrMore("digit")
+                ).addTo();
+                </script>
+
+                <div>char</div>
+                <script>
+                // char          =  escape
+                              // |  ~"\\" ~"\"" ~"\'" ~"\\n" any
+                Diagram(
+                  Choice(0,
+                    NonTerminal("escape"),
+                      Sequence(
+                        "~\"\\\\\"",
+                        "~\"\\\"\"",
+                        "~\"\\\'\"",
+                        "~\"\\\\n\"",
+                        NonTerminal("any")
+                      )
+                  )
+                ).addTo();
+                </script>
+
+                <div>escape</div>
+                <script>
+                // escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
+                              // |  "\\u{" hexDigit+ "}"
+                Diagram(
+                    Choice(0,
+                      "\"\\\\\\\\\"",
+                      "\"\\\\\\\"\"",
+                      "\"\\\\n\"",
+                      "\\\\t",
+                      Sequence("\\u{", "hexDigit+", "}")
+                    )
+                ).addTo();
+                </script>
+
+                <div>Charlit</div>
+                <script>
+                // Charlit       =  "'" (char | "\"") "'"
+
+                Diagram(
+                  Sequence(
+                    "\'",
+                    Choice(0, NonTerminal("char"), "\""),
+                    "\'"
+                  )
+                ).addTo();
+                </script>
+
+                <div>Stringlit</div>
+                <script>
+                  // Stringlit     =  "\"" (char | "\'")* "\""
+                Diagram(
+                  Sequence("\"",
+                  ZeroOrMore(NonTerminal("char"), "\'"),
+                  "\""
+                )
+                ).addTo();
                 </script>
 
                 <div>comment</div>
                 <script>
-                Diagram(Sequence('--', ZeroOrMore(Comment('any character except \\n')), '\\n')).addTo();
+                  // comment       =  "##" (~"\n" any)* "\n"
+                Diagram(
+                  Sequence("##", ZeroOrMore(NonTerminal("any")),
+                    "\n"
+                 )
+                ).addTo();
                 </script>
 
             </p>
