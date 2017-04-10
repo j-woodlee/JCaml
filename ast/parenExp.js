@@ -6,4 +6,4 @@ module.exports = class ParenExp {
   toString() {
     return `(Parenexp (${this.parenexp}))`;
   }
-}
+};

@@ -1,4 +1,4 @@
-module.exports = class Exp_binary {
+module.exports = class ExpBinary {
   constructor(op, exp, matchexp) {
     this.op = op;
     this.exp = exp;
@@ -8,4 +8,9 @@ module.exports = class Exp_binary {
   toString() {
     return `(Exp_binary ${this.exp} ${this.op} ${this.matchexp})`;
   }
-}
+
+  analyze(context) {
+    this.exp.analyze(context);
+    this.matchexp.analyze(context);
+  }
+};

@@ -6,4 +6,4 @@ module.exports = class List {
   toString() {
     return `List ${this.args}`;
   }
-}
+};

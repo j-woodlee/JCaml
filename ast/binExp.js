@@ -8,4 +8,4 @@ module.exports = class BinExp {
   toString() {
     return `(BinExp ${this.binexp} ${this.op} ${this.addexp})`;
   }
-}
+};

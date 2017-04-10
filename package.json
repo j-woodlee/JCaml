@@ -28,6 +28,7 @@
     "should": "latest"
   },
   "dependencies": {
+    "ast": "0.0.1",
     "ohm-js": "^0.12.3"
   },
   "eslintConfig": {

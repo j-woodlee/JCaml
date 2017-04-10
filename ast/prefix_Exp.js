@@ -7,4 +7,4 @@ module.exports = class PrefixExp {
   toString() {
     return `(Prefixexp ${this.op} ${this.expoexp})`;
   }
-}
+};

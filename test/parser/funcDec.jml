@@ -1,0 +1,3 @@
+let fun testFunction = (paramTest, paramTest1) => int : 
+    spit("Hello, World")
+;;

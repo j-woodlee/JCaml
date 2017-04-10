@@ -1,9 +1,10 @@
-module.exports = class StatementIfElse extends Stmt {
+module.exports = class StatementIfElse extends module.exports.Stmt {
   constructor(exp, block, elseBlock, exp2, finalBlock) {
+    super();
     this.exp = exp;
     this.block = block;
     this.elseBlock = elseBlock;
-    this.exp2 = exp2
+    this.exp2 = exp2;
     this.finalBlock = finalBlock;
   }
 
@@ -18,4 +19,4 @@ module.exports = class StatementIfElse extends Stmt {
     ifString += `\n (else ${this.finalBlock})`;
     return ifString;
   }
-}
+};

@@ -2,7 +2,7 @@ module.exports = class Numlit {
   constructor(value) {
     this.value = value;
   }
-  
+
   toString() {
     let numberString = "(Numlit ";
     for (const numbers in this.value) {
@@ -11,4 +11,4 @@ module.exports = class Numlit {
     numberString += ")";
     return numberString;
   }
-}
+};

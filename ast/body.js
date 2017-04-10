@@ -7,4 +7,4 @@ module.exports = class Body {
     const bodyString = `(Body :${this.block};;)`;
     return bodyString;
   }
-}
+};

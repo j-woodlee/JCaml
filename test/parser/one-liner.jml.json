@@ -1,1 +1,1 @@
-{"statements":[{"call":{"callee":{"id":"spit"},"args":[{"id":null,"expression":{"value":"Hello, World"}}]}}]}
+{"block":{"statements":[{"argument":{"value":"\"Hello, World\""}}]}}

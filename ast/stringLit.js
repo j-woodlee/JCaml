@@ -6,4 +6,4 @@ module.exports = class Stringlit {
   toString() {
     return `(Stringlit ${this.value})`;
   }
-}
+};

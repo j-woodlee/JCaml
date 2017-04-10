@@ -1,4 +1,4 @@
-const Context = require('../analyzer');
+const Context = require("../context");
 
 module.exports = class Program {
   contructor(block) {
@@ -8,4 +8,8 @@ module.exports = class Program {
   toString() {
     return `(Program ${this.block})`;
   }
-}
+
+  analyze(context = Context.INITIAL) {
+    this.block.analyze(context);
+  }
+};
