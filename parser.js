@@ -349,22 +349,22 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Stmt_if(_1, exp, block, _2, elseIfExprs, elseIfBlocks, _3, finalBlock) {
     return new StatementIfElse(exp.tree(), block.tree(), elseIfExprs.tree(), finalBlock.tree());
   },
-  Decl_decl(_1, id, _2, exp) { return new Decl(id.tree(), exp.tree()); },
+  Decl_decl(_1, id, _2, exp) { return new Decl(id.sourceString, exp.tree()); },
   Print_print(_1, _2, binexp, _3) { return new Print(binexp.tree()); },
   FuncDec(_1, id, _2, params, _3, returnType, body) {
-    return new FuncDec(id.tree(), params.tree(), returnType.tree(), body.tree());
+    return new FuncDec(id.sourceString, params.tree(), returnType.tree(), body.tree());
   },
-  FuncCall(id, _1, args, _2) { return new FuncCall(id.tree(), args.tree()); },
+  FuncCall(id, _1, args, _2) { return new FuncCall(id.sourceString, args.tree()); },
   Args(arg) { return new Args(arg.tree()); },
-  Arg(id) { return new Arg(id.tree()); },
+  Arg(id) { return new Arg(id.sourceString); },
   Params(_1, firstParam, _2, moreParams, _3) {
     return new Params([firstParam.tree()].concat(moreParams.tree()));
   },
-  Param(id) { return new Param(id.tree()); },
-  ReturnType(id) { return new ReturnType(id.tree()); },
+  Param(id) { return new Param(id.sourceString); },
+  ReturnType(id) { return new ReturnType(id.sourceString); },
   Body(_1, block, _2) { return new Body(block.tree()); },
   BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
-  MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.tree(), matches.tree()); },
+  MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.sourceString, matches.tree()); },
   AddExp_binary(addexp, op, mullexp) {
     return new AddExp(addexp.tree(), op.tree(), mullexp.tree());
   },
