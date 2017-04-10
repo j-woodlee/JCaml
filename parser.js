@@ -6,7 +6,7 @@ const parserContents = fs.readFileSync("JCaml.ohm");
 const JCamlGrammar = ohm.grammar(parserContents);
 
 class Program {
-  contructor(block) {
+  constructor(block) {
     this.block = block;
   }
 
@@ -16,14 +16,14 @@ class Program {
 }
 
 class Block {
-  constructor(stmt) {
-    this.stmt = stmt;
+  constructor(statements) {
+    this.statements = statements;
   }
 
   toString() {
     let stmtString;
-    for (const statements in this.stmt) {
-      stmtString += `\n (Block ${this.stmt[statements]})`;
+    for (const s in this.statements) {
+      stmtString += `\n (Block ${this.statements[s]})`;
     }
     return stmtString;
   }
@@ -69,13 +69,13 @@ class Decl extends Stmt {
 }
 
 class Print extends Stmt {
-  constructor(binexp) {
+  constructor(argument) {
     super();
-    this.binexp = binexp;
+    this.argument = argument;
   }
 
   toString() {
-    return `(Print (${this.binexp}))`;
+    return `(Print (${this.argument}))`;
   }
 }
 
@@ -342,6 +342,7 @@ class Stringlit {
   }
 }
 
+/* eslint-disable no-unused-vars */
 const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Program(block) { return new Program(block.tree()); },
   Block(stmt) { return new Block(stmt.tree()); },
@@ -379,9 +380,10 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
   List(args) { return new List(binexp1.tree(), binexp2.tree()); }, // to do
   Numlit(value) { return new Numlit(value.tree()); },
-  Charlit(_1, value, _2) { return new Charlit(value.sourceString); },
-  Stringlit(_1, value, _2) { return new Stringlit(value.sourceString); },
+  Charlit(_1, value, _2) { return new Charlit(this.sourceString); },
+  Stringlit(_1, value, _2) { return new Stringlit(this.sourceString); },
 });
+/* eslint-enable no-unused-vars */
 
 function parse(text) {
   const match = JCamlGrammar.match(text);

@@ -8,6 +8,7 @@ describe("The parser", () => {
       it(`produces the correct AST for ${name}`, (done) => {
         fs.readFile(`${__dirname}/${name}`, "utf-8", (err, input) => {
           const ast = parse(input);
+          console.log(ast)
           fs.readFile(`${__dirname}/${name}.json`, "utf-8", (_err, expected) => {
             assert.equal(JSON.stringify(ast), expected.trim());
             done();
