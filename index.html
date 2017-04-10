@@ -79,12 +79,18 @@
         <div class="featurette" id="about">
             <h2 class="featurette-heading">About JCaml</h2>
             <img class="featurette-image img-rounded img-responsive pull-right" src="images/jcaml.png" width="500" height="500">
-            <p class="lead">Welcome to the world of JCaml. Do you like to hump? Do you like to spit?
-              JCaml has all these functions for you. To give you all the features of OCaml with the simplicity and
-              ubiquity of JavaScript, JCaml has it all.
-              JCaml is statically-typed and statically-scoped, it has pattern-matching,
-              dictionary capabilities, list comprehension, recursive functions, higher-order functions,
-              currying, and tuples. If you want it, it has it.</p>
+            <p class="lead">After taking a programming languages class, we became intrigued with functional programming via OCaml.
+            While we loved OCaml, we realized that it seemed to be limiting itself as a truly modern programming tool.
+            It had so much power, yet it seemed to fall short.
+            So much of today's world is done on the web that JavaScript has become one of the most popular
+            languages in the world.  It only made sense to harness the power of OCaml and combine it with
+            the ubiquity of JavaScript.
+            <br/>
+            <br/>
+            JCaml is statically-typed and statically-scoped, it has pattern-matching,
+            dictionary capabilities, list comprehension, recursive functions, higher-order functions,
+            currying, and tuples. It is designed to be a functional programming language for the modern era,
+            with browser compatibility through JavaScript compilation.</p>
         </div>
 
         <hr class="featurette-divider">
@@ -92,111 +98,113 @@
         <!-- Second Featurette -->
         <div class="featurette" id="examples">
             <h2 class="featurette-heading">Examples</h2>
-            <p class="lead">
-              <h3>Hello World!</h3>
-                <h4>JCaml</h4>
-                  <code>spit("Hello, World");;</code>
-                <h4>JavaScript</h4>
-                  <code>console.log("Hello World");</code>
 
-              <h3>Fibonacci Numbers</h3>
-                <h4>JCaml</h4>
-                  <code>
-                    let fun fib = (int a) => (int):<br/>
-                    &nbsp&nbspif(a == 0 or a == 1):<br/>
-                    &nbsp&nbsp&nbsp&nbsphump 1<br/>
-                    &nbsp&nbspelse:<br/>
-                    &nbsp&nbsp&nbsp&nbsphump fib(a-1) + fib(1-2)<br/>
-                    ;;<br/>
-                  </code>
-                <h4>JavaScript</h4>
-                  <code>
-                    let fib = (a) => {<br/>
-                    &nbsp&nbspif (a == 0 || a == 1) {<br/>
-                    &nbsp&nbsp&nbsp&nbspreturn 1;<br/>
-                    &nbsp&nbsp} else {<br/>
-                    &nbsp&nbsp&nbsp&nbspreturn fib(a - 1) + fib(a - 2);<br/>
-                    &nbsp&nbsp}<br/>
-                    };
-                  </code>
+            <h3>Hello World!</h3>
+              <h4>JCaml</h4>
+                <code>spit("Hello, World");;</code>
+              <h4>JavaScript</h4>
+                <code>console.log("Hello World");</code>
+            <h3>Fibonacci Numbers</h3>
+              <h4>JCaml</h4>
+                <code>
+                  let fun fib = (int a) => (int):<br/>
+                  &nbsp&nbspif(a == 0 or a == 1):<br/>
+                  &nbsp&nbsp&nbsp&nbsphump 1<br/>
+                  &nbsp&nbspelse:<br/>
+                  &nbsp&nbsp&nbsp&nbsphump fib(a-1) + fib(1-2)<br/>
+                  ;;<br/>
+                </code>
+              <h4>JavaScript</h4>
+                <code>
+                  let fib = (a) => {<br/>
+                  &nbsp&nbspif (a == 0 || a == 1) {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn 1;<br/>
+                  &nbsp&nbsp} else {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn fib(a - 1) + fib(a - 2);<br/>
+                  &nbsp&nbsp}<br/>
+                  };
+                </code>
 
-              <h3>Fibonacci Numbers Memoized</h3>
-                <h4>JCaml</h4>
-                  <code>
-                    let fibDict = []<br/>
-                    let fun fibMem = (int a) => (int):<br/>
-                    &nbsp&nbspif (a == 0 or a == 1):<br/>
-                    &nbsp&nbsp&nbsp&nbsphump 1<br/>
-                    &nbsp&nbspelse if (a in fibDict):<br/>
-                    &nbsp&nbsp&nbsp&nbsphump fibDict[a]<br/>
-                    &nbsp&nbspelse:<br/>
-                    &nbsp&nbsp&nbsp&nbspfibDict[a] = fibMem(a-1) + fibMem(a-2)<br/>
-                    &nbsp&nbsp&nbsp&nbsphump fibDict[a]<br/>
-                    ;;
-                  </code>
-                <h4>JavaScript</h4>
-                  <code>
-                    let dictionary = {};<br/>
-                    let fibMem = (a) => {<br/>
-                    &nbsp&nbspif(a == 0 || a == 1) {<br/>
-                    &nbsp&nbsp&nbsp&nbspreturn 1;<br/>
-                    &nbsp&nbsp} else if(a in dictionary) {<br/>
-                    &nbsp&nbsp&nbsp&nbspreturn dictionary[a];<br/>
-                    &nbsp&nbsp} else {<br/>
-                    &nbsp&nbsp&nbsp&nbspdictionary[a] = fibMem(a - 1) + fibMem(a - 2);<br/>
-                    &nbsp&nbsp&nbsp&nbspreturn dictionary[a];<br/>
-                    &nbsp&nbsp}<br/>
-                    };
-                  </code>
+            <h3>Fibonacci Numbers Memoized</h3>
+              <h4>JCaml</h4>
+                <code>
+                  let fibDict = []<br/>
+                  let fun fibMem = (int a) => (int):<br/>
+                  &nbsp&nbspif (a == 0 or a == 1):<br/>
+                  &nbsp&nbsp&nbsp&nbsphump 1<br/>
+                  &nbsp&nbspelse if (a in fibDict):<br/>
+                  &nbsp&nbsp&nbsp&nbsphump fibDict[a]<br/>
+                  &nbsp&nbspelse:<br/>
+                  &nbsp&nbsp&nbsp&nbspfibDict[a] = fibMem(a-1) + fibMem(a-2)<br/>
+                  &nbsp&nbsp&nbsp&nbsphump fibDict[a]<br/>
+                  ;;
+                </code>
+              <h4>JavaScript</h4>
+                <code>
+                  let dictionary = {};<br/>
+                  let fibMem = (a) => {<br/>
+                  &nbsp&nbspif(a == 0 || a == 1) {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn 1;<br/>
+                  &nbsp&nbsp} else if(a in dictionary) {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn dictionary[a];<br/>
+                  &nbsp&nbsp} else {<br/>
+                  &nbsp&nbsp&nbsp&nbspdictionary[a] = fibMem(a - 1) + fibMem(a - 2);<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn dictionary[a];<br/>
+                  &nbsp&nbsp}<br/>
+                  };
+                </code>
 
-              <h3>Currying and Higher Order Functions</h3>
-                <h4>JCaml</h4>
-                  <code>
-                    let fun add = (int a, int b) => (int):<br/>
-                    &nbsp&nbsphump a + b;<br/>
-                    ;;<br/>
-                    let fun add2 = add(2);;
-                  </code>
-                <h4>JavaScript</h4>
-                  <code>
-                    let add = (a) => {<br/>
-                    &nbsp&nbspreturn (b) => {<br/>
-                    &nbsp&nbsp&nbsp&nbspreturn a + b;<br/>
-                    &nbsp&nbsp};<br/>
-                    };<br/>
-                    let add2 = add(2);
-                  </code>
+            <h3>Currying and Higher Order Functions</h3>
+              <h4>JCaml</h4>
+                <code>
+                  let fun add = (int a, int b) => (int):<br/>
+                  &nbsp&nbsphump a + b;<br/>
+                  ;;<br/>
+                  let fun add2 = add(2);;
+                </code>
+              <h4>JavaScript</h4>
+                <code>
+                  let add = (a) => {<br/>
+                  &nbsp&nbspreturn (b) => {<br/>
+                  &nbsp&nbsp&nbsp&nbspreturn a + b;<br/>
+                  &nbsp&nbsp};<br/>
+                  };<br/>
+                  let add2 = add(2);
+                </code>
 
-              <h3>Match Statement</h3>
-                <h4>JCaml</h4>
-                  <code>
-                    let fun count_occurences = (int v, int list l) => (int):<br/>
-                    &nbsp&nbspmatch l with:<br/>
-                    &nbsp&nbsp| [] -> 0<br/>
-                    &nbsp&nbsp| hd::[] ->  hump hd == v ? 1 : 0<br/>
-                    &nbsp&nbsp| hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)<br/>
-                    ;;
-                  </code>
-                <h4>JavaScript</h4>
-                  <code>
-                    let count_occurences = (v, l) => {<br/>
-                    let sum = 0;<br/>
-                    for (let value of l) {<br/>
-                    &nbsp&nbspif(v === value) {<br/>
-                    &nbsp&nbsp&nbsp&nbspsum++;<br/>
-                    &nbsp&nbsp}<br/>
-                    }<br/>
-                    &nbsp&nbspreturn sum;<br/>
-                    };
-                  </code>
+            <h3>Match Statement</h3>
+              <h4>JCaml</h4>
+                <code>
+                  let fun count_occurences = (int v, int list l) => (int):<br/>
+                  &nbsp&nbspmatch l with:<br/>
+                  &nbsp&nbsp| [] -> 0<br/>
+                  &nbsp&nbsp| hd::[] ->  hump hd == v ? 1 : 0<br/>
+                  &nbsp&nbsp| hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)<br/>
+                  ;;
+                </code>
+              <h4>JavaScript</h4>
+                <code>
+                  let count_occurences = (v, l) => {<br/>
+                  let sum = 0;<br/>
+                  for (let value of l) {<br/>
+                  &nbsp&nbspif(v === value) {<br/>
+                  &nbsp&nbsp&nbsp&nbspsum++;<br/>
+                  &nbsp&nbsp}<br/>
+                  }<br/>
+                  &nbsp&nbspreturn sum;<br/>
+                  };
+                </code>
         </div>
 
         <hr class="featurette-divider">
 
         <!-- Third Featurette -->
+
+        <script src="railroad-diagrams.js"></script>
         <div class="featurette" id="syntax-diagrams">
             <h2 class="featurette-heading">Syntax Diagrams</h2>
             <p class="lead">
+
               <div class="syntaxdiagrams">
                 <div>Program</div>
                 <script>
@@ -205,126 +213,469 @@
 
                 <div>Block</div>
                 <script>
-                Diagram(OneOrMore(Sequence(NonTerminal('Stmt'), ';'))).addTo();
+
+                Diagram(ZeroOrMore(Sequence(NonTerminal('Stmt')))).addTo();
                 </script>
 
                 <div>Stmt</div>
                 <script>
-                Diagram(Choice(0,
-                  Sequence('var', NonTerminal('id'), ':', NonTerminal('Type')),
-                  Sequence(NonTerminal('VarExp'), '=', NonTerminal('Exp')),
-                  Sequence('read', OneOrMore(NonTerminal('VarExp'), ',')),
-                  Sequence('write', OneOrMore(NonTerminal('Exp'), ',')),
-                  Sequence('while', NonTerminal('Exp'), 'loop', NonTerminal('Block'), 'end'))).addTo();
+                // Decl | Exp | Print | FuncCall
+                //              |  "if" Exp Block
+                //                 ("else if" Exp Block)*
+                //                 ("else" Block)
+                Diagram(
+                   Choice(0,
+                     NonTerminal("Decl"),
+                     NonTerminal("Exp"),
+                     NonTerminal("Print"),
+                     NonTerminal("FuncCall"),
+                     Sequence(
+                          "if",
+                           NonTerminal("Exp"),
+                           NonTerminal("Block"),
+                          ZeroOrMore( Sequence("else if", NonTerminal("Exp"), NonTerminal("Block"))
+                           ),
+                            Optional(Sequence("else", NonTerminal("Block")), 'skip')
+                      )
+                  )).addTo();
                 </script>
 
-                <div>Type</div>
+                <div>Decl</div>
                 <script>
-                Diagram(Choice(0, NonTerminal('int'), NonTerminal('bool'))).addTo();
+                // Decl          =  "let" id "=" Exp                           -- decl
+                //               |  FuncDec
+                Diagram(
+                  Choice(0,
+                    Sequence("let", NonTerminal("id"), "=", NonTerminal("Exp")),
+                    NonTerminal("FuncDec")
+                  )).addTo();
+                </script>
+
+                <div>FuncDec</div>
+                <script>
+
+                  // FuncDec       =  "let fun" id "=" Params "=>" ReturnType Body
+
+                Diagram(
+                  Sequence(
+                     "let fun",
+                     NonTerminal("id"),
+                     "=",
+                     NonTerminal("Params"),
+                     "=>",
+                     NonTerminal("ReturnType"),
+                     NonTerminal("Body")
+                  )).addTo();
+                </script>
+
+                <div>FuncCall</div>
+                <script>
+
+                  // FuncCall      =  id "(" Args ")"
+                Diagram(
+                  Sequence(
+                    NonTerminal("id"),
+                    "(",
+                    NonTerminal("Args"),
+                    ")"
+                  )
+                ).addTo();
+                </script>
+
+                <div>Arg</div>
+                <script>
+
+                // Arg           =  (id)?
+                Diagram(
+                  Optional(NonTerminal("id"),'skip')
+                ).addTo();
+                </script>
+
+                <div>Args</div>
+                <script>
+                // Args          =  ListOf<Arg, ",">
+                Diagram(
+                  NonTerminal("ListOf<Arg, \",\">") // Is this right?
+                ).addTo();
+                </script>
+
+                <div>Params</div>
+                <script>
+                // Params        =  "(" Param ("," Param)* ")"
+                Diagram(
+                  Sequence(
+                    "(",
+                    NonTerminal("Param"),
+                    ZeroOrMore(Sequence(",", NonTerminal("Param"))),
+                    ")"
+                  )
+                ).addTo();
+                </script>
+
+                <div>Param</div>
+                <script>
+                // Param         =  id
+                Diagram(NonTerminal("id")).addTo();
+                </script>
+
+                <div>Return Type</div>
+                <script>
+                // ReturnType    =  id
+                Diagram(
+                  NonTerminal("id")
+                ).addTo();
+                </script>
+
+                <div>Body</div>
+                <script>
+                // Body          =  ":" Block ";;"
+                Diagram(
+                  Sequence(":", NonTerminal("Block"), ";;")
+                ).addTo();
                 </script>
 
                 <div>Exp</div>
                 <script>
-                Diagram(OneOrMore('Exp1', 'or')).addTo();
+                // Exp           =  Exp relop MatchExp                         -- binary
+                //               |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
+                //               |  MatchExp
+                Diagram(
+                  Choice(0,
+                    Sequence(NonTerminal("Exp"), NonTerminal("relop"), NonTerminal("MatchExp")),
+                    Sequence(NonTerminal("MatchExp"), "?", NonTerminal("MatchExp"), ":", NonTerminal("MatchExp")),
+                    NonTerminal("MatchExp")
+                  )
+
+                ).addTo();
                 </script>
 
-                <div>Exp1</div>
+                <div>MatchExp</div>
                 <script>
-                Diagram(OneOrMore(NonTerminal('Exp2'), 'and')).addTo();
+                // MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
+                //               |  BinExp
+
+                Diagram(
+                  Choice(0,
+                          Sequence("match", NonTerminal("id"), "with", "\n", NonTerminal("Matches")),
+                          NonTerminal("BinExp")
+                  )
+                ).addTo();
                 </script>
 
-                <div>Exp2</div>
+                <div>BinExp</div>
                 <script>
-                Diagram(Sequence(NonTerminal('Exp3'),
-                  Optional(Sequence(NonTerminal('relop'), NonTerminal('Exp3')), 'skip'))).addTo();
+
+                // BinExp        =  BinExp binop AddExp                        -- binary
+                              // |  AddExp
+                Diagram(
+                  Choice(0,
+                    Sequence(NonTerminal("BinExp"), NonTerminal("binop"), NonTerminal("AddExp")),
+                    NonTerminal("AddExp")
+                  )
+                ).addTo();
                 </script>
 
-                <div>Exp3</div>
+                <div>AddExp</div>
                 <script>
-                Diagram(OneOrMore(NonTerminal('Exp4'), NonTerminal('addop'))).addTo();
+
+
+                // AddExp        =  AddExp addop MullExp                       -- binary
+                //               |  MullExp
+
+                Diagram(Choice(0,
+                  Sequence(NonTerminal("AddExp"), NonTerminal("addop"), NonTerminal("MullExp")),
+                  NonTerminal("MullExp")
+                )).addTo();
                 </script>
 
-                <div>Exp4</div>
+                <div>MullExp</div>
                 <script>
-                Diagram(OneOrMore(NonTerminal('Exp5'), NonTerminal('mulop'))).addTo();
+
+                // MullExp       =  MullExp mullop PrefixExp                   -- binary
+                              // |  PrefixExp
+
+                Diagram(Choice(0,
+                  Sequence(NonTerminal("MullExp"), NonTerminal("mullop"), NonTerminal("PrefixExp")),
+                  NonTerminal("PrefixExp")
+                )).addTo();
                 </script>
 
-                <div>Exp5</div>
+                <div>PrefixExp</div>
                 <script>
-                Diagram(Sequence(
-                  Optional('prefixop', 'skip'),
-                  NonTerminal('Exp6'))).addTo();
+
+                // PrefixExp     =  prefixop ExpoExp                           -- binary
+                //               |  ExpoExp
+                Diagram(Choice(0,
+                  Sequence(NonTerminal("prefixop"), NonTerminal("ExpoExp")),
+                  NonTerminal("ExpoExp")
+                )).addTo();
                 </script>
 
-                <div>Exp6</div>
+                <div>ExpoExp</div>
                 <script>
-                Diagram(Choice(0, NonTerminal('boollit'), NonTerminal('intlint'), NonTerminal('VarExp'),
-                  Sequence('(', NonTerminal('Exp'), ')'))).addTo();
+
+                // ExpoExp       =  ParenExp expop ExpoExp                     -- binary
+                //               |  ParenExp
+
+                Diagram(
+                  Choice(0,
+                    Sequence(NonTerminal("ParenExp"), NonTerminal("expop"), NonTerminal("ExpoExp")),
+                    NonTerminal("ParenExp")
+                  )
+                ).addTo();
                 </script>
 
-                <div>VarExp</div>
+                <div>ParenExp</div>
                 <script>
-                Diagram(NonTerminal('id')).addTo();
+
+                // ParenExp      =  "(" ParenExp ")"                           -- parens
+                //               |  Numlit
+                //               |  Tuplit
+                //               |  List
+                //               |  Stringlit
+                //               |  Charlit
+
+
+                Diagram(
+                  Choice(0,
+                    Sequence("(", NonTerminal("ParenExp"), ")"),
+                    NonTerminal("Numlit"),
+                    NonTerminal("Tuplit"),
+                    NonTerminal("List"),
+                    NonTerminal("Stringlit"),
+                    NonTerminal("Charlit")
+                )).addTo();
+                </script>
+
+                <div>Matches</div>
+                <script>
+                // Matches       =  ("|" Exp "->" Exp "\n")+
+
+                Diagram(
+                  OneOrMore(
+                    Sequence("|",
+                      NonTerminal("Exp"),
+                      "->",
+                      NonTerminal("Exp"),
+                      "\n"
+                    )
+                  )
+                ).addTo();
                 </script>
 
                 <div>keyword</div>
                 <script>
-                Diagram(Sequence(
-                  Choice(0,'var','read','write','while','loop','end','int','bool','true','false'),
-                  Comment('NEGLOOKAHEAD:(alnum|"_")'))).addTo();
-                </script>
-
-                <div>id</div>
-                <script>
-                Diagram(Sequence(Comment(`NEGLOOKAHEAD:keyword`), NonTerminal('letter'), ZeroOrMore(Choice(0, NonTerminal('alnum'), '_')))).addTo();
-                </script>
-
-                <div>intlit</div>
-                <script>
-                Diagram(OneOrMore(NonTerminal('digit'))).addTo();
-                </script>
-
-                <div>boollit</div>
-                <script>
-                Diagram(Choice(0, 'true', 'false')).addTo();
-                </script>
-
-                <div>addop</div>
-                <script>
-                Diagram(Choice(0, '+', '-')).addTo();
-                </script>
-
-                <div>relop</div>
-                <script>
-                Diagram(Choice(0,
-                  Sequence(Choice(0, '<', '>'), Choice(0, Skip(), '=')),
-                  '==',
-                  '!='
-                )).addTo();
-                </script>
-
-                <div>mulop</div>
-                <script>
-                Diagram(Choice(1, '*', '/', '%')).addTo();
+                // keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "String"
+                //               |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
+                Diagram(
+                  Choice(0,
+                    "if",
+                    "else",
+                    "with",
+                    "in",
+                    "bool",
+                    "int",
+                    "String",
+                    "double",
+                    "float",
+                    "long",
+                    "list",
+                    "hump",
+                    "tuplit",
+                    "spit"
+                  )
+                ).addTo();
                 </script>
 
                 <div>prefixop</div>
                 <script>
-                Diagram(Choice(0, '-', 'not')).addTo();
+
+                // prefixop      =  ~"--" "not" | "!" | "-"                    -- prefix
+                Diagram(
+                  Choice(0,
+                    Sequence("~\"--\"", "not"),
+                    "!",
+                    "-"
+                  )
+                ).addTo();
                 </script>
 
-                <div>space</div>
+                <div>id</div>
                 <script>
-                Diagram(Choice(0,
-                  Comment('any character in range \\x09..\\x0d '),
-                  Comment('any character in category Zs '),
-                  '\\ufeff',
-                  NonTerminal('comment'))).addTo();
+                // id            =  ~keyword letter idrest*
+                Diagram(
+                  Sequence(
+                    NonTerminal("~keyword"),
+                    NonTerminal("letter"),
+                    ZeroOrMore("idrest")
+                  )
+                ).addTo();
+                </script>
+
+                <div>Tuplit</div>
+                <script>
+                // Tuplit        =  "(" BinExp "," BinExp ")"
+                Diagram(
+                  Sequence("(", NonTerminal("BinExp"), ",", NonTerminal("BinExp"), ")")
+                ).addTo();
+                </script>
+
+                <div>List</div>
+
+                <script>
+                // List          =  "[" BinExp ("," BinExp)* "]"             -- list
+                                //  | "[]"
+                Diagram(
+                  Choice(0,
+                    Sequence(
+                      "[",
+                      NonTerminal("BinExp"),
+                      ZeroOrMore(Sequence(",", NonTerminal("BinExp"))),
+                      "]"
+                  ),
+                  "[]"
+                )).addTo();
+                </script>
+
+                <div>Print</div>
+                <script>
+                // Print         =  "spit" "(" BinExp ")"
+                Diagram(
+                  Sequence(
+                    "spit",
+                    "(",
+                    NonTerminal("BinExp"),
+                    ")"
+                  )
+                ).addTo();
+                </script>
+
+                <div>idrest</div>
+                <script>
+                // idrest        =  "_" | alnum | "@" | "$"
+                Diagram(
+                  Choice(0,
+                    "_",
+                    NonTerminal("alnum"),
+                    "@",
+                    "$"
+                  )
+                ).addTo();
+                </script>
+
+                <div>relop</div>
+                <script>
+                  // relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
+                Diagram(
+                  Choice(0,">", ">=", "==", "!=", "<", "<=")
+                ).addTo();
+                </script>
+
+                <div>addop</div>
+                <script>
+                  // addop         =  "+" | "-" | "::"
+                Diagram(
+                  Choice(0, "+", "-", "::")
+                ).addTo();
+                </script>
+
+                <div>mullop</div>
+                <script>
+                  // mullop        =  "*" | "/" | "%"
+                  Diagram(
+                    Choice(0, "*", "/", "%")
+                  ).addTo();
+                </script>
+
+                <div>expop</div>
+                <script>
+                // expop         =  "^"
+                Diagram(
+                  Choice(0, "^")
+                ).addTo();
+                </script>
+
+                <div>binop</div>
+                <script>
+                // binop         =  "||" | "or" | "&&" | "and"
+                Diagram(
+                  Choice(0, "||", "or", "&&", "and")
+                ).addTo();
+                </script>
+
+                <div>Numlit</div>
+                <script>
+                // Numlit        =  digit+
+                Diagram(
+                  OneOrMore("digit")
+                ).addTo();
+                </script>
+
+                <div>char</div>
+                <script>
+                // char          =  escape
+                              // |  ~"\\" ~"\"" ~"\'" ~"\\n" any
+                Diagram(
+                  Choice(0,
+                    NonTerminal("escape"),
+                      Sequence(
+                        "~\"\\\\\"",
+                        "~\"\\\"\"",
+                        "~\"\\\'\"",
+                        "~\"\\\\n\"",
+                        NonTerminal("any")
+                      )
+                  )
+                ).addTo();
+                </script>
+
+                <div>escape</div>
+                <script>
+                // escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
+                              // |  "\\u{" hexDigit+ "}"
+                Diagram(
+                    Choice(0,
+                      "\"\\\\\\\\\"",
+                      "\"\\\\\\\"\"",
+                      "\"\\\\n\"",
+                      "\\\\t",
+                      Sequence("\\u{", "hexDigit+", "}")
+                    )
+                ).addTo();
+                </script>
+
+                <div>Charlit</div>
+                <script>
+                // Charlit       =  "'" (char | "\"") "'"
+
+                Diagram(
+                  Sequence(
+                    "\'",
+                    Choice(0, NonTerminal("char"), "\""),
+                    "\'"
+                  )
+                ).addTo();
+                </script>
+
+                <div>Stringlit</div>
+                <script>
+                  // Stringlit     =  "\"" (char | "\'")* "\""
+                Diagram(
+                  Sequence("\"",
+                  ZeroOrMore(NonTerminal("char"), "\'"),
+                  "\""
+                )
+                ).addTo();
                 </script>
 
                 <div>comment</div>
                 <script>
-                Diagram(Sequence('--', ZeroOrMore(Comment('any character except \\n')), '\\n')).addTo();
+                  // comment       =  "##" (~"\n" any)* "\n"
+                Diagram(
+                  Sequence("##", ZeroOrMore(NonTerminal("any")),
+                    "\n"
+                 )
+                ).addTo();
                 </script>
             </p>
         </div>
