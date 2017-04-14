@@ -1,0 +1,3 @@
+let fun variableTest = (a, b, c) => int :
+    let int d = 15
+;;
