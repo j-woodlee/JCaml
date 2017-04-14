@@ -1,29 +1,30 @@
 JCaml {
     Program       =  Block
     Block         =  Stmt*
-    Stmt          =  Decl | Exp | Print | FuncCall
+    Stmt          =  Decl | Exp | Print | FuncCall | Return
                   |  "if" Exp Block
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
 
-    Decl          =  "let" id "=" Exp                           -- decl
+    Decl          =  "let" Type id "=" BinExp                      -- decl
                   |  FuncDec
-    FuncDec       =  "let fun" id "=" Params "=>" ReturnType Body
+    FuncDec       =  "let fun" id "=" Params "=>" (Type)* Body
+    
+    Type          =  "String" | "int" | "bool" | "char"
 
     FuncCall      =  id "(" Args ")"
     Arg           =  (id)?
     Args          =  ListOf<Arg, ",">
 
-    Params        =  "(" Param ("," Param)* ")"
+    Params        =  "(" (Param ("," Param)*)* ")"
     Param         =  id
-    ReturnType    =  id
 
     Body          =  ":" Block ";;"
 
     Exp           =  Exp relop MatchExp                         -- binary
                   |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
                   |  MatchExp
-    MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
+    MatchExp      =  "match" id "with" Matches                  -- matchexp
                   |  BinExp
     BinExp        =  BinExp binop AddExp                        -- binary
                   |  AddExp
@@ -41,8 +42,9 @@ JCaml {
                   |  List
                   |  Stringlit
                   |  Charlit
+                  
 
-    Matches       =  ("|" Exp "->" Exp "\n")+
+    Matches       =  ("|" Exp "->" Exp)+
 
     keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "String"
                   |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
@@ -54,6 +56,7 @@ JCaml {
     List          =  "[" BinExp ("," BinExp)* "]"               -- list
                      | "[]"
     Print         =  "spit" "(" BinExp ")"                      -- print
+    Return        =  "hump" ParenExp
     idrest        =  "_" | alnum | "@" | "$"
     relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
     addop         =  "+" | "-" | "::"
@@ -68,5 +71,7 @@ JCaml {
                   |  "\\u{" hexDigit+ "}"                       -- codepoint
     Charlit       =  "'" (char | "\"") "'"
     Stringlit     =  "\"" (char | "\'")* "\""
-    comment       =  "##" (~"\n" any)* "\n"
+    
+    space        := " " | "\t" | "\n" | "\r" | comment
+    comment       =  "##" (~"\n" any)*
 }
