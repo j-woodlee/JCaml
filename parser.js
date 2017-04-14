@@ -56,14 +56,15 @@ class StatementIfElse extends Stmt {
 }
 
 class Decl extends Stmt {
-  constructor(id, exp) {
+  constructor(type, id, exp) {
     super();
+    this.type = type;
     this.id = id;
     this.exp = exp;
   }
 
   toString() {
-    const declString = `(Decl let ${this.id} = ${this.exp})`;
+    const declString = `(Decl let ${this.type} ${this.id} = ${this.exp})`;
     return declString;
   }
 }
@@ -79,16 +80,27 @@ class Print extends Stmt {
   }
 }
 
-class FuncDec extends Decl {
-  constructor(id, params, returnType, body) {
-    super(id);
-    this.params = params;
-    this.body = body;
-    this.returnType = returnType;
+class Return extends Stmt {
+  constructor(argument) {
+    super();
+    this.argument = argument
   }
 
   toString() {
-    const funcDecString = `FuncDec let fun ${this.id} = ${this.params} => ${this.returnType}: ${this.body}`;
+    return `(Return ${this.argument})`;
+  }
+}
+
+class FuncDec extends Decl {
+  constructor(id, params, type, body) {
+    super(id);
+    this.params = params;
+    this.body = body;
+    this.type = type;
+  }
+
+  toString() {
+    const funcDecString = `FuncDec let fun ${this.id} = ${this.params} => ${this.tpye}: ${this.body}`;
     return funcDecString;
   }
 }
@@ -152,14 +164,14 @@ class Param {
   }
 }
 
-class ReturnType {
-  constructor(id) {
-    this.id = id;
+class Type {
+  constructor(type) {
+    this.type = type;
   }
 
   toString() {
-    const returnTypeString = `ReturnType ${this.id}`;
-    return returnTypeString;
+    const typeString = `Type ${this.type}`;
+    return typeString;
   }
 }
 
@@ -205,7 +217,7 @@ class MatchExp {
   }
 
   toString() {
-    return `(MatchExp match ${this.id} with \n ${this.matches})`;
+    return `(MatchExp match ${this.id} with ${this.matches})`;
   }
 }
 
@@ -285,7 +297,7 @@ class Matches {
   }
 
   toString() {
-    return `(Matches | ${this.exp1} -> ${this.exp2} \n)`;
+    return `(Matches | ${this.exp1} -> ${this.exp2})`;
   }
 }
 
@@ -301,12 +313,13 @@ class Tuplit {
 }
 
 class List {
-  constructor(args) {
+  constructor(arg, args) {
+    this.arg = arg;
     this.args = args;
   }
 
   toString() {
-    return `List ${this.args}`;
+    return `(List ${this.arg} ${this.args})`;
   }
 }
 
@@ -349,10 +362,11 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Stmt_if(_1, exp, block, _2, elseIfExprs, elseIfBlocks, _3, finalBlock) {
     return new StatementIfElse(exp.tree(), block.tree(), elseIfExprs.tree(), finalBlock.tree());
   },
-  Decl_decl(_1, id, _2, exp) { return new Decl(id.sourceString, exp.tree()); },
+  Decl_decl(_1, type, id, _2, exp) { return new Decl(type.tree(), id.sourceString, exp.tree()); },
   Print_print(_1, _2, binexp, _3) { return new Print(binexp.tree()); },
-  FuncDec(_1, id, _2, params, _3, returnType, body) {
-    return new FuncDec(id.sourceString, params.tree(), returnType.tree(), body.tree());
+  Return(_1, arg) { return new Return(arg.tree()); },
+  FuncDec(_1, id, _2, params, _3, type, body) {
+    return new FuncDec(id.sourceString, params.tree(), type.tree(), body.tree());
   },
   FuncCall(id, _1, args, _2) { return new FuncCall(id.sourceString, args.tree()); },
   Args(arg) { return new Args(arg.tree()); },
@@ -361,10 +375,10 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     return new Params([firstParam.tree()].concat(moreParams.tree()));
   },
   Param(id) { return new Param(id.sourceString); },
-  ReturnType(id) { return new ReturnType(id.sourceString); },
+  Type(type) { return new Type(type.sourceString); },
   Body(_1, block, _2) { return new Body(block.tree()); },
   BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
-  MatchExp_matchexp(_1, id, _2, _3, matches) { return new MatchExp(id.sourceString, matches.tree()); },
+  MatchExp_matchexp(_1, id, _2, matches) { return new MatchExp(id.sourceString, matches.tree()); },
   AddExp_binary(addexp, op, mullexp) {
     return new AddExp(addexp.tree(), op.tree(), mullexp.tree());
   },
@@ -376,9 +390,9 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());
   },
   ParenExp_parens(_1, parenexp, _2) { return new ParenExp(parenexp.tree()); },
-  Matches(_1, exp1, _2, exp2, _3) { return new Matches(exp1.tree(), exp2.tree()); },
+  Matches(_1, exp1, _2, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
   Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
-  List(args) { return new List(binexp1.tree(), binexp2.tree()); }, // to do
+  List_list(_1, _2, _3, _4, args) { return new List(args.tree()); }, 
   Numlit(value) { return new Numlit(value.tree()); },
   Charlit(_1, value, _2) { return new Charlit(this.sourceString); },
   Stringlit(_1, value, _2) { return new Stringlit(this.sourceString); },
