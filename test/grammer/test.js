@@ -61,9 +61,9 @@ describe("Arithmetic", () => {
       assert.ok(match.succeeded());
     });
   });
-  describe("let a = 67 * 2", () => {
+  describe("let int a = 67 * 2", () => {
     it("should be equivalent to result", () => {
-      const match = gram.match("let a = 67 * 2");
+      const match = gram.match("let int a = 67 * 2");
       assert.ok(match.succeeded());
     });
   });
