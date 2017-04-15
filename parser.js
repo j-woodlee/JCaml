@@ -393,7 +393,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Matches(_1, exp1, _2, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
   Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
   List_list(_1, _2, _3, _4, args) { return new List(args.tree()); }, 
-  Numlit(value) { return new Numlit(value.tree()); },
+  Numlit(value) { return new Numlit(this.sourceString); },
   Charlit(_1, value, _2) { return new Charlit(this.sourceString); },
   Stringlit(_1, value, _2) { return new Stringlit(this.sourceString); },
 });
