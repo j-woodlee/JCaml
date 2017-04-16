@@ -91,6 +91,56 @@ class Return extends Stmt {
   }
 }
 
+class addop {
+  constructor(op) {
+    this.op = op;
+  }
+
+  toString() {
+    return `(addop ${this.op})`;
+  }
+}
+
+class relop {
+  constructor(op) {
+    this.op = op;
+  }
+
+  toString() {
+    return `(relop ${this.op})`;
+  }
+}
+
+class mullop {
+  constructor(op) {
+    this.op = op;
+  }
+
+  toString() {
+    return `(mullop ${this.op})`;
+  }
+}
+
+class expop {
+  constructor(op) {
+    this.op = op;
+  }
+
+  toString() {
+    return `(expop ${this.op})`;
+  }
+}
+
+class binop {
+  constructor(op) {
+    this.op = op;
+  }
+
+  toString() {
+    return `(binop ${this.op})`;
+  }
+}
+
 class FuncDec extends Decl {
   constructor(id, params, type, body) {
     super(id);
@@ -323,12 +373,12 @@ class List {
   }
 }
 
-class Numlit {
+class numlit {
   constructor(value) {
     this.value = value;
   }
   toString() {
-    let numberString = "(Numlit ";
+    let numberString = "(numlit ";
     for (const numbers in this.value) {
       numberString += `${this.value[numbers]}`;
     }
@@ -346,12 +396,12 @@ class Charlit {
   }
 }
 
-class Stringlit {
+class stringlit {
   constructor(value) {
     this.value = value;
   }
   toString() {
-    return `(Stringlit ${this.value})`;
+    return `(stringlit ${this.value})`;
   }
 }
 
@@ -365,6 +415,11 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Decl_decl(_1, type, id, _2, exp) { return new Decl(type.tree(), id.sourceString, exp.tree()); },
   Print_print(_1, _2, binexp, _3) { return new Print(binexp.tree()); },
   Return(_1, arg) { return new Return(arg.tree()); },
+  addop(op) { return new addop(this.sourceString); },
+  relop(op) { return new relop(this.sourceString); },
+  mullop(op) { return new mullop(this.sourceString); },
+  expop(op) { return new expop(this.sourceString); },
+  binop(op) { return new binop(this.sourceString); },
   FuncDec(_1, id, _2, params, _3, type, body) {
     return new FuncDec(id.sourceString, params.tree(), type.tree(), body.tree());
   },
@@ -380,22 +435,22 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
   MatchExp_matchexp(_1, id, _2, matches) { return new MatchExp(id.sourceString, matches.tree()); },
   AddExp_binary(addexp, op, mullexp) {
-    return new AddExp(addexp.tree(), op.tree(), mullexp.tree());
+    return new AddExp(op.tree(), addexp.tree(), mullexp.tree());
   },
   MullExp_binary(mullexp, op, prefixexp) {
-    return new MullExp(mullexp.tree(), op.tree(), prefixexp.tree());
+    return new MullExp(op.tree(), mullexp.tree(), prefixexp.tree());
   },
   PrefixExp_binary(op, expoexp) { return new PrefixExp(op.tree(), expoexp.tree()); },
   ExpoExp_binary(parenexp, op, expoexp) {
-    return new ExpoExp(parenexp.tree(), op.tree(), expoexp.tree());
+    return new ExpoExp(op.tree(), parenexp.tree(), expoexp.tree());
   },
   ParenExp_parens(_1, parenexp, _2) { return new ParenExp(parenexp.tree()); },
   Matches(_1, exp1, _2, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
   Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
-  List_list(_1, _2, _3, _4, args) { return new List(args.tree()); }, 
-  Numlit(value) { return new Numlit(this.sourceString); },
+  List_list(_1, _2, _3, _4, args) { return new List(this.sourceString); }, 
+  numlit(value) { return new numlit(this.sourceString); },
   Charlit(_1, value, _2) { return new Charlit(this.sourceString); },
-  Stringlit(_1, value, _2) { return new Stringlit(this.sourceString); },
+  stringlit(_1, value, _2) { return new stringlit(this.sourceString); },
 });
 /* eslint-enable no-unused-vars */
 

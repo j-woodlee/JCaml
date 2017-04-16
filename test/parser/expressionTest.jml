@@ -1,0 +1,6 @@
+let fun expressionTest = (a, b, c) => int :
+    match a with
+    | "hi" -> 45 + 17
+    | "hello" -> 100 * 66
+    | "hola" -> 200 and 79
+;;

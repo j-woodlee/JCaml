@@ -37,10 +37,10 @@ JCaml {
     ExpoExp       =  ParenExp expop ExpoExp                     -- binary
                   |  ParenExp
     ParenExp      =  "(" ParenExp ")"                           -- parens
-                  |  Numlit
+                  |  numlit
                   |  Tuplit
                   |  List
-                  |  Stringlit
+                  |  stringlit
                   |  Charlit
                   
     Matches       =  ("|" Exp "->" Exp)+
@@ -62,14 +62,14 @@ JCaml {
     mullop        =  "*" | "/" | "%"
     expop         =  "^"
     binop         =  "||" | "or" | "&&" | "and"
-    Numlit        =  digit+
+    numlit        =  digit+
     char          =  escape
                   |  ~"\\" ~"\"" ~"\'" ~"\\n" any
 
     escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
                   |  "\\u{" hexDigit+ "}"                       -- codepoint
     Charlit       =  "'" (char | "\"") "'"
-    Stringlit     =  "\"" (char | "\'")* "\""
+    stringlit     =  "\"" (char | "\'")* "\""
     
     space        := " " | "\t" | "\n" | "\r" | comment
     comment       =  "##" (~"\n" any)*
