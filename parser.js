@@ -436,6 +436,10 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
   Param(id) { return new Param(id.sourceString); },
   Type(type) { return new Type(type.sourceString); },
   Body(_1, block, _2) { return new Body(block.tree()); },
+  Exp_binary(exp, op, matchexp) { return new ExpBinary(op.tree(), exp.tree(), matchexp.tree()); },
+  Exp_ternary(matchexp, _1, matchexp2, _2, matchexp3) {
+    return new ExpTernary(matchexp.tree(), matchexp2.tree(), matchexp3.tree());
+  },
   BinExp_binary(binexp, op, addexp) { return new BinExp(op.tree(), binexp.tree(), addexp.tree()); },
   MatchExp_matchexp(_1, id, _2, matches) { return new MatchExp(id.sourceString, matches.tree()); },
   AddExp_binary(addexp, op, mullexp) {
