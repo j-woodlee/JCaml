@@ -1,4 +1,6 @@
-module.exports = class FuncDec extends module.exports.Decl {
+const Decl = require('./decl');
+
+class FuncDec extends Decl {
   constructor(id, params, returnType, body) {
     super(id);
     this.params = params;
@@ -11,3 +13,5 @@ module.exports = class FuncDec extends module.exports.Decl {
     return funcDecString;
   }
 };
+
+module.exports = FuncDec

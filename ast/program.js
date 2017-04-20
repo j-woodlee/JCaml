@@ -1,4 +1,4 @@
-const Context = require("../context");
+//const Context = require("../context");
 
 module.exports = class Program {
   contructor(block) {
@@ -9,7 +9,7 @@ module.exports = class Program {
     return `(Program ${this.block})`;
   }
 
-  analyze(context = Context.INITIAL) {
-    this.block.analyze(context);
-  }
+//  analyze(context = Context.INITIAL) {
+//    this.block.analyze(context);
+//  }
 };
