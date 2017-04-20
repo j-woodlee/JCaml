@@ -6,10 +6,10 @@ JCaml {
                      ("else if" Exp Block)*
                      ("else" Block)                             -- if
 
-    Decl          =  "let" Type id "=" BinExp                      -- decl
+    Decl          =  "let" Type id "=" BinExp                   -- decl
                   |  FuncDec
     FuncDec       =  "let fun" id "=" Params "=>" (Type)* Body
-    
+
     Type          =  "String" | "int" | "bool" | "char"
 
     FuncCall      =  id "(" Args ")"
@@ -42,7 +42,7 @@ JCaml {
                   |  List
                   |  stringlit
                   |  Charlit
-                  
+
     Matches       =  ("|" Exp "->" Exp)+
 
     keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "String"
@@ -53,7 +53,7 @@ JCaml {
     id            =  ~keyword letter idrest*
     Tuplit        =  "(" BinExp "," BinExp ")"
     List          =  "[" BinExp ("," BinExp)* "]"               -- list
-                     | "[]"
+                  | "[]"
     Print         =  "spit" "(" BinExp ")"                      -- print
     Return        =  "hump" ParenExp
     idrest        =  "_" | alnum | "@" | "$"
@@ -70,7 +70,7 @@ JCaml {
                   |  "\\u{" hexDigit+ "}"                       -- codepoint
     Charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
-    
+
     space        := " " | "\t" | "\n" | "\r" | comment
     comment       =  "##" (~"\n" any)*
 }

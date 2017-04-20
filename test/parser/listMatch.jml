@@ -1,0 +1,5 @@
+let fun matchList = (a, b, c) => String :
+    match b with
+    | ["a", "b", "cat"] -> "Hello"
+    | [] -> "empty"
+;;
