@@ -55,6 +55,5 @@ fs.readFile(argv._[0], 'utf-8', (err, text) => {
     console.log(util.inspect(program, { depth: null }));
     return;
   }
-  console.log(program.constructor.prototype)
   program.gen();
 });
