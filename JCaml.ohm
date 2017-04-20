@@ -41,7 +41,7 @@ JCaml {
                   |  Tuplit
                   |  List
                   |  stringlit
-                  |  Charlit
+                  |  charlit
 
     Matches       =  ("|" Exp "->" Exp)+
 
@@ -68,7 +68,7 @@ JCaml {
 
     escape        = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t"
                   |  "\\u{" hexDigit+ "}"                       -- codepoint
-    Charlit       =  "'" (char | "\"") "'"
+    charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
 
     space        := " " | "\t" | "\n" | "\r" | comment
