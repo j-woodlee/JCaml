@@ -7,13 +7,32 @@ const Context = require("./context.js");
 
 const JCamlGrammar = ohm.grammar(parserContents);
 
+
+class Type {
+    constructor(type) {
+        this.type = type;
+    }
+
+    toString() {
+        const typeString = `Type ${this.type}`;
+        return typeString;
+    }
+}
+
+Type.INT = new Type("int");
+Type.FLOAT = new Type("float");
+Type.STRING = new Type("string");
+Type.BOOL = new Type("bool");
+Type.CHAR = new Type("char");
+
+
 class Program {
     constructor(block) {
         this.block = block;
     }
 
     analyze(context = Context.INITIAL) {
-        return this.block.analyze(context);
+        this.block.analyze(context);
     }
 
     toString() {
@@ -30,6 +49,12 @@ class Block {
         this.statements = statements;
     }
 
+    analyze(context = Context.INITIAL) {
+        this.statements.forEach((s) => {
+            s.analyze(context);
+        });
+    }
+
     toString() {
         let stmtString;
         for (const s in this.statements) {
@@ -43,15 +68,24 @@ class Stmt {
 }
 
 class StatementIfElse extends Stmt {
-    constructor(exp, block, elseBlock, exp2, finalBlock) {
+    constructor(expressions, blocks) {
         super();
-        this.exp = exp;
-        this.block = block;
-        this.elseBlock = elseBlock;
-        this.exp2 = exp2;
-        this.finalBlock = finalBlock;
+        this.expressions = expressions;
+        this.blocks = blocks;
     }
 
+    analyze(context) {
+        this.expressions.forEach((expression) => {
+            expression.analyze(context);
+            if (!(expression.type === Type.BOOL)) {
+                throw new Error("Type Error: If statement conditional must be a bool.");
+            }
+        });
+
+        this.blocks.forEach((block) => {
+            block.analyze(context);
+        });
+    }
     toString() {
         let ifString = `(ifStatement if ${this.exp} ${this.block})`;
         for (const exps in this.exp2) {
@@ -66,9 +100,9 @@ class StatementIfElse extends Stmt {
 }
 
 class Decl extends Stmt {
-    constructor(type, id, exp) {
+    constructor(declaredType, id, exp) {
         super();
-        this.type = type;
+        this.declaredType = declaredType;
         this.id = id;
         this.exp = exp;
     }
@@ -76,6 +110,37 @@ class Decl extends Stmt {
     toString() {
         const declString = `(Decl let ${this.type} ${this.id} = ${this.exp})`;
         return declString;
+    }
+}
+
+class FuncDec {
+    constructor(id, params, returnType, body) {
+        this.id = id;
+        this.params = params;
+        this.body = body;
+        this.returnType = returnType;
+    }
+
+    analyze(context) {
+        this.id.analyze(context);
+        context.checkIfVariableIsAlreadyDeclared(this.id);
+
+        const localContext = context.createChildContextForFunctionBody(this);
+        this.params.forEach((param) => {
+            // duplicate parameter check
+            localContext.checkIfVariableIsAlreadyDeclared(param.id);
+            param.analyze(localContext);
+            localContext.addVariable(param);
+        });
+
+        this.returnType.analyze(context);
+        this.body.analyze(localContext);
+        this.type = this.body.type;
+    }
+
+    toString() {
+        const funcDecString = `FuncDec let fun ${this.id} = ${this.params} => ${this.returnType} : ${this.body}`;
+        return funcDecString;
     }
 }
 
@@ -151,19 +216,6 @@ class Binop {
     }
 }
 
-class FuncDec extends Decl {
-    constructor(id, params, type, body) {
-        super(id);
-        this.params = params;
-        this.body = body;
-        this.type = type;
-    }
-
-    toString() {
-        const funcDecString = `FuncDec let fun ${this.id} = ${this.params} => ${this.tpye}: ${this.body}`;
-        return funcDecString;
-    }
-}
 
 class FuncCall extends Stmt {
     constructor(id, args) {
@@ -224,16 +276,6 @@ class Param {
     }
 }
 
-class Type {
-    constructor(type) {
-        this.type = type;
-    }
-
-    toString() {
-        const typeString = `Type ${this.type}`;
-        return typeString;
-    }
-}
 
 class Body {
     constructor(block) {
@@ -245,6 +287,7 @@ class Body {
         return bodyString;
     }
 }
+
 
 class ExpBinary {
     constructor(op, exp, matchexp) {
@@ -286,6 +329,12 @@ class BinExp {
         this.op = op;
         this.binexp = binexp;
         this.addexp = addexp;
+    }
+
+    analyze(context) {
+        this.binexp.analyze(context);
+        this.addexp.analyze(context);
+        this.type = Type.INT;
     }
 
     toString() {
@@ -335,6 +384,10 @@ class ExpoExp {
         this.expoexp = expoexp;
     }
 
+    // analyze() {
+    //     //  parenexp and expoexp must be the same type (float and int)
+    // }
+
     toString() {
         return `(Expoexp ${this.Parenexp} ${this.op} ${this.Expoexp})`;
     }
@@ -343,6 +396,7 @@ class ExpoExp {
 class ParenExp {
     constructor(parenexp) {
         this.parenexp = parenexp;
+        this.type = this.parenexp.type;
     }
 
     toString() {
@@ -365,7 +419,7 @@ class Tuplit {
     constructor(exp1, exp2) {
         this.exp1 = exp1;
         this.exp2 = exp2;
-  }
+    }
 
     toString() {
         return `(Tuplit (${this.exp1}, ${this.exp2}))`;
@@ -472,6 +526,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     stringlit(_1, value, _2) { return new Stringlit(this.sourceString); },
 });
 /* eslint-enable no-unused-vars */
+
 
 function parse(text) {
     const match = JCamlGrammar.match(text);

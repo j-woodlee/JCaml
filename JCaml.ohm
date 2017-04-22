@@ -1,16 +1,16 @@
 JCaml {
     Program       =  Block
     Block         =  Stmt*
-    Stmt          =  Decl | Exp | Print | FuncCall | Return
+    Stmt          =  Decl | FuncDec | Exp | Print | FuncCall | Return
                   |  "if" Exp Block
                      ("else if" Exp Block)*
-                     ("else" Block)                             -- if
+                     ("else" Block)?                             -- if
 
     Decl          =  "let" Type id "=" BinExp                   -- decl
-                  |  FuncDec
-    FuncDec       =  "let fun" id "=" Params "=>" (Type)* Body
 
-    Type          =  "String" | "int" | "bool" | "char"
+    FuncDec       =  "let fun" id "=" Params "=>" (Type)* " : " Body
+
+    Type          =  "string" | "int" | "bool" | "char" | "float"
 
     FuncCall      =  id "(" Args ")"
     Arg           =  (id)?
@@ -45,7 +45,7 @@ JCaml {
 
     Matches       =  ("|" Exp "->" Exp)+
 
-    keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "String"
+    keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "string"
                   |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
 
     prefixop      =  ~"--" "not" | "!" | "-"                    -- prefix
