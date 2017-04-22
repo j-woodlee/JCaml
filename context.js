@@ -1,7 +1,7 @@
 
 class Context {
-  constructor() {
-    this.parent = null;
+  constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
+    this.parent = parent;
     this.localVariables = Object.create(null);
     this.currentFunction = currentFunction;
     this.inLoop = inLoop;
@@ -33,20 +33,13 @@ class Context {
     this.localVariables[entity.id] = entity;
   }
 
-  isPresent(id) {
-    if (id in this.localVariables) {
-      return true;
-    }
-    return false;
-  }
-
-  lookup(id) {
+  lookupVar(id) {
     if (id in this.localVariables) {
       return this.localVariables[id];
     } else if (this.parent === null) {
       throw new Error(`Identifier ${id} has not been declared`);
     } else {
-      return this.parent.lookup(id);
+      return this.parent.lookupVar(id);
     }
   }
 
@@ -56,15 +49,15 @@ class Context {
     }
   }
 
-  assertIsFunction(entity) { // eslint-disable-line class-methods-use-this
-    if (entity.constructor !== FunctionDeclaration) {
-      throw new Error(`${entity.id} is not a function`);
-    }
-  }
+  // assertIsFunction(entity) { // eslint-disable-line class-methods-use-this
+  //   if (entity.constructor !== FunctionDeclaration) {
+  //     throw new Error(`${entity.id} is not a function`);
+  //   }
+  // }
 }
 
 Context.INITIAL = new Context();
-new FunctionDeclaration("print", [new Parameter("_", null)], null).analyze(Context.INITIAL);
-new FunctionDeclaration("sqrt", [new Parameter("_", null)], null).analyze(Context.INITIAL);
+// new FunctionDeclaration("print", [new Parameter("_", null)], null).analyze(Context.INITIAL);
+// new FunctionDeclaration("sqrt", [new Parameter("_", null)], null).analyze(Context.INITIAL);
 
 module.exports = Context;

@@ -3,6 +3,8 @@ const fs = require("fs");
 const ohm = require("ohm-js");
 
 const parserContents = fs.readFileSync("JCaml.ohm");
+const Context = require("./context.js");
+
 const JCamlGrammar = ohm.grammar(parserContents);
 
 class Program {
@@ -10,10 +12,13 @@ class Program {
         this.block = block;
     }
 
+    analyze(context = Context.INITIAL) {
+        return this.block.analyze(context);
+    }
+
     toString() {
         return `(Program ${this.block})`;
     }
-
 
     static gen() {
         // console.log("Hi this is the generator");
