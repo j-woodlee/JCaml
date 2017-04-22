@@ -49,7 +49,7 @@ class Block {
         this.statements = statements;
     }
 
-    analyze(context = Context.INITIAL) {
+    analyze(context) {
         this.statements.forEach((s) => {
             s.analyze(context);
         });
@@ -107,14 +107,26 @@ class Decl extends Stmt {
         this.exp = exp;
     }
 
+    analyze(context) {
+        if (this.declaredType !== this.exp.type) {
+            throw new Error("Declared type does not match the evaluated type.");
+        }
+        context.checkIfVariableIsAlreadyDeclared(this.id);
+        context.addVariable(this.id, this.exp);
+        this.exp.analyze(context);
+        this.declaredType.analyze(context);
+        this.id.analyze(context);
+    }
+
     toString() {
         const declString = `(Decl let ${this.type} ${this.id} = ${this.exp})`;
         return declString;
     }
 }
 
-class FuncDec {
+class FuncDec extends Stmt {
     constructor(id, params, returnType, body) {
+        super();
         this.id = id;
         this.params = params;
         this.body = body;
@@ -130,7 +142,7 @@ class FuncDec {
             // duplicate parameter check
             localContext.checkIfVariableIsAlreadyDeclared(param.id);
             param.analyze(localContext);
-            localContext.addVariable(param);
+            localContext.addVariable(param.id, param);
         });
 
         this.returnType.analyze(context);
@@ -386,6 +398,7 @@ class ExpoExp {
 
     // analyze() {
     //     //  parenexp and expoexp must be the same type (float and int)
+            // from there I can determine the ExpoExp type
     // }
 
     toString() {

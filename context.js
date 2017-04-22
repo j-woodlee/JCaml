@@ -15,11 +15,11 @@ class Context {
         return new Context({ parent: this, currentFunction: this.currentFunction });
     }
 
-    addVariable(entity) {
-        if (entity.id in this.localVariables) {
+    addVariable(id, entity) {
+        if (id in this.localVariables) {
             throw new Error(`Identitier ${entity.id} already declared in this scope`);
         }
-        this.localVariables[entity.id] = entity;
+        this.localVariables[id] = entity;
     }
 
     lookupVar(id) {
@@ -42,6 +42,10 @@ class Context {
         if (this.localVariables[id]) {
             throw new Error(`Variable ${id} already declared`);
         }
+        if (this.parent !== null) {
+            return this.parent.checkIfVariableIsAlreadyDeclared(id);
+        }
+        return 0;
     }
 
 
