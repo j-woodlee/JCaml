@@ -14,8 +14,8 @@ class Program {
     return `(Program ${this.block})`;
   }
 
-  gen() {
-      console.log('Hi this is the generator');
+  static gen() {
+    // console.log("Hi this is the generator");
   }
 }
 

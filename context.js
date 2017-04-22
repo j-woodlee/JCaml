@@ -1,10 +1,8 @@
-const FunctionDeclaration = require("./ast/funcDec");
-const Parameter = require("./ast/param");
 
 class Context {
-  constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
-    this.parent = parent;
-    this.variables = Object.create(null);
+  constructor() {
+    this.parent = null;
+    this.localVariables = Object.create(null);
     this.currentFunction = currentFunction;
     this.inLoop = inLoop;
   }
@@ -29,22 +27,22 @@ class Context {
   }
 
   addVariable(entity) {
-    if (entity.id in this.variables) {
+    if (entity.id in this.localVariables) {
       throw new Error(`Identitier ${entity.id} already declared in this scope`);
     }
-    this.variables[entity.id] = entity;
+    this.localVariables[entity.id] = entity;
   }
 
   isPresent(id) {
-    if (id in this.variables) {
+    if (id in this.localVariables) {
       return true;
     }
     return false;
   }
 
   lookup(id) {
-    if (id in this.variables) {
-      return this.variables[id];
+    if (id in this.localVariables) {
+      return this.localVariables[id];
     } else if (this.parent === null) {
       throw new Error(`Identifier ${id} has not been declared`);
     } else {
