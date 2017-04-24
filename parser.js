@@ -364,7 +364,11 @@ class BinExp {
     toString() {
         return `(BinExp ${this.binexp} ${this.op} ${this.addexp})`;
     }
-}
+
+    gen() {
+        return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
+    }
+ }
 
 class AddExp {
     constructor(op, addexp, mullexp) {
