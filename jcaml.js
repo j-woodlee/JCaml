@@ -37,6 +37,27 @@ const util = require("util");
 const parse = require("./parser");
 require("./generator/generator");
 
+<<<<<<< HEAD
+fs.readFile(argv._[0], 'utf-8', (err, text) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  let program = parse(text);
+  if (argv.a) {
+    console.log(util.inspect(program, { depth: null }));
+    return;
+  }
+  //////program.analyze();
+  if (argv.o) {
+    program = program.optimize();
+  }
+  if (argv.i) {
+    console.log(util.inspect(program, { depth: null }));
+    return;
+  }
+  program.gen();
+=======
 fs.readFile(argv._[0], "utf-8", (err, text) => {
     if (err) {
         console.error(err);
@@ -57,4 +78,5 @@ fs.readFile(argv._[0], "utf-8", (err, text) => {
     }
     console.log(program.constructor.prototype);
     program.gen();
+>>>>>>> master
 });
