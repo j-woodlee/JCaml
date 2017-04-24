@@ -14,3 +14,4 @@ rules:
     - double
   guard-for-in: off
   no-restricted-syntax: off
+  indent: 0
