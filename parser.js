@@ -35,13 +35,6 @@ class Program {
         this.block.analyze(context);
     }
 
-<<<<<<< HEAD
-  /*
-  gen() {
-      console.log('Hi this is the generator');
-  }
-  */
-=======
     toString() {
         return `(Program ${this.block})`;
     }
@@ -49,7 +42,6 @@ class Program {
     static gen() {
         // console.log("Hi this is the generator");
     }
->>>>>>> master
 }
 
 class Block {

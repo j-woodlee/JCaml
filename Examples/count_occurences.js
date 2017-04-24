@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const countOccurences = (v, l) => {
   let sum = 0;
   for (const value of l) {
