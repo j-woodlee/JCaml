@@ -259,7 +259,11 @@ class Arg {
     toString() {
       return `(Arg ${this.id})`;
     }
-}
+
+    gen() {
+        return this.expression.gen();
+    }
+ }
 
 class Params {
     constructor(params) {
@@ -454,6 +458,7 @@ class Numlit {
     constructor(value) {
       this.value = value;
     }
+
     toString() {
         let numberString = "(numlit ";
             for (const numbers in this.value) {
