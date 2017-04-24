@@ -462,6 +462,10 @@ class Numlit {
             numberString += ")";
         return numberString;
     }
+
+    gen() {
+        return `${this.value}`;
+    }
 }
 
 class Charlit {
