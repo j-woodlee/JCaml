@@ -212,7 +212,7 @@ Object.assign(Program.prototype, {
 Object.assign(Block.prototype, {
     gen() {
         generateLibraryFunctions();
-        this.statements.forEach(statement => statement.gen());
+        this.statements.forEach(statement => console.log(statement));
     },
 });
 /*
@@ -224,6 +224,16 @@ Object.assign(Return.prototype, {
       emit(`return ${this.returnValue.gen()};`);
     } else {
       emit("return;");
+    }
+  },
+});
+
+Object.assign(Print.prototype, {
+  gen() {
+    if (this.printValue) {
+      emit(`print ${this.printValue.gen()};`);
+    } else {
+      emit("print;");
     }
   },
 });
