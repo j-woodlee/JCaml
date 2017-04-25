@@ -1,9 +1,15 @@
 module.exports = class Args {
-  constructor(args) {
-    this.args = args;
-  }
+    constructor(args) {
+        this.args = args;
+    }
 
-  toString() {
-    return `(Args ${this.args})`;
-  }
+    analyze(context) {
+        this.args.forEach((arg) => {
+            arg.analyze(context);
+        });
+    }
+
+    toString() {
+        return `(Args ${this.args})`;
+    }
 };

@@ -1,22 +1,39 @@
-module.exports = class StatementIfElse extends module.exports.Stmt {
-  constructor(exp, block, elseBlock, exp2, finalBlock) {
-    super();
-    this.exp = exp;
-    this.block = block;
-    this.elseBlock = elseBlock;
-    this.exp2 = exp2;
-    this.finalBlock = finalBlock;
-  }
+const Type = require("../ast/type");
 
-  toString() {
-    let ifString = `(ifStatement if ${this.exp} ${this.block})`;
-    for (const exps in this.exp2) {
-      ifString += `\n (else if ${this.exp2[exps]})`;
+Type.INT = new Type("int");
+Type.FLOAT = new Type("float");
+Type.STRING = new Type("string");
+Type.BOOL = new Type("bool");
+Type.CHAR = new Type("char");
+
+module.exports = class StatementIfElse extends module.exports.Stmt {
+    constructor(expressions, blocks) {
+        super();
+        this.expressions = expressions;
+        this.blocks = blocks;
     }
-    for (const blocks in this.elseBlock) {
-      ifString += `\n (${this.elseBlock[blocks]})`;
+
+    analyze(context) {
+        this.expressions.forEach((expression) => {
+            expression.analyze(context);
+            if (!(expression.type === Type.BOOL)) {
+                throw new Error("Type Error: If statement conditional must be a bool.");
+            }
+        });
+
+        this.blocks.forEach((block) => {
+            block.analyze(context);
+        });
     }
-    ifString += `\n (else ${this.finalBlock})`;
-    return ifString;
-  }
+    toString() {
+        let ifString = `(ifStatement if ${this.exp} ${this.block})`;
+        for (const exps in this.exp2) {
+            ifString += `\n (else if ${this.exp2[exps]})`;
+        }
+        for (const blocks in this.elseBlock) {
+            ifString += `\n (${this.elseBlock[blocks]})`;
+        }
+        ifString += `\n (else ${this.finalBlock})`;
+        return ifString;
+    }
 };

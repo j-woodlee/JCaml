@@ -1,10 +1,14 @@
 module.exports = class Print extends module.exports.Stmt {
-  constructor(binexp) {
-    super();
-    this.binexp = binexp;
-  }
+    constructor(argument) {
+        super();
+        this.argument = argument;
+    }
 
-  toString() {
-    return `(Print spit (${this.binexp}))`;
-  }
+    analyze(context) {
+        this.argument.analyze(context);
+    }
+
+    toString() {
+        return `(Print (${this.argument}))`;
+    }
 };

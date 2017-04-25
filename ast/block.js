@@ -1,17 +1,19 @@
 module.exports = class Block {
-  constructor(stmts) {
-    this.stmts = stmts;
-  }
-
-  toString() {
-    let stmtString;
-    for (const statements in this.stmt) {
-      stmtString += `\n (Block ${this.stmt[statements]})`;
+    constructor(statements) {
+        this.statements = statements;
     }
-    return stmtString;
-  }
 
-  analyze(context) {
-    this.stmts.forEach(s => s.analyze(context));
-  }
+    analyze(context) {
+        this.statements.forEach((s) => {
+            s.analyze(context);
+        });
+    }
+
+    toString() {
+        let stmtString;
+        for (const s in this.statements) {
+            stmtString += `\n (Block ${this.statements[s]})`;
+        }
+        return stmtString;
+    }
 };

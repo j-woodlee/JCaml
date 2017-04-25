@@ -1,9 +1,14 @@
 module.exports = class ParenExp {
-  constructor(parenexp) {
-    this.parenexp = parenexp;
-  }
+    constructor(addexp) {
+        this.addexp = addexp;
+    }
 
-  toString() {
-    return `(Parenexp (${this.parenexp}))`;
-  }
+    analyze(context) {
+        this.addexp.analyze(context);
+        this.type = this.addexp.type;
+    }
+
+    toString() {
+        return `(Parenexp (${this.addexp}))`;
+    }
 };

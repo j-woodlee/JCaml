@@ -1,16 +1,29 @@
+const Type = require("../ast/type");
+
+Type.INT = new Type("int");
+Type.FLOAT = new Type("float");
+Type.STRING = new Type("string");
+Type.BOOL = new Type("bool");
+Type.CHAR = new Type("char");
+
 module.exports = class AddExp {
-  constructor(op, addexp, mullexp) {
-    this.op = op;
-    this.addexp = addexp;
-    this.mullexp = mullexp;
-  }
+    constructor(op, addexp, mullexp) {
+        this.op = op;
+        this.addexp = addexp;
+        this.mullexp = mullexp;
+    }
 
-  toString() {
-    return `(AddExp ${this.addexp} ${this.op} ${this.mullexp})`;
-  }
+    analyze(context) {
+        this.addexp.analyze(context);
+        this.mullexp.analyze(context);
+        if (this.addexp.type !== this.mullexp.type ||
+            (this.addexp.type === Type.BOOL) || (this.mullexp.type === Type.BOOL)) {
+            throw new Error("Incompatible types, cannot add.");
+        }
+        this.type = this.addexp.type; // can use addexp or mullexp to get type
+    }
 
-  analyze(context) {
-    this.addexp.analyze(context);
-    this.mullexp.analyze(context);
-  }
+    toString() {
+        return `(AddExp ${this.addexp} ${this.op} ${this.mullexp})`;
+    }
 };

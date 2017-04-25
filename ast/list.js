@@ -1,9 +1,10 @@
 module.exports = class List {
-  constructor(args) {
-    this.args = args;
-  }
+    constructor(arg, args) {
+        this.arg = arg;
+        this.args = args;
+    }
 
-  toString() {
-    return `List ${this.args}`;
-  }
+    toString() {
+        return `(List ${this.arg} ${this.args})`;
+    }
 };
