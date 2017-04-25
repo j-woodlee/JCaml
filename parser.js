@@ -533,7 +533,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     mullop(op) { return new Mullop(this.sourceString); },
     expop(op) { return new Expop(this.sourceString); },
     binop(op) { return new Binop(this.sourceString); },
-    FuncDec(_1, id, _2, params, _3, type, _4, body) {
+    FuncDec(_1, id, _2, params, _3, type, body) {
       return new FuncDec(id.sourceString, params.tree(), type.tree(), body.tree());
     },
     FuncCall(id, _1, args, _2) { return new FuncCall(id.sourceString, args.tree()); },
@@ -581,4 +581,5 @@ function parse(text) {
     const match = JCamlGrammar.match(text);
     return semantics(match).tree();
 }
-module.exports = { parse, Program };
+
+module.exports = { parse, Program, Block, Stmt, Return, Arg, Param };

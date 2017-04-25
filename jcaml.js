@@ -36,14 +36,15 @@ const argv = require("yargs")
 const fs = require("fs");
 // const util = require("util");
 const parse = require("./parser");
+
 require("./generator/generator");
 
 fs.readFile(argv._[0], "utf-8", (err, text) => {
   if (err) {
-    // console.error(err);
+    console.error(err);
     return;
   }
-  let program = parse(text);
+  let program = parse.parse(text);
   if (argv.a) {
     // console.log(util.inspect(program, { depth: null }));
     return;

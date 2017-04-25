@@ -8,9 +8,10 @@
  * JavaScript translation as a string, while calling s.gen() where s is a
  * statement-level node will write its translation to standard output.
  *
- *   require('./backend/javascript-generator');
+ *   require("./backend/javascript-generator");
  *   program.gen();
  */
+ // eslint-disable no-unused-vars
 
 const Context = require("../context");
 const Parser = require("../parser");
@@ -19,13 +20,13 @@ const Program = Parser.Program;
 const Block = Parser.Block;
 const Return = Parser.Return;
 const Stmt = Parser.Stmt;
+const Argument = Parser.Arg;
 
-console.log(Program);
 const indentPadding = 2;
 let indentLevel = 0;
 
 function emit(line) {
-  console.log(`${' '.repeat(indentPadding * indentLevel)}${line}`);
+  console.log(`${" ".repeat(indentPadding * indentLevel)}${line}`);
 }
 
 function genStatementList(statements) {
@@ -35,12 +36,12 @@ function genStatementList(statements) {
 }
 
 function makeOp(op) {
-  return { not: '!', and: '&&', or: '||', '==': '===', '!=': '!==' }[op] || op;
+  return { not: "!", and: "&&", or: "||", "==": "===", "!=": "!==" }[op] || op;
 }
 
 // jsName(e) takes any PlainScript object with an id property, such as a
 // Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
-// name by appending a unique indentifying suffix, such as '_1' or '_503'.
+// name by appending a unique indentifying suffix, such as "_1" or "_503".
 // It uses a cache so it can return the same exact string each time it is
 // called with a particular entity.
 const jsName = (() => {
@@ -62,24 +63,26 @@ function bracketIfNecessary(a) {
   if (a.length === 1) {
     return `${a}`;
   }
-  return `[${a.join(', ')}]`;
+  return `[${a.join(", ")}]`;
 }
 
+/*
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
     const entity = Context.INITIAL.declarations[name];
     emit(`function ${jsName(entity)}(${params}) {${body}}`);
   }
   // This is sloppy. There should be a better way to do this.
-  generateLibraryStub('print', '_', 'console.log(_);');
-  generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);');
+  generateLibraryStub("print", "_", "console.log(_);");
+  generateLibraryStub("sqrt", "_", "return Math.sqrt(_);");
 }
+*/
 
-/*
 Object.assign(Argument.prototype, {
   gen() { return this.expression.gen(); },
 });
 
+/*
 Object.assign(AssignmentStatement.prototype, {
   gen() {
     const targets = this.targets.map(t => t.gen());
@@ -97,7 +100,7 @@ Object.assign(BooleanLiteral.prototype, {
 });
 
 Object.assign(BreakStatement.prototype, {
-  gen() { return 'break;'; },
+  gen() { return "break;"; },
 });
 
 Object.assign(CallStatement.prototype, {
@@ -111,7 +114,7 @@ Object.assign(Call.prototype, {
     const args = Array(this.args.length).fill(undefined);
     fun.params.forEach((p, i) => { params[p.id] = i; });
     this.args.forEach((a, i) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
-    return `${jsName(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
+    return `${jsName(fun)}(${args.map(a => (a ? a.gen() : "undefined")).join(", ")})`;
   },
 });
 
@@ -121,9 +124,9 @@ Object.assign(FunctionDeclaration.prototype, {
 
 Object.assign(FunctionObject.prototype, {
   gen() {
-    emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
+    emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(", ")}) {`);
     genStatementList(this.body);
-    emit('}');
+    emit("}");
   },
 });
 
@@ -134,15 +137,15 @@ Object.assign(IdentifierExpression.prototype, {
 Object.assign(IfStatement.prototype, {
   gen() {
     this.cases.forEach((c, index) => {
-      const prefix = index === 0 ? 'if' : '} else if';
+      const prefix = index === 0 ? "if" : "} else if";
       emit(`${prefix} (${c.test.gen()}) {`);
       genStatementList(c.body);
     });
     if (this.alternate) {
-      emit('} else {');
+      emit("} else {");
       genStatementList(this.alternate);
     }
-    emit('}');
+    emit("}");
   },
 });
 
@@ -162,7 +165,7 @@ Object.assign(Parameter.prototype, {
 */
 Object.assign(Program.prototype, {
   gen() {
-    generateLibraryFunctions();
+    //generateLibraryFunctions();
     this.statements.forEach(statement => statement.gen());
   },
 });
@@ -174,7 +177,7 @@ Object.assign(Return.prototype, {
     if (this.returnValue) {
       emit(`return ${this.returnValue.gen()};`);
     } else {
-      emit('return;');
+      emit("return;");
     }
   },
 });
@@ -212,7 +215,7 @@ Object.assign(WhileStatement.prototype, {
   gen() {
     emit(`while (${this.test.gen()}) {`);
     genStatementList(this.body);
-    emit('}');
+    emit("}");
   },
 });
 */
