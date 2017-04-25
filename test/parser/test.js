@@ -1,6 +1,6 @@
 const fs = require("fs");
 const assert = require("assert");
-const parse = require("../../parser.js");
+const parse = require("../../parser.js").parse;
 
 /* eslint-disable */
 describe("The parser", () => {
