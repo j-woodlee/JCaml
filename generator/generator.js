@@ -21,6 +21,7 @@ const Block = Parser.Block;
 const Return = Parser.Return;
 const Stmt = Parser.Stmt;
 const Argument = Parser.Arg;
+const StringLiteral = Parser.Stringlit;
 
 const indentPadding = 2;
 let indentLevel = 0;
@@ -66,7 +67,6 @@ function bracketIfNecessary(a) {
   return `[${a.join(", ")}]`;
 }
 
-/*
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
     const entity = Context.INITIAL.declarations[name];
@@ -76,7 +76,7 @@ function generateLibraryFunctions() {
   generateLibraryStub("print", "_", "console.log(_);");
   generateLibraryStub("sqrt", "_", "return Math.sqrt(_);");
 }
-*/
+
 
 Object.assign(Argument.prototype, {
   gen() { return this.expression.gen(); },
@@ -165,9 +165,15 @@ Object.assign(Parameter.prototype, {
 */
 Object.assign(Program.prototype, {
   gen() {
-    //generateLibraryFunctions();
-    this.statements.forEach(statement => statement.gen());
+    return `${this.block}`;
   },
+});
+
+Object.assign(Block.prototype, {
+    gen() {
+        generateLibraryFunctions();
+        this.statements.forEach(statement => statement.gen());
+    },
 });
 /*
 
@@ -181,11 +187,11 @@ Object.assign(Return.prototype, {
     }
   },
 });
-/*
 
 Object.assign(StringLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
+/*
 
 Object.assign(SubscriptedExpression.prototype, {
   gen() {
