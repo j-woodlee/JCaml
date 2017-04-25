@@ -12,7 +12,7 @@ const Program = require('../parser');
 const indentPadding = 2;
 let indentLevel = 0;
 
-Object.assign(Program.Program.prototype, {
+Object.assign(Program.prototype, {
     gen() {
         console.log("Generating");
     }
