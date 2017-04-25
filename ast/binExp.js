@@ -1,10 +1,4 @@
-const Type = require("../ast/type");
-
-Type.INT = new Type("int");
-Type.FLOAT = new Type("float");
-Type.STRING = new Type("string");
-Type.BOOL = new Type("bool");
-Type.CHAR = new Type("char");
+const Type = require("./type");
 
 module.exports = class BinExp {
     constructor(op, binexp, addexp) {
