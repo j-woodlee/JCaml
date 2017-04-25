@@ -176,7 +176,7 @@ Object.assign(FuncDec.prototype, {
 });
 
 Object.assign(List.prototype, {
-  gen() { return `(${this.arg.gen()} ${this.args.gen()})`; },
+  gen() { return `(${this.arg.gen()})`; },
 });
 
 /*
