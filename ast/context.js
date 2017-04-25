@@ -1,5 +1,10 @@
-const FunctionDeclaration = require("../ast/funcDec");
+const FuncDec = require("../ast/FuncDec");
 const Parameter = require("../ast/param");
+const Type = require("./type");
+const Body = require("./body");
+const Block = require("./block");
+const Return = require("./return");
+const StringLit = require("./stringLit");
 
 class Context {
     constructor({ parent = null, currentFunction = null } = {}) {
@@ -66,8 +71,10 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-new FunctionDeclaration("print", [new Parameter('_', null)], null).analyze(Context.INITIAL);
-new FunctionDeclaration("sqrt", [new Parameter('_', null)], null).analyze(Context.INITIAL);
+new FuncDec("print", [new Parameter("test")], Type.STRING,
+    new Body(new Block([new Return(new StringLit("test-string"))])))
+    .analyze(Context.INITIAL);  // id, params, returntype, body
+// new FuncDec("sqrt", [new Parameter("test")], Type.FLOAT, null).analyze(Context.INITIAL);
 
 
 module.exports = Context;
