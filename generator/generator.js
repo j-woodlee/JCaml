@@ -115,6 +115,22 @@ Object.assign(BinExp.prototype, {
   gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
+Object.assign(AddExp.prototype, {
+  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+});
+
+Object.assign(MullExp.prototype, {
+  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+});
+
+Object.assign(PrefixExp.prototype, {
+  gen() { return `(${makeOp(this.op)} ${this.right.gen()})`; },
+});
+
+Object.assign(ExpoExp.prototype, {
+  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+});
+
 /*
 Object.assign(BooleanLiteral.prototype, {
   gen() { return `${this.value}`; },
