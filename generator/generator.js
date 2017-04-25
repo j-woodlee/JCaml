@@ -172,11 +172,15 @@ Object.assign(Call.prototype, {
 */
 
 Object.assign(FuncDec.prototype, {
-  gen() { return this.body.gen(); },
+  gen() {
+      emit(`function ${this.id}() {`);
+      emit("}");
+      return this.body.gen();
+  },
 });
 
 Object.assign(List.prototype, {
-  gen() { return `(${this.arg.gen()})`; },
+  gen() { return `(${this.binexps.gen()})`; },
 });
 
 /*
