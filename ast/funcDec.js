@@ -15,7 +15,7 @@ module.exports = class FuncDec extends Decl {
         this.params.forEach((param) => {
             // duplicate parameter check
             localContext.checkIfVariableIsAlreadyDeclared(param.id);
-            param.analyze(localContext);
+            // param.analyze(localContext);
             localContext.addVariable(param.id, param);
         });
 
