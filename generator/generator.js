@@ -236,7 +236,6 @@ Object.assign(Body.prototype, {
 
 Object.assign(Block.prototype, {
     gen() {
-        generateLibraryFunctions();
         this.statements.forEach(statement => statement.gen());
     },
 });
