@@ -240,6 +240,12 @@ Object.assign(Block.prototype, {
         this.statements.forEach(statement => statement.gen());
     },
 });
+
+Object.assign(Params.prototype, {
+    gen() {
+        this.params.forEach(param => param.gen());
+    },
+});
 /*
 
 */
