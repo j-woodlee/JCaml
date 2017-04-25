@@ -19,11 +19,11 @@ const Block = require("../ast/block");
 const Return = require("../ast/return");
 const Stmt = require("../ast/stmt");
 const Argument = require("../ast/arg");
+const Arguments = require("../ast/args");
 const StringLiteral = require("../ast/stringLit");
 const FuncCall = require("../ast/funcCall");
 const AddExp = require("../ast/addExp");
 const BinExp = require("../ast/binExp");
-const Arguments = require("../ast/args");
 const Body = require("../ast/body");
 const CharLit = require("../ast/charLit");
 const Decl = require("../ast/decl");
@@ -99,7 +99,17 @@ function generateLibraryFunctions() {
 
 
 Object.assign(Argument.prototype, {
-  gen() { return this.expression.gen(); },
+  gen() {
+    let translation = jsName(this);
+    if (this.id) {
+      translation += ` = ${this.id.gen()}`;
+    }
+    return translation;
+  },
+});
+
+Object.assign(Arguments.prototype, {
+  gen() { return this.args.forEach(arg => arg.gen()); },
 });
 
 /*
@@ -165,6 +175,10 @@ Object.assign(FuncDec.prototype, {
   gen() { return this.function.gen(); },
 });
 
+Object.assign(List.prototype, {
+  gen() { return `(${this.arg.gen()} ${this.args.gen()})`; },
+});
+
 /*
 
 Object.assign(FunctionObject.prototype, {
@@ -201,8 +215,8 @@ Object.assign(NumLit.prototype, {
 Object.assign(Param.prototype, {
   gen() {
     let translation = jsName(this);
-    if (this.defaultExpression) {
-      translation += ` = ${this.defaultExpression.gen()}`;
+    if (this.id) {
+      translation += ` = ${this.id.gen()}`;
     }
     return translation;
   },
