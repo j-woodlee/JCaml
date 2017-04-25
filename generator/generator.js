@@ -228,6 +228,12 @@ Object.assign(Program.prototype, {
   },
 });
 
+Object.assign(Body.prototype, {
+  gen() {
+    return `${this.block.gen()}`;
+  },
+});
+
 Object.assign(Block.prototype, {
     gen() {
         generateLibraryFunctions();
