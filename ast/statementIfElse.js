@@ -1,4 +1,5 @@
 const Type = require("../ast/type");
+const Stmt = require("../ast/stmt");
 
 Type.INT = new Type("int");
 Type.FLOAT = new Type("float");
@@ -6,7 +7,7 @@ Type.STRING = new Type("string");
 Type.BOOL = new Type("bool");
 Type.CHAR = new Type("char");
 
-module.exports = class StatementIfElse extends module.exports.Stmt {
+module.exports = class StatementIfElse extends Stmt {
     constructor(expressions, blocks) {
         super();
         this.expressions = expressions;
