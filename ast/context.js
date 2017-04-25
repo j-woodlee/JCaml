@@ -63,7 +63,5 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-// new FuncDec("print", [new Parameter("_", null)], null).analyze(Context.INITIAL);
-// new FuncDec("sqrt", [new Parameter("_", null)], null).analyze(Context.INITIAL);
 
 module.exports = Context;
