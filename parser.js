@@ -356,10 +356,10 @@ class BinExp {
     analyze(context) {
         this.binexp.analyze(context);
         this.addexp.analyze(context);
-        if (this.binexp.type !== this.addexp.type) {
+        if ((this.binexp.type !== Type.BOOL) || (this.addexp.type !== Type.BOOL)) {
             throw new Error(`Incompatible Types: Cannot use ${this.op} on ${this.binexp} and ${this.addexp}`);
         }
-        this.type = this.binexp.type;
+        this.type = Type.BOOL;
     }
 
     toString() {
@@ -381,7 +381,8 @@ class AddExp {
     analyze(context) {
         this.addexp.analyze(context);
         this.mullexp.analyze(context);
-        if (this.addexp.type !== this.mullexp.type) {
+        if (this.addexp.type !== this.mullexp.type ||
+            (this.addexp.type === Type.BOOL) || (this.mullexp.type === Type.BOOL)) {
             throw new Error("Incompatible types, cannot add.");
         }
         this.type = this.addexp.type; // can use addexp or mullexp to get type
@@ -402,8 +403,14 @@ class MullExp {
     analyze(context) {
         this.mullexp.analyze(context);
         this.prefixexp.analyze(context);
-        if (this.mullexp.type !== this.prefixop.type) {
-            throw new Error("Incompatible types, cannot add.");
+        if ((this.mullexp.type !== this.prefixop.type) ||
+            (this.mullexp.type === Type.STRING) ||
+            (this.mullexp.type === Type.BOOL) ||
+            (this.mullexp.type === Type.CHAR) ||
+            (this.prefixexp.type === Type.STRING) ||
+            (this.prefixexp.type === Type.BOOL) ||
+            (this.prefixexp.type === Type.CHAR)) {
+            throw new Error("Incompatible types, cannot Multiply.");
         }
         this.type = this.mullexp.type; // can use prefixexp or mullexp to get type
     }
@@ -435,10 +442,20 @@ class ExpoExp {
         this.expoexp = expoexp;
     }
 
-    // analyze() {
-    //     //  parenexp and expoexp must be the same type (float and int)
-            // from there I can determine the ExpoExp type
-    // }
+    analyze(context) {
+        this.parenexp.analyze(context);
+        this.expoexp.analyze(context);
+        if ((this.parenexp.type !== this.expoexp.type) ||
+            (this.parenexp.type === Type.STRING) ||
+            (this.parenexp.type === Type.BOOL) ||
+            (this.parenexp.type === Type.CHAR) ||
+            (this.expoexp.type === Type.STRING) ||
+            (this.expoexp.type === Type.BOOL) ||
+            (this.expoexp.type === Type.CHAR)) {
+            throw new Error("Incompatible types, cannot exponent.");
+        }
+        this.type = this.expoexp.type;
+    }
 
     toString() {
         return `(Expoexp ${this.Parenexp} ${this.op} ${this.Expoexp})`;
@@ -446,13 +463,17 @@ class ExpoExp {
 }
 
 class ParenExp {
-    constructor(parenexp) {
-        this.parenexp = parenexp;
-        this.type = this.parenexp.type;
+    constructor(addexp) {
+        this.addexp = addexp;
+    }
+
+    analyze(context) {
+        this.addexp.analyze(context);
+        this.type = this.addexp.type;
     }
 
     toString() {
-        return `(Parenexp (${this.parenexp}))`;
+        return `(Parenexp (${this.addexp}))`;
     }
 }
 
@@ -463,7 +484,6 @@ class Matches {
     }
 
     // analyze(context) {
-
     // }
 
     toString() {
@@ -639,7 +659,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     ExpoExp_binary(parenexp, op, expoexp) {
       return new ExpoExp(op.tree(), parenexp.tree(), expoexp.tree());
     },
-    ParenExp_parens(_1, parenexp, _2) { return new ParenExp(parenexp.tree()); },
+    ParenExp_parens(_1, addexp, _2) { return new ParenExp(addexp.tree()); },
     Matches(_1, exp1, _2, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
     Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
     List_list(_1, _2, _3, _4, args) { return new List(this.sourceString); },
