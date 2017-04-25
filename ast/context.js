@@ -52,6 +52,15 @@ class Context {
         }
     }
 
+    hasBeenDeclared(id) {
+        if (this.localVariables[id]) {
+            return true;
+        } else if (this.parent !== null) {
+            return this.parent.hasBeenDeclared(id);
+        }
+        return false;
+    }
+
     checkIfVariableIsAlreadyDeclared(id) {
         if (this.localVariables[id]) {
             throw new Error(`Variable ${id} already declared`);
