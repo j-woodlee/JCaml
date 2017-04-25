@@ -508,9 +508,9 @@ class List {
         this.args = args;
     }
 
-  toString() {
-    return `(List ${this.arg} ${this.args})`;
-  }
+    toString() {
+        return `(List ${this.arg} ${this.args})`;
+    }
 }
 
 class Numlit {
@@ -525,10 +525,6 @@ class Numlit {
             }
             numberString += ")";
         return numberString;
-    }
-
-    gen() {
-        return `${this.value}`;
     }
 }
 
