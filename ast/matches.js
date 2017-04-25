@@ -4,6 +4,11 @@ module.exports = class Matches {
         this.exp2 = exp2;
     }
 
+    analyze(context) {
+        this.exp1.analyze(context);
+        this.exp2.analyze(context);
+    }
+
     toString() {
         return `(Matches | ${this.exp1} -> ${this.exp2})`;
     }

@@ -1,13 +1,13 @@
 const Stmt = require("../ast/stmt");
 
 module.exports = class Print extends Stmt {
-    constructor(argument) {
+    constructor(binexp) {
         super();
-        this.argument = argument;
+        this.binexp = binexp;
     }
 
     analyze(context) {
-        this.argument.analyze(context);
+        this.binexp.analyze(context);
     }
 
     toString() {

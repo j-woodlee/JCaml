@@ -14,25 +14,30 @@ This language has everything. It has pattern-matching, dictionary capabilities, 
 JCaml {
     Program       =  Block
     Block         =  Stmt*
-    Stmt          =  Decl | Exp | Print
+    Stmt          =  Decl | FuncDec | Exp | Print | FuncCall | Return
                   |  "if" Exp Block
                      ("else if" Exp Block)*
-                     ("else" Block)                             -- if
+                     ("else" Block)?                             -- if
 
-    Decl          =  "let" id "=" Exp                           -- decl
-                  | FuncDec
-    FuncDec       =  "let fun" id "=" Params "=>" returnType ":" Body  -- declFun
+    Decl          =  "let" Type id "=" BinExp                    -- decl
 
-    Params        =  "(" Param ("," Param)* ")"
+    FuncDec       =  "let fun" id "=" Params "=>" (Type)? Body
+
+    Type          =  "string" | "int" | "bool" | "char" | "float"
+
+    FuncCall      =  id "(" Args ")"
+    Arg           =  (id)?
+    Args          =  ListOf<Arg, ",">
+
+    Params        =  "(" (Param ("," Param)*)* ")"
     Param         =  id
-    returnType    =  id
 
     Body          =  ":" Block ";;"
 
     Exp           =  Exp relop MatchExp                         -- binary
                   |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
                   |  MatchExp
-    MatchExp      =  "match" id "with" "\n" Matches             -- matchexp
+    MatchExp      =  "match" id "with" Matches                  -- matchexp
                   |  BinExp
     BinExp        =  BinExp binop AddExp                        -- binary
                   |  AddExp
@@ -44,29 +49,26 @@ JCaml {
                   |  ExpoExp
     ExpoExp       =  ParenExp expop ExpoExp                     -- binary
                   |  ParenExp
-    ParenExp      =  "(" ParenExp ")"                           -- parens
+    ParenExp      =  "(" AddExp ")"                             -- parens
                   |  numlit
                   |  Tuplit
                   |  List
                   |  stringlit
+                  |  charlit
 
-    Matches       =  ("|" Exp "->" Exp "\n")+
+    Matches       =  ("|" Exp "->" Exp)+
 
-    keyword       =  "if" | "else" | "with" | "in" | "bool" | "int" | "String"
-                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit" -- key
+    keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "string"
+                  |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
 
-    prefixop      =  ~"--" "not" | "!" | "-" -- prefix
-
+    prefixop      =  ~"--" "not" | "!" | "-"                    -- prefix
 
     id            =  ~keyword letter idrest*
-    TupleElement  =  charlit | BinExp                           -- tupleElement
-    Tuplit        =  "(" TupleElement "," TupleElement ")"
-    List          =  "[]"
-                  | "[" Tuplit ("," Tuplit)* "]"                -- list
-                  | "[" char ("," char)* "]"                    -- list2
-                  | "[" numlit ("," numlit)* "]"                -- list3
-                  | "[" stringlit ("," stringlit)* "]"          -- list4
-    Print         =  "spit" "(" stringlit ")"                   -- print
+    Tuplit        =  "(" BinExp "," BinExp ")"
+    List          =  "[" BinExp ("," BinExp)* "]"               -- list
+                  | "[]"
+    Print         =  "spit" "(" BinExp ")"                      -- print
+    Return        =  "hump" ParenExp
     idrest        =  "_" | alnum | "@" | "$"
     relop         =  ">" | ">=" | "==" | "!=" | "<" | "<="
     addop         =  "+" | "-" | "::"
@@ -81,7 +83,9 @@ JCaml {
                   |  "\\u{" hexDigit+ "}"                       -- codepoint
     charlit       =  "'" (char | "\"") "'"
     stringlit     =  "\"" (char | "\'")* "\""
-    comment       =  "##" (~"\n" any)* "\n"
+
+    space        := " " | "\t" | "\n" | "\r" | comment
+    comment       =  "##" (~"\n" any)*
 }
 ```
 

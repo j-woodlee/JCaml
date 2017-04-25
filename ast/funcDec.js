@@ -1,6 +1,8 @@
+const Stmt = require("../ast/stmt");
 
-module.exports = class FuncDec {
+module.exports = class FuncDec extends Stmt {
     constructor(id, params, returnType, body) {
+        super();
         this.id = id;
         this.params = params;
         this.body = body;
@@ -10,6 +12,7 @@ module.exports = class FuncDec {
     analyze(context) {
         context.checkIfVariableIsAlreadyDeclared(this.id);
         const localContext = context.createChildContextForFunctionBody(this);
+
         this.params.forEach((param) => {
             // duplicate parameter check
             localContext.checkIfVariableIsAlreadyDeclared(param.id);
