@@ -74,7 +74,6 @@ Context.INITIAL = new Context();
 new FuncDec("print", [new Parameter("test")], Type.STRING,
     new Body(new Block([new Return(new StringLit("test-string"))])))
     .analyze(Context.INITIAL);  // id, params, returntype, body
-// new FuncDec("sqrt", [new Parameter("test")], Type.FLOAT, null).analyze(Context.INITIAL);
 
 
 module.exports = Context;
