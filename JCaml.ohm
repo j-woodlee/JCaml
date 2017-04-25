@@ -6,7 +6,7 @@ JCaml {
                      ("else if" Exp Block)*
                      ("else" Block)?                             -- if
 
-    Decl          =  "let" Type id "=" BinExp                   -- decl
+    Decl          =  "let" Type id "=" BinExp                    -- decl
 
     FuncDec       =  "let fun" id "=" Params "=>" (Type)? Body
 
@@ -36,7 +36,7 @@ JCaml {
                   |  ExpoExp
     ExpoExp       =  ParenExp expop ExpoExp                     -- binary
                   |  ParenExp
-    ParenExp      =  "(" AddExp ")"                           -- parens
+    ParenExp      =  "(" AddExp ")"                             -- parens
                   |  numlit
                   |  Tuplit
                   |  List
