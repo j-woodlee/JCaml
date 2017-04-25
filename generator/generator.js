@@ -112,6 +112,12 @@ Object.assign(Arguments.prototype, {
   gen() { return this.args.forEach(arg => arg.gen()); },
 });
 
+Object.assign(Params.prototype, {
+    gen() {
+        this.params.forEach(param => param.gen());
+    },
+});
+
 /*
 Object.assign(AssignmentStatement.prototype, {
   gen() {
@@ -173,7 +179,7 @@ Object.assign(Call.prototype, {
 
 Object.assign(FuncDec.prototype, {
   gen() {
-      emit(`function ${this.id}() {`);
+      emit(`function ${this.id}(${this.params.forEach(p => p.gen()).join(", ")}) {`);
       emit("}");
       return this.body.gen();
   },
@@ -241,12 +247,6 @@ Object.assign(Body.prototype, {
 Object.assign(Block.prototype, {
     gen() {
         this.statements.forEach(statement => statement.gen());
-    },
-});
-
-Object.assign(Params.prototype, {
-    gen() {
-        this.params.forEach(param => param.gen());
     },
 });
 /*
