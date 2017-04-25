@@ -22,6 +22,7 @@ const Argument = require("../ast/arg");
 const StringLiteral = require("../ast/stringLit");
 const FuncCall = require("../ast/funcCall");
 const AddExp = require("../ast/addExp");
+const BinExp = require("../ast/binExp");
 const Arguments = require("../ast/args");
 const Body = require("../ast/body");
 const CharLit = require("../ast/charLit");
@@ -109,11 +110,13 @@ Object.assign(AssignmentStatement.prototype, {
     emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
   },
 });
+*/
 
-Object.assign(BinaryExpression.prototype, {
+Object.assign(BinExp.prototype, {
   gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
+/*
 Object.assign(BooleanLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
@@ -136,10 +139,13 @@ Object.assign(Call.prototype, {
     return `${jsName(fun)}(${args.map(a => (a ? a.gen() : "undefined")).join(", ")})`;
   },
 });
+*/
 
-Object.assign(FunctionDeclaration.prototype, {
+Object.assign(FuncDec.prototype, {
   gen() { return this.function.gen(); },
 });
+
+/*
 
 Object.assign(FunctionObject.prototype, {
   gen() {
@@ -167,12 +173,12 @@ Object.assign(IfStatement.prototype, {
     emit("}");
   },
 });
-
-Object.assign(NumericLiteral.prototype, {
+*/
+Object.assign(NumLit.prototype, {
   gen() { return `${this.value}`; },
 });
 
-Object.assign(Parameter.prototype, {
+Object.assign(Param.prototype, {
   gen() {
     let translation = jsName(this);
     if (this.defaultExpression) {
@@ -181,7 +187,7 @@ Object.assign(Parameter.prototype, {
     return translation;
   },
 });
-*/
+
 Object.assign(Program.prototype, {
   gen() {
     return `${this.block.gen()}`;
