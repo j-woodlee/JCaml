@@ -8,9 +8,7 @@ module.exports = class FuncDec extends module.exports.Decl {
     }
 
     analyze(context) {
-        this.id.analyze(context);
         context.checkIfVariableIsAlreadyDeclared(this.id);
-
         const localContext = context.createChildContextForFunctionBody(this);
         this.params.forEach((param) => {
             // duplicate parameter check
