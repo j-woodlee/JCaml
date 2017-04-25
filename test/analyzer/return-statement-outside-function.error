@@ -1,4 +1,1 @@
-let fun testFunction = (paramTest, paramTest1) => :
-    spit("Hello, World")
-;;
 hump "hello"
