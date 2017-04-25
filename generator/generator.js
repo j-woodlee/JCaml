@@ -16,6 +16,9 @@ const Context = require("../context");
 const Parser = require("../parser");
 
 const Program = Parser.Program;
+const Block = Parser.Block;
+const Return = Parser.Return;
+const Stmt = Parser.Stmt;
 
 console.log(Program);
 const indentPadding = 2;
@@ -165,7 +168,8 @@ Object.assign(Program.prototype, {
 });
 /*
 
-Object.assign(ReturnStatement.prototype, {
+*/
+Object.assign(Return.prototype, {
   gen() {
     if (this.returnValue) {
       emit(`return ${this.returnValue.gen()};`);
@@ -174,6 +178,7 @@ Object.assign(ReturnStatement.prototype, {
     }
   },
 });
+/*
 
 Object.assign(StringLiteral.prototype, {
   gen() { return `${this.value}`; },
