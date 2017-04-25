@@ -14,14 +14,13 @@
  // eslint-disable no-unused-vars
 
 const Context = require("../context");
-const Parser = require("../parser");
-const Program = Parser.Program;
-const Block = Parser.Block;
-const Return = Parser.Return;
-const Stmt = Parser.Stmt;
-const Argument = Parser.Arg;
-const StringLiteral = Parser.Stringlit;
-const FuncCall = Parser.FuncCall;
+const Program = require("../ast/program");
+const Block = require("../ast/block");
+const Return = require("../ast/return");
+const Stmt = require("../ast/stmt");
+const Argument = require("../ast/arg");
+const StringLiteral = require("../ast/stringLit");
+const FuncCall = require("../ast/funcCall");
 
 const indentPadding = 2;
 let indentLevel = 0;
