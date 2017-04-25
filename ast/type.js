@@ -3,10 +3,6 @@ class Type {
         this.type = type;
     }
 
-    // analyze(context) {
-    //
-    // }
-
     toString() {
         const typeString = `Type ${this.type}`;
         return typeString;

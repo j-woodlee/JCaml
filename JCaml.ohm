@@ -6,9 +6,9 @@ JCaml {
                      ("else if" Exp Block)*
                      ("else" Block)?                             -- if
 
-    Decl          =  "let" Type id "=" BinExp                   -- decl
+    Decl          =  "let" Type id "=" BinExp                    -- decl
 
-    FuncDec       =  "let fun" id "=" Params "=>" (Type)? Body
+    FuncDec       =  "let fun" id "= (" Params ") =>" (Type)? Body
 
     Type          =  "string" | "int" | "bool" | "char" | "float"
 
@@ -16,7 +16,7 @@ JCaml {
     Arg           =  (id)?
     Args          =  ListOf<Arg, ",">
 
-    Params        =  "(" (Param ("," Param)*)* ")"
+    Params        =  ListOf<Param, ",">
     Param         =  id
 
     Body          =  ":" Block ";;"
@@ -36,7 +36,7 @@ JCaml {
                   |  ExpoExp
     ExpoExp       =  ParenExp expop ExpoExp                     -- binary
                   |  ParenExp
-    ParenExp      =  "(" AddExp ")"                           -- parens
+    ParenExp      =  "(" AddExp ")"                             -- parens
                   |  numlit
                   |  Tuplit
                   |  List

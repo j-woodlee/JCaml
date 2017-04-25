@@ -1,1 +1,1 @@
-{"block":{"statements":[{"id":"matchTest","params":{"params":[[{"id":"test1"}],[{"id":"test2"}]]},"body":{"block":{"statements":[{"exp":"test1","matches":{"exp1":[{"value":"\"hi\""}],"exp2":[{"value":"\"hello, world!\""}]}}]}},"returnType":[{"type":"string"}]}]}}
+{"block":{"statements":[{"id":"matchTest","params":{"params":"test1, test2"},"body":{"block":{"statements":[{"id":"test1","matches":{"exp1":[{"value":"\"hi\""}],"exp2":[{"value":"\"hello, world!\""}]}}]}},"returnType":[{"type":"string"}]}]}}
