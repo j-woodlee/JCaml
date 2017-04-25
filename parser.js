@@ -653,7 +653,10 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
 
 function parse(text) {
     const match = JCamlGrammar.match(text);
-    return semantics(match).tree();
+    if (match.succeeded()) {
+        return semantics(match).tree();
+    }
+    throw new Error(match.message);
 }
 
 module.exports = { parse, Program, Block, Stmt, Return, Arg, Param, Stringlit };

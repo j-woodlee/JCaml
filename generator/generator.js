@@ -15,7 +15,6 @@
 
 const Context = require("../context");
 const Parser = require("../parser");
-
 const Program = Parser.Program;
 const Block = Parser.Block;
 const Return = Parser.Return;

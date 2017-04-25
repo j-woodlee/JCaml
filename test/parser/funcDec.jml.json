@@ -1,1 +1,1 @@
-{"block":{"statements":[{"type":[],"params":{"params":[[{"id":"paramTest"}],[{"id":"paramTest1"}]]},"body":{"block":{"statements":[{"argument":{"value":"\"Hello, World\""}}]}}}]}}
+{"block":{"statements":[{"id":"testFunction","params":{"params":[[{"id":"paramTest"}],[{"id":"paramTest1"}]]},"body":{"block":{"statements":[{"argument":{"value":"\"Hello, World\""}}]}},"returnType":[]}]}}
