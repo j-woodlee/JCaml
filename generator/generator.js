@@ -236,9 +236,9 @@ Object.assign(Return.prototype, {
 Object.assign(Print.prototype, {
   gen() {
     if (this.binexp) {
-      emit(`print ${this.binexp.gen()};`);
+      emit(`console.log(${this.binexp.gen()});`);
     } else {
-      emit("print;");
+      emit("console.log();");
     }
   },
 });
