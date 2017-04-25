@@ -62,11 +62,13 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
       return new FuncDec(id.sourceString, params.tree(), type.tree(), body.tree());
     },
     FuncCall(id, _1, args, _2) { return new FuncCall(id.sourceString, args.tree()); },
-    Args(arg) { return new Args(arg.tree()); },
+    // Args(arg) { return new Args(arg.tree()); },
+    NonemptyListOf(first, _, rest) { return [first.tree()].concat(rest.tree()); },
+    EmptyListOf() { return []; },
     Arg(id) { return new Arg(id.sourceString); },
-    Params(params) {
-      return new Params(params.sourceString);
-    },
+    // Params(params) {
+    //   return new Params(params.sourceString);
+    // },
     Param(id) { return new Param(id.sourceString); },
     Type(type) { return new Type(type.sourceString); },
     Body(_1, block, _2) { return new Body(block.tree()); },
