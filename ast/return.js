@@ -1,4 +1,4 @@
-const Stmt = require("../ast/stmt");
+const Stmt = require("./stmt");
 
 module.exports = class Return extends Stmt {
     constructor(argument) {
