@@ -1,4 +1,6 @@
-module.exports = class FuncCall extends module.exports.Stmt {
+const Stmt = require("../ast/stmt");
+
+module.exports = class FuncCall extends Stmt {
     constructor(id, args) {
         super();
         this.id = id;
