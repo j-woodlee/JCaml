@@ -172,7 +172,7 @@ Object.assign(Call.prototype, {
 */
 
 Object.assign(FuncDec.prototype, {
-  gen() { return this.function.gen(); },
+  gen() { return this.body.gen(); },
 });
 
 Object.assign(List.prototype, {
