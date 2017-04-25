@@ -2,6 +2,7 @@ const fs = require("fs");
 const assert = require("assert");
 const parse = require("../../parser.js");
 
+/* eslint-disable */
 describe("The parser", () => {
   fs.readdirSync(__dirname).forEach((name) => {
     if (name.endsWith(".jml")) {

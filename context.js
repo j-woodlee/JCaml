@@ -11,6 +11,13 @@ class Context {
         return new Context({ parent: this, currentFunction });
     }
 
+    assertReturnTypeMatchesFunctionReturnType(arg) {
+        if (arg.type !== this.currentFunction.returnType) {
+            throw new Error("Return value does not match current function's declared return type.");
+        }
+        return 0;
+    }
+
     createChildContextForBlock() {
         return new Context({ parent: this, currentFunction: this.currentFunction });
     }

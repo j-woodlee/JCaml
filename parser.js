@@ -158,6 +158,10 @@ class Print extends Stmt {
         this.argument = argument;
     }
 
+    analyze(context) {
+        this.argument.analyze(context);
+    }
+
     toString() {
         return `(Print (${this.argument}))`;
     }
@@ -169,15 +173,21 @@ class Return extends Stmt {
         this.argument = argument;
     }
 
+    analyze(context) {
+        this.argument.analyze(context);
+        context.assertReturnTypeMatchesFunctionReturnType(this.argument);
+        context.assertInFunction("Return statement outside function");
+    }
+
     toString() {
         return `(Return ${this.argument})`;
     }
 
     gen() {
         if (this.returnValue) {
-            emit(`return ${this.returnValue.gen()};`);
+            // emit(`return ${this.returnValue.gen()};`);
         } else {
-            emit('return;');
+            // emit('return;');
         }
     }
 }
@@ -267,7 +277,7 @@ class Arg {
     gen() {
         return this.expression.gen();
     }
- }
+}
 
 class Params {
     constructor(params) {
@@ -361,9 +371,9 @@ class BinExp {
         return `(BinExp ${this.binexp} ${this.op} ${this.addexp})`;
     }
 
-    gen() {
-        return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
-    }
+    // gen() {
+        // return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
+    // }
  }
 
 class AddExp {
@@ -371,6 +381,15 @@ class AddExp {
         this.op = op;
         this.addexp = addexp;
         this.mullexp = mullexp;
+    }
+
+    analyze(context) {
+        this.addexp.analyze(context);
+        this.mullexp.analyze(context);
+        if (this.addexp.type !== this.mullexp.type) {
+            throw new Error("Incompatible types, cannot add.");
+        }
+        this.type = this.addexp.type;
     }
 
     toString() {
