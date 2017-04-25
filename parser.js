@@ -679,4 +679,4 @@ function parse(text) {
     throw new Error(match.message);
 }
 
-module.exports = { parse, Program, Block, Stmt, Return, Arg, Param, Stringlit };
+module.exports = { parse, Program, Block, Stmt, Return, Arg, Param, Stringlit, FuncCall, FuncDec, Param };
