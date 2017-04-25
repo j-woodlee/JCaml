@@ -290,7 +290,7 @@ Object.assign(Decl.prototype, {
   gen() {
     // const variables = this.variables.map(v => v.gen());
     // const initializers = this.initializers.map(i => i.gen());
-    emit(`let ${this.id} = ${this.exp.gen()};`);
+    return `let ${this.id} = ${this.exp.gen()};`;
   },
 });
 
