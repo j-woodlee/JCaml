@@ -1,4 +1,4 @@
-let fun matchList = (a, b, c) => String :
+let fun matchList = (a, b, c) => string :
     match b with
     | ["a", "b", "cat"] -> "Hello"
     | [] -> "empty"
