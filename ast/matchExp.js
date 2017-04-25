@@ -1,11 +1,11 @@
 module.exports = class MatchExp {
-    constructor(exp, matches) {
-        this.exp = exp;
+    constructor(id, matches) {
+        this.id = id;
         this.matches = matches;
     }
 
     analyze(context) {
-        this.exp.analyze(context);
+        // this.id.analyze(context);
         this.matches.forEach((match) => {
             match.analyze(context);
         });
