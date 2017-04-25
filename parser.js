@@ -38,10 +38,6 @@ class Program {
     toString() {
         return `(Program ${this.block})`;
     }
-
-    static gen() {
-        // console.log("Hi this is the generator");
-    }
 }
 
 class Block {
@@ -175,6 +171,14 @@ class Return extends Stmt {
 
     toString() {
         return `(Return ${this.argument})`;
+    }
+
+    gen() {
+        if (this.returnValue) {
+            emit(`return ${this.returnValue.gen()};`);
+        } else {
+            emit('return;');
+        }
     }
 }
 
@@ -356,7 +360,11 @@ class BinExp {
     toString() {
         return `(BinExp ${this.binexp} ${this.op} ${this.addexp})`;
     }
-}
+
+    gen() {
+        return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
+    }
+ }
 
 class AddExp {
     constructor(op, addexp, mullexp) {
@@ -506,7 +514,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     mullop(op) { return new Mullop(this.sourceString); },
     expop(op) { return new Expop(this.sourceString); },
     binop(op) { return new Binop(this.sourceString); },
-    FuncDec(_1, id, _2, params, _3, type, body) {
+    FuncDec(_1, id, _2, params, _3, type, _4, body) {
       return new FuncDec(id.sourceString, params.tree(), type.tree(), body.tree());
     },
     FuncCall(id, _1, args, _2) { return new FuncCall(id.sourceString, args.tree()); },
