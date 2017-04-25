@@ -582,4 +582,4 @@ function parse(text) {
     return semantics(match).tree();
 }
 
-module.exports = { parse, Program, Block, Stmt, Return, Arg, Param };
+module.exports = { parse, Program, Block, Stmt, Return, Arg, Param, Stringlit };
