@@ -1,6 +1,3 @@
-const FuncDec = require("./ast/FuncDec");
-const Parameter = require("./ast/param");
-
 class Context {
     constructor({ parent = null, currentFunction = null } = {}) {
         this.parent = parent;
@@ -66,7 +63,7 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-new FuncDec("print", [new Parameter("_", null)], null).analyze(Context.INITIAL);
-new FuncDec("sqrt", [new Parameter("_", null)], null).analyze(Context.INITIAL);
+// new FuncDec("print", [new Parameter("_", null)], null).analyze(Context.INITIAL);
+// new FuncDec("sqrt", [new Parameter("_", null)], null).analyze(Context.INITIAL);
 
 module.exports = Context;
