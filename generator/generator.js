@@ -21,6 +21,10 @@ const Return = Parser.Return;
 const Stmt = Parser.Stmt;
 const Argument = Parser.Arg;
 const StringLiteral = Parser.Stringlit;
+<<<<<<< HEAD
+const FuncCall = Parser.FuncCall;
+=======
+>>>>>>> origin/davidgenerator
 
 const indentPadding = 2;
 let indentLevel = 0;
@@ -164,7 +168,7 @@ Object.assign(Parameter.prototype, {
 */
 Object.assign(Program.prototype, {
   gen() {
-    return `${this.block}`;
+    return `${this.block.gen()}`;
   },
 });
 
