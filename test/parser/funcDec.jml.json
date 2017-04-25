@@ -1,1 +1,1 @@
-{"block":{"statements":[{"id":"testFunction","params":{"params":"paramTest, paramTest1"},"body":{"block":{"statements":[{"argument":{"value":"\"Hello, World\""}}]}},"returnType":[]}]}}
+{"block":{"statements":[{"id":"testFunction","params":{"params":"paramTest, paramTest1"},"body":{"block":{"statements":[{"binexp":{"value":"\"Hello, World\""}}]}},"returnType":[]}]}}
