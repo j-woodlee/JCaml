@@ -8,7 +8,7 @@ JCaml {
 
     Decl          =  "let" Type id "=" BinExp                    -- decl
 
-    FuncDec       =  "let fun" id "=" Params "=>" (Type)? Body
+    FuncDec       =  "let fun" id "= (" Params ") =>" (Type)? Body
 
     Type          =  "string" | "int" | "bool" | "char" | "float"
 
@@ -16,7 +16,7 @@ JCaml {
     Arg           =  (id)?
     Args          =  ListOf<Arg, ",">
 
-    Params        =  "("ListOf<Param, ",">")"
+    Params        =  ListOf<Param, ",">
     Param         =  id
 
     Body          =  ":" Block ";;"
