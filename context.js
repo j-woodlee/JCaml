@@ -14,7 +14,7 @@ class Context {
         return new Context({ parent: this, currentFunction });
     }
 
-    assertReturnTypeMatchesFunctionReturnType(arg) {
+    assertTypeMatchesFunctionReturnType(arg) {
         if (arg.type !== this.currentFunction.returnType) {
             throw new Error("Return value does not match current function's declared return type.");
         }

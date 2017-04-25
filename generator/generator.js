@@ -21,7 +21,10 @@ const Return = Parser.Return;
 const Stmt = Parser.Stmt;
 const Argument = Parser.Arg;
 const StringLiteral = Parser.Stringlit;
+<<<<<<< HEAD
 const FuncCall = Parser.FuncCall;
+=======
+>>>>>>> origin/davidgenerator
 
 const indentPadding = 2;
 let indentLevel = 0;

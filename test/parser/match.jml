@@ -1,5 +1,5 @@
-let fun matchTest = (test1, test2) => String :
-    match test1 with 
+let fun matchTest = (test1, test2) => string :
+    match test1 with
     | "hi" -> "hello, world!"
 ;;
 ## this is a test comment.
