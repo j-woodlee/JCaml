@@ -1,6 +1,5 @@
 module.exports = class Return {
     constructor(argument) {
-        super();
         this.argument = argument;
     }
 

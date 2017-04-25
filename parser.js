@@ -3,9 +3,10 @@ const fs = require("fs");
 const ohm = require("ohm-js");
 
 const parserContents = fs.readFileSync("JCaml.ohm");
-const Context = require("./context.js");
+const Context = require("./ast/context.js");
 
 const JCamlGrammar = ohm.grammar(parserContents);
+const Type = require("./ast/type");
 
 class Program {
     constructor(block) {

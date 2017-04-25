@@ -18,8 +18,6 @@ module.exports = class FuncDec extends Decl {
             // param.analyze(localContext);
             localContext.addVariable(param.id, param);
         });
-
-        this.returnType.analyze(context);
         this.body.analyze(localContext);
         this.type = this.returnType;
         context.addVariable(this.id, this);
