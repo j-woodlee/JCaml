@@ -1,4 +1,7 @@
+const Parser = require("./parser");
 
+const FuncDec = Parser.FuncDec;
+const Param = Parser.Param;
 class Context {
     constructor({ parent = null, currentFunction = null } = {}) {
         this.parent = parent;
@@ -64,7 +67,7 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-// new FunctionDeclaration("print", [new Parameter("_", null)], null).analyze(Context.INITIAL);
-// new FunctionDeclaration("sqrt", [new Parameter("_", null)], null).analyze(Context.INITIAL);
+new FuncDec("print", [new Param("_", null)], null).analyze(Context.INITIAL);
+new FuncDec("sqrt", [new Param("_", null)], null).analyze(Context.INITIAL);
 
 module.exports = Context;
