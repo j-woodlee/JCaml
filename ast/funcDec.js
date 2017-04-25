@@ -1,4 +1,4 @@
-const Decl = require("../ast/decl");
+const Decl = require("./decl");
 
 module.exports = class FuncDec extends Decl {
     constructor(id, params, returnType, body) {

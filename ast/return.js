@@ -1,15 +1,15 @@
 const Stmt = require("./stmt");
 
 module.exports = class Return extends Stmt {
-    constructor(argument) {
+    constructor(parenexp) {
         super();
-        this.argument = argument;
+        this.parenexp = parenexp;
     }
 
     analyze(context) {
-        this.argument.analyze(context);
+        this.parenexp.analyze(context);
         context.assertInFunction("Return statement outside function.");
-        context.assertTypeMatchesFunctionReturnType(this.argument);
+        context.assertTypeMatchesFunctionReturnType(this.parenexp);
     }
 
     toString() {
