@@ -562,4 +562,4 @@ function parse(text) {
     const match = JCamlGrammar.match(text);
     return semantics(match).tree();
 }
-module.exports = parse;
+module.exports = { parse, Program };

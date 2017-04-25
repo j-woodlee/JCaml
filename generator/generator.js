@@ -17,6 +17,7 @@ const Parser = require("../parser");
 
 const Program = Parser.Program;
 
+console.log(Program);
 const indentPadding = 2;
 let indentLevel = 0;
 
