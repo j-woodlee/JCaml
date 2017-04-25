@@ -1,8 +1,6 @@
-const Decl = require("./decl");
 
-module.exports = class FuncDec extends Decl {
+module.exports = class FuncDec {
     constructor(id, params, returnType, body) {
-        super();
         this.id = id;
         this.params = params;
         this.body = body;
