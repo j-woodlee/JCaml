@@ -1,1 +1,1 @@
-{"block":{"statements":[{"type":[{"type":"int"}],"params":{"params":[[{"id":"a"}],[{"id":"b"},{"id":"c"}]]},"body":{"block":{"statements":[{"type":{"type":"int"},"id":"d","exp":{"value":"46"}}]}}}]}}
+{"block":{"statements":[{"id":"variableTest","params":{"params":[[{"id":"a"}],[{"id":"b"},{"id":"c"}]]},"body":{"block":{"statements":[{"declaredType":{"type":"int"},"id":"d","exp":{"value":"46"}}]}},"returnType":[{"type":"int"}]}]}}

@@ -143,7 +143,7 @@ class FuncDec extends Stmt {
 
         this.returnType.analyze(context);
         this.body.analyze(localContext);
-        this.type = this.body.type;
+        this.type = this.returnType;
     }
 
     toString() {
@@ -175,8 +175,8 @@ class Return extends Stmt {
 
     analyze(context) {
         this.argument.analyze(context);
-        context.assertReturnTypeMatchesFunctionReturnType(this.argument);
-        context.assertInFunction("Return statement outside function");
+        context.assertInFunction("Return statement outside function.");
+        context.assertTypeMatchesFunctionReturnType(this.argument);
     }
 
     toString() {
@@ -197,6 +197,10 @@ class Addop {
         this.op = op;
     }
 
+    // analyze(context) {
+    //     this.op.analyze(context);
+    // }
+
     toString() {
         return `(addop ${this.op})`;
     }
@@ -207,6 +211,10 @@ class Relop {
         this.op = op;
     }
 
+    // analyze(context) {
+    //     this.op.analyze(context);
+    // }
+
     toString() {
         return `(relop ${this.op})`;
     }
@@ -216,6 +224,10 @@ class Mullop {
     constructor(op) {
         this.op = op;
     }
+
+    // analyze(context) {
+    //     this.op.analyze(context);
+    // }
 
     toString() {
         return `(mullop ${this.op})`;
@@ -249,6 +261,10 @@ class FuncCall extends Stmt {
         this.id = id;
         this.args = args;
     }
+
+    // analyze(context) {
+    //
+    // }
 
     toString() {
         return `(funcCall ${this.id} ($this.args))`;
@@ -364,7 +380,10 @@ class BinExp {
     analyze(context) {
         this.binexp.analyze(context);
         this.addexp.analyze(context);
-        this.type = Type.INT;
+        if (this.binexp.type !== this.addexp.type) {
+            throw new Error(`Incompatible Types: Cannot use ${this.op} on ${this.binexp} and ${this.addexp}`);
+        }
+        this.type = this.binexp.type;
     }
 
     toString() {
@@ -389,7 +408,7 @@ class AddExp {
         if (this.addexp.type !== this.mullexp.type) {
             throw new Error("Incompatible types, cannot add.");
         }
-        this.type = this.addexp.type;
+        this.type = this.addexp.type; // can use addexp or mullexp to get type
     }
 
     toString() {
@@ -402,6 +421,15 @@ class MullExp {
         this.op = op;
         this.mullexp = mullexp;
         this.prefixexp = prefixexp;
+    }
+
+    analyze(context) {
+        this.mullexp.analyze(context);
+        this.prefixexp.analyze(context);
+        if (this.mullexp.type !== this.prefixop.type) {
+            throw new Error("Incompatible types, cannot add.");
+        }
+        this.type = this.mullexp.type; // can use prefixexp or mullexp to get type
     }
 
     toString() {
