@@ -30,6 +30,7 @@ const Decl = require("../ast/decl");
 const ExpBinary = require("../ast/exp_binary");
 const ExpTernary = require("../ast/exp_ternary");
 const ExpoExp = require("../ast/expoExp");
+const ParenExp = require("../ast/parenExp");
 const FuncDec = require("../ast/funcDec");
 const List = require("../ast/list");
 const Matches = require("../ast/matches");
@@ -131,6 +132,10 @@ Object.assign(ExpoExp.prototype, {
   gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
+Object.assign(ParenExp.prototype, {
+  gen() { return `(${this.addexp.gen()})`; },
+});
+
 /*
 Object.assign(BooleanLiteral.prototype, {
   gen() { return `${this.value}`; },
@@ -212,7 +217,7 @@ Object.assign(Program.prototype, {
 Object.assign(Block.prototype, {
     gen() {
         generateLibraryFunctions();
-        this.statements.forEach(statement => console.log(statement));
+        this.statements.forEach(statement => statement.gen());
     },
 });
 /*
@@ -230,8 +235,8 @@ Object.assign(Return.prototype, {
 
 Object.assign(Print.prototype, {
   gen() {
-    if (this.printValue) {
-      emit(`print ${this.printValue.gen()};`);
+    if (this.binexp) {
+      emit(`print ${this.binexp.gen()};`);
     } else {
       emit("print;");
     }
