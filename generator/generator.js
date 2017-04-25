@@ -179,9 +179,9 @@ Object.assign(Call.prototype, {
 
 Object.assign(FuncDec.prototype, {
   gen() {
-      emit(`function ${this.id}(${this.params.forEach(p => p.gen()).join(", ")}) {`);
+      emit(`function ${this.id} {`);
+      genStatementList(this.body);
       emit("}");
-      return this.body.gen();
   },
 });
 
