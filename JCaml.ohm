@@ -53,7 +53,7 @@ JCaml {
     id            =  ~keyword letter idrest*
     Tuplit        =  "(" BinExp "," BinExp ")"
     List          =  "[" BinExp ("," BinExp)* "]"               -- list
-                  | "[]"
+                  |  "[" "]"                                    -- empty
     Print         =  "spit" "(" BinExp ")"                      -- print
     Return        =  "hump" ParenExp
     idrest        =  "_" | alnum | "@" | "$"

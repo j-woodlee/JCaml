@@ -93,8 +93,10 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     ParenExp_parens(_1, addexp, _2) { return new ParenExp(addexp.tree()); },
     Matches(_1, exp1, _2, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
     Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
-    List_list(_1, _2, _3, _4, args) { return new List(this.sourceString); },
-    List(_1) { return new List(this.sourceString); },
+    List_list(_1, first, _2, rest, _3) {
+      return new List([first.tree()].concat(rest.tree()));
+    },
+    List_empty(_1, _2) { return new List([]); },
     numlit(value) { return new Numlit(this.sourceString); },
     charlit(_1, value, _2) { return new Charlit(this.sourceString); },
     stringlit(_1, value, _2) { return new Stringlit(this.sourceString); },
