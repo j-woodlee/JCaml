@@ -19,11 +19,11 @@ const Block = require("../ast/block");
 const Return = require("../ast/return");
 const Stmt = require("../ast/stmt");
 const Argument = require("../ast/arg");
+const Arguments = require("../ast/args");
 const StringLiteral = require("../ast/stringLit");
 const FuncCall = require("../ast/funcCall");
 const AddExp = require("../ast/addExp");
 const BinExp = require("../ast/binExp");
-const Arguments = require("../ast/args");
 const Body = require("../ast/body");
 const CharLit = require("../ast/charLit");
 const Decl = require("../ast/decl");
@@ -99,7 +99,17 @@ function generateLibraryFunctions() {
 
 
 Object.assign(Argument.prototype, {
-  gen() { return this.expression.gen(); },
+  gen() {
+    let translation = jsName(this);
+    if (this.id) {
+      translation += ` = ${this.id.gen()}`;
+    }
+    return translation;
+  },
+});
+
+Object.assign(Arguments.prototype, {
+  gen() { return this.args.forEach(arg => arg.gen()); },
 });
 
 /*
@@ -162,7 +172,11 @@ Object.assign(Call.prototype, {
 */
 
 Object.assign(FuncDec.prototype, {
-  gen() { return this.function.gen(); },
+  gen() { return this.body.gen(); },
+});
+
+Object.assign(List.prototype, {
+  gen() { return `(${this.arg.gen()})`; },
 });
 
 /*
@@ -201,14 +215,20 @@ Object.assign(NumLit.prototype, {
 Object.assign(Param.prototype, {
   gen() {
     let translation = jsName(this);
-    if (this.defaultExpression) {
-      translation += ` = ${this.defaultExpression.gen()}`;
+    if (this.id) {
+      translation += ` = ${this.id.gen()}`;
     }
     return translation;
   },
 });
 
 Object.assign(Program.prototype, {
+  gen() {
+    return `${this.block.gen()}`;
+  },
+});
+
+Object.assign(Body.prototype, {
   gen() {
     return `${this.block.gen()}`;
   },
@@ -236,9 +256,9 @@ Object.assign(Return.prototype, {
 Object.assign(Print.prototype, {
   gen() {
     if (this.binexp) {
-      emit(`print ${this.binexp.gen()};`);
+      emit(`console.log(${this.binexp.gen()});`);
     } else {
-      emit("print;");
+      emit("console.log();");
     }
   },
 });
