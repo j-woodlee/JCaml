@@ -16,7 +16,7 @@ JCaml {
     Arg           =  (id)?
     Args          =  ListOf<Arg, ",">
 
-    Params        =  "(" (Param ("," Param)*)* ")"
+    Params        =  "("ListOf<Param, ",">")"
     Param         =  id
 
     Body          =  ":" Block ";;"

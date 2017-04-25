@@ -64,8 +64,8 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     FuncCall(id, _1, args, _2) { return new FuncCall(id.sourceString, args.tree()); },
     Args(arg) { return new Args(arg.tree()); },
     Arg(id) { return new Arg(id.sourceString); },
-    Params(_1, firstParam, _2, moreParams, _3) {
-      return new Params([firstParam.tree()].concat(moreParams.tree()));
+    Params(_1, params, _2) {
+      return new Params(params.sourceString);
     },
     Param(id) { return new Param(id.sourceString); },
     Type(type) { return new Type(type.sourceString); },

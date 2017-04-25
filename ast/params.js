@@ -4,12 +4,6 @@ module.exports = class Params {
     }
 
     toString() {
-        let paramsString = "Params (";
-        for (const params in this.params) {
-            paramsString += `, ${params}`;
-        }
-
-        paramsString += ")";
-        return paramsString;
+        return `(Params ${this.params})`;
     }
 };
