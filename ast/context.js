@@ -1,4 +1,4 @@
-const FuncDec = require("../ast/FuncDec");
+const FuncDec = require("../ast/funcDec");
 const Parameter = require("../ast/param");
 const Type = require("./type");
 const Body = require("./body");
