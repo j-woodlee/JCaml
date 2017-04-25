@@ -1,4 +1,3 @@
-
 const Stmt = require("../ast/stmt");
 
 module.exports = class Decl extends Stmt {
