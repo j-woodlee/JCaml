@@ -89,12 +89,11 @@ function bracketIfNecessary(a) {
 
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
-    const entity = Context.INITIAL.declarations[name];
+    const entity = Context.INITIAL.localVariables[name];
     emit(`function ${jsName(entity)}(${params}) {${body}}`);
   }
   // This is sloppy. There should be a better way to do this.
   generateLibraryStub("print", "_", "console.log(_);");
-  generateLibraryStub("sqrt", "_", "return Math.sqrt(_);");
 }
 
 
