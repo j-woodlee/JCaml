@@ -13,7 +13,7 @@
  */
  // eslint-disable no-unused-vars
 
-const Context = require("../context");
+const Context = require("../ast/context");
 const Program = require("../ast/program");
 const Block = require("../ast/block");
 const Return = require("../ast/return");

@@ -1,4 +1,4 @@
-const Context = require("../context");
+const Context = require("./context");
 
 module.exports = class Program {
     constructor(block) {

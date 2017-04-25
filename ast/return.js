@@ -1,5 +1,8 @@
-module.exports = class Return {
+const Stmt = require("../ast/stmt");
+
+module.exports = class Return extends Stmt {
     constructor(argument) {
+        super();
         this.argument = argument;
     }
 
