@@ -236,8 +236,13 @@ Object.assign(Body.prototype, {
 
 Object.assign(Block.prototype, {
     gen() {
-        generateLibraryFunctions();
         this.statements.forEach(statement => statement.gen());
+    },
+});
+
+Object.assign(Params.prototype, {
+    gen() {
+        this.params.forEach(param => param.gen());
     },
 });
 /*
@@ -279,15 +284,17 @@ Object.assign(SubscriptedExpression.prototype, {
 Object.assign(UnaryExpression.prototype, {
   gen() { return `(${makeOp(this.op)} ${this.operand.gen()})`; },
 });
+*/
 
-Object.assign(VariableDeclaration.prototype, {
+Object.assign(Decl.prototype, {
   gen() {
-    const variables = this.variables.map(v => v.gen());
-    const initializers = this.initializers.map(i => i.gen());
-    emit(`let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
+    // const variables = this.variables.map(v => v.gen());
+    // const initializers = this.initializers.map(i => i.gen());
+    return `let ${this.id} = ${this.exp.gen()};`;
   },
 });
 
+/*
 Object.assign(Variable.prototype, {
   gen() { return jsName(this); },
 });
