@@ -24,7 +24,7 @@ JCaml {
     Exp           =  Exp relop MatchExp                         -- binary
                   |  MatchExp "?" MatchExp ":" MatchExp         -- ternary
                   |  MatchExp
-    MatchExp      =  "match" id "with" Matches                  -- matchexp
+    MatchExp      =  "match" Exp "with" Matches                  -- matchexp
                   |  BinExp
     BinExp        =  BinExp binop AddExp                        -- binary
                   |  AddExp
@@ -36,7 +36,7 @@ JCaml {
                   |  ExpoExp
     ExpoExp       =  ParenExp expop ExpoExp                     -- binary
                   |  ParenExp
-    ParenExp      =  "(" ParenExp ")"                           -- parens
+    ParenExp      =  "(" AddExp ")"                           -- parens
                   |  numlit
                   |  Tuplit
                   |  List

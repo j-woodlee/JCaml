@@ -104,12 +104,12 @@ class Decl extends Stmt {
     }
 
     analyze(context) {
+        this.exp.analyze(context);
         if (this.declaredType !== this.exp.type) {
             throw new Error("Declared type does not match the evaluated type.");
         }
         context.checkIfVariableIsAlreadyDeclared(this.id);
         context.addVariable(this.id, this.exp);
-        this.exp.analyze(context);
         this.declaredType.analyze(context);
         this.id.analyze(context);
     }
@@ -144,6 +144,7 @@ class FuncDec extends Stmt {
         this.returnType.analyze(context);
         this.body.analyze(localContext);
         this.type = this.returnType;
+        context.addVariable(this.id, this);
     }
 
     toString() {
@@ -192,68 +193,6 @@ class Return extends Stmt {
     }
 }
 
-class Addop {
-    constructor(op) {
-        this.op = op;
-    }
-
-    // analyze(context) {
-    //     this.op.analyze(context);
-    // }
-
-    toString() {
-        return `(addop ${this.op})`;
-    }
-}
-
-class Relop {
-    constructor(op) {
-        this.op = op;
-    }
-
-    // analyze(context) {
-    //     this.op.analyze(context);
-    // }
-
-    toString() {
-        return `(relop ${this.op})`;
-    }
-}
-
-class Mullop {
-    constructor(op) {
-        this.op = op;
-    }
-
-    // analyze(context) {
-    //     this.op.analyze(context);
-    // }
-
-    toString() {
-        return `(mullop ${this.op})`;
-    }
-}
-
-class Expop {
-    constructor(op) {
-        this.op = op;
-    }
-
-    toString() {
-        return `(expop ${this.op})`;
-    }
-}
-
-class Binop {
-    constructor(op) {
-        this.op = op;
-    }
-
-    toString() {
-        return `(binop ${this.op})`;
-    }
-}
-
 
 class FuncCall extends Stmt {
     constructor(id, args) {
@@ -262,9 +201,10 @@ class FuncCall extends Stmt {
         this.args = args;
     }
 
-    // analyze(context) {
-    //
-    // }
+    analyze(context) {
+        context.lookupVar(this.id);
+        this.args.analyze(context);
+    }
 
     toString() {
         return `(funcCall ${this.id} ($this.args))`;
@@ -274,6 +214,12 @@ class FuncCall extends Stmt {
 class Args {
     constructor(args) {
         this.args = args;
+    }
+
+    analyze(context) {
+        this.args.forEach((arg) => {
+            arg.analyze(context);
+        });
     }
 
     toString() {
@@ -288,6 +234,11 @@ class Arg {
 
     toString() {
       return `(Arg ${this.id})`;
+    }
+
+    analyze(context) {
+        // check if id is in the context
+        context.lookupVar(this.id);
     }
 
     gen() {
@@ -328,6 +279,10 @@ class Body {
         this.block = block;
     }
 
+    analyze(context) {
+        this.block.analyze(context);
+    }
+
     toString() {
         const bodyString = `(Body :${this.block};;)`;
         return bodyString;
@@ -342,6 +297,11 @@ class ExpBinary {
         this.matchexp = matchexp;
     }
 
+    analyze(context) {
+        this.exp.analyze(context);
+        this.matchexp.analyze(context);
+    }
+
     toString() {
         return `(Exp_binary ${this.exp} ${this.op} ${this.matchexp})`;
     }
@@ -354,15 +314,31 @@ class ExpTernary {
         this.matchexp3 = matchexp3;
     }
 
+    analyze(context) {
+        this.matchexp1.analyze(context);
+        if (this.matchexp1.type !== Type.BOOL) {
+            throw new Error("Ternary expression requires boolean as first argument.");
+        }
+        this.matchexp2.analyze(context);
+        this.matchexp3.analyze(context);
+    }
+
     toString() {
         return `(Exp_ternary ${this.matchexp1} ? ${this.matchexp2} : ${this.matchexp3})`;
     }
 }
 
 class MatchExp {
-    constructor(id, matches) {
-        this.id = id;
+    constructor(exp, matches) {
+        this.exp = exp;
         this.matches = matches;
+    }
+
+    analyze(context) {
+        this.exp.analyze(context);
+        this.matches.forEach((match) => {
+            match.analyze(context);
+        });
     }
 
     toString() {
@@ -380,10 +356,10 @@ class BinExp {
     analyze(context) {
         this.binexp.analyze(context);
         this.addexp.analyze(context);
-        if (this.binexp.type !== this.addexp.type) {
+        if ((this.binexp.type !== Type.BOOL) || (this.addexp.type !== Type.BOOL)) {
             throw new Error(`Incompatible Types: Cannot use ${this.op} on ${this.binexp} and ${this.addexp}`);
         }
-        this.type = this.binexp.type;
+        this.type = Type.BOOL;
     }
 
     toString() {
@@ -405,7 +381,8 @@ class AddExp {
     analyze(context) {
         this.addexp.analyze(context);
         this.mullexp.analyze(context);
-        if (this.addexp.type !== this.mullexp.type) {
+        if (this.addexp.type !== this.mullexp.type ||
+            (this.addexp.type === Type.BOOL) || (this.mullexp.type === Type.BOOL)) {
             throw new Error("Incompatible types, cannot add.");
         }
         this.type = this.addexp.type; // can use addexp or mullexp to get type
@@ -426,8 +403,14 @@ class MullExp {
     analyze(context) {
         this.mullexp.analyze(context);
         this.prefixexp.analyze(context);
-        if (this.mullexp.type !== this.prefixop.type) {
-            throw new Error("Incompatible types, cannot add.");
+        if ((this.mullexp.type !== this.prefixop.type) ||
+            (this.mullexp.type === Type.STRING) ||
+            (this.mullexp.type === Type.BOOL) ||
+            (this.mullexp.type === Type.CHAR) ||
+            (this.prefixexp.type === Type.STRING) ||
+            (this.prefixexp.type === Type.BOOL) ||
+            (this.prefixexp.type === Type.CHAR)) {
+            throw new Error("Incompatible types, cannot Multiply.");
         }
         this.type = this.mullexp.type; // can use prefixexp or mullexp to get type
     }
@@ -443,6 +426,10 @@ class PrefixExp {
         this.expoexp = expoexp;
     }
 
+    analyze(context) {
+        this.expoexp.analyze(context);
+    }
+
     toString() {
         return `(Prefixexp ${this.op} ${this.expoexp})`;
     }
@@ -455,10 +442,20 @@ class ExpoExp {
         this.expoexp = expoexp;
     }
 
-    // analyze() {
-    //     //  parenexp and expoexp must be the same type (float and int)
-            // from there I can determine the ExpoExp type
-    // }
+    analyze(context) {
+        this.parenexp.analyze(context);
+        this.expoexp.analyze(context);
+        if ((this.parenexp.type !== this.expoexp.type) ||
+            (this.parenexp.type === Type.STRING) ||
+            (this.parenexp.type === Type.BOOL) ||
+            (this.parenexp.type === Type.CHAR) ||
+            (this.expoexp.type === Type.STRING) ||
+            (this.expoexp.type === Type.BOOL) ||
+            (this.expoexp.type === Type.CHAR)) {
+            throw new Error("Incompatible types, cannot exponent.");
+        }
+        this.type = this.expoexp.type;
+    }
 
     toString() {
         return `(Expoexp ${this.Parenexp} ${this.op} ${this.Expoexp})`;
@@ -466,13 +463,17 @@ class ExpoExp {
 }
 
 class ParenExp {
-    constructor(parenexp) {
-        this.parenexp = parenexp;
-        this.type = this.parenexp.type;
+    constructor(addexp) {
+        this.addexp = addexp;
+    }
+
+    analyze(context) {
+        this.addexp.analyze(context);
+        this.type = this.addexp.type;
     }
 
     toString() {
-        return `(Parenexp (${this.parenexp}))`;
+        return `(Parenexp (${this.addexp}))`;
     }
 }
 
@@ -481,6 +482,9 @@ class Matches {
         this.exp1 = exp1;
         this.exp2 = exp2;
     }
+
+    // analyze(context) {
+    // }
 
     toString() {
         return `(Matches | ${this.exp1} -> ${this.exp2})`;
@@ -546,6 +550,68 @@ class Stringlit {
     }
 }
 
+class Addop {
+    constructor(op) {
+        this.op = op;
+    }
+
+    // analyze(context) {
+    //     this.op.analyze(context);
+    // }
+
+    toString() {
+        return `(addop ${this.op})`;
+    }
+}
+
+class Relop {
+    constructor(op) {
+        this.op = op;
+    }
+
+    // analyze(context) {
+    //     this.op.analyze(context);
+    // }
+
+    toString() {
+        return `(relop ${this.op})`;
+    }
+}
+
+class Mullop {
+    constructor(op) {
+        this.op = op;
+    }
+
+    // analyze(context) {
+    //     this.op.analyze(context);
+    // }
+
+    toString() {
+        return `(mullop ${this.op})`;
+    }
+}
+
+class Expop {
+    constructor(op) {
+        this.op = op;
+    }
+
+    toString() {
+        return `(expop ${this.op})`;
+    }
+}
+
+class Binop {
+    constructor(op) {
+        this.op = op;
+    }
+
+    toString() {
+        return `(binop ${this.op})`;
+    }
+}
+
 /* eslint-disable no-unused-vars */
 const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     Program(block) { return new Program(block.tree()); },
@@ -593,7 +659,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     ExpoExp_binary(parenexp, op, expoexp) {
       return new ExpoExp(op.tree(), parenexp.tree(), expoexp.tree());
     },
-    ParenExp_parens(_1, parenexp, _2) { return new ParenExp(parenexp.tree()); },
+    ParenExp_parens(_1, addexp, _2) { return new ParenExp(addexp.tree()); },
     Matches(_1, exp1, _2, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
     Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
     List_list(_1, _2, _3, _4, args) { return new List(this.sourceString); },
