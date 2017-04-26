@@ -187,10 +187,12 @@ Object.assign(FuncDec.prototype, {
 
 Object.assign(List.prototype, {
   gen() {
+      let eles = [];
       this.elements.forEach(element => {
           element.gen();
-          console.log(element.gen());
+          eles.push(element.gen());
       });
+      emit(`[${eles}];`);
   },
 });
 
