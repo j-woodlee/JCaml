@@ -184,7 +184,9 @@ Object.assign(FuncDec.prototype, {
           parameters.push(param.gen());
       });
       emit(`let function ${jsName(this)} = (${parameters}) => {`);
+      indentLevel += 1;
       this.body.gen();
+      indentLevel -= 1;
       emit("}");
   },
 });
