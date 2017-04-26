@@ -179,8 +179,12 @@ Object.assign(Call.prototype, {
 
 Object.assign(FuncDec.prototype, {
   gen() {
-      emit(`function ${this.id} {`);
-      genStatementList(this.body);
+      let parameters = [];
+      this.params.forEach(param => {
+          parameters.push(param.gen());
+      });
+      emit(`function ${this.id}(${parameters}) {`);
+      //genStatementList(this.block.gen());
       emit("}");
   },
 });
@@ -230,11 +234,7 @@ Object.assign(NumLit.prototype, {
 
 Object.assign(Param.prototype, {
   gen() {
-    let translation = jsName(this);
-    if (this.id) {
-      translation += ` = ${this.id.gen()}`;
-    }
-    return translation;
+      return `${this.id}`;
   },
 });
 
