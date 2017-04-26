@@ -180,7 +180,7 @@ Object.assign(Call.prototype, {
 
 Object.assign(FuncDec.prototype, {
   gen() {
-      let parameters = [];
+      const parameters = [];
       this.params.forEach(param => {
           parameters.push(param.gen());
       });
@@ -194,7 +194,7 @@ Object.assign(FuncDec.prototype, {
 
 Object.assign(List.prototype, {
   gen() {
-      let eles = [];
+      const eles = [];
       this.elements.forEach(element => {
           eles.push(element.gen());
       });
