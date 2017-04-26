@@ -237,7 +237,7 @@ Object.assign(NumLit.prototype, {
 
 Object.assign(Param.prototype, {
   gen() {
-      return `${this.id}`;
+      return `${jsName(this)}`;
   },
 });
 
