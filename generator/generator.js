@@ -152,11 +152,12 @@ Object.assign(ParenExp.prototype, {
   gen() { return `(${this.addexp.gen()})`; },
 });
 
-/*
-Object.assign(BooleanLiteral.prototype, {
+
+Object.assign(CharLit.prototype, {
   gen() { return `${this.value}`; },
 });
 
+/*
 Object.assign(BreakStatement.prototype, {
   gen() { return "break;"; },
 });
