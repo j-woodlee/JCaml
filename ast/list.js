@@ -1,20 +1,17 @@
 module.exports = class List {
-    constructor(binexps) {
-        this.binexps = binexps;
+    constructor(elements) {
+        this.elements = elements;
     }
 
-    analyze(context) {
-        const typeOfFirstElem = this.binexp[0].type;
-        this.binexps.forEach((binexp) => {
-            binexp.analyze(context);
-            if (binexp.type !== typeOfFirstElem) {
-                throw new Error("No heterogenous lists: " +
-                "All elements of a list must be of the same type");
-            }
-        });
+    analyze() {
+        if (this.elements.length !== 0) {
+           if (!this.elements.every(e => e.type === this.elements[0].type)) {
+             throw new Error("No heterogenous lists: ");
+           }
+        }
     }
 
     toString() {
-        return `(List ${this.arg})`;
+        return this.elements.toString();
     }
 };

@@ -10,6 +10,6 @@ module.exports = class Args {
     }
 
     toString() {
-        return `(Args ${this.args})`;
+        return this.args.toString();
     }
 };
