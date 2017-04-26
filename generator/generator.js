@@ -152,11 +152,12 @@ Object.assign(ParenExp.prototype, {
   gen() { return `(${this.addexp.gen()})`; },
 });
 
-/*
-Object.assign(BooleanLiteral.prototype, {
+
+Object.assign(CharLit.prototype, {
   gen() { return `${this.value}`; },
 });
 
+/*
 Object.assign(BreakStatement.prototype, {
   gen() { return "break;"; },
 });
@@ -179,7 +180,7 @@ Object.assign(Call.prototype, {
 
 Object.assign(FuncDec.prototype, {
   gen() {
-      let parameters = [];
+      const parameters = [];
       this.params.forEach(param => {
           parameters.push(param.gen());
       });
@@ -193,7 +194,7 @@ Object.assign(FuncDec.prototype, {
 
 Object.assign(List.prototype, {
   gen() {
-      let eles = [];
+      const eles = [];
       this.elements.forEach(element => {
           eles.push(element.gen());
       });
@@ -301,11 +302,7 @@ Object.assign(UnaryExpression.prototype, {
 
 Object.assign(Decl.prototype, {
   gen() {
-    // const variables = this.variables.map(v => v.gen());
-    // const initializers = this.initializers.map(i => i.gen());
-    //return `let ${this.id} = ${this.exp.gen()};`;
-    //return (this.value) ? `let ${jsName(this)} = ${this.exp.gen()}` : `let ${jsName(this)}`;
-    emit(`let let ${jsName(this)} = ${this.exp.gen()};`);
+    emit(`let ${jsName(this)} = ${this.exp.gen()};`);
   },
 });
 
