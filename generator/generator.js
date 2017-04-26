@@ -114,7 +114,7 @@ Object.assign(Arguments.prototype, {
 
 Object.assign(Params.prototype, {
     gen() {
-        this.params.forEach(param => param.gen());
+        return this.params.forEach(param => param.gen());
     },
 });
 
@@ -256,7 +256,7 @@ Object.assign(Body.prototype, {
 
 Object.assign(Block.prototype, {
     gen() {
-        this.statements.forEach(statement => statement.gen());
+        return this.statements.forEach(statement => statement.gen());
     },
 });
 /*
