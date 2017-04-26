@@ -189,7 +189,6 @@ Object.assign(List.prototype, {
   gen() {
       let eles = [];
       this.elements.forEach(element => {
-          element.gen();
           eles.push(element.gen());
       });
       emit(`[${eles}];`);
