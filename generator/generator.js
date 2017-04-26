@@ -183,7 +183,8 @@ Object.assign(FuncDec.prototype, {
       this.params.forEach(param => {
           parameters.push(param.gen());
       });
-      emit(`function ${this.id}(${parameters}) {`);
+      emit(`let function ${this.id} = (${parameters}) => {`);
+      this.body.gen();
       //genStatementList(this.block.gen());
       emit("}");
   },
@@ -240,7 +241,8 @@ Object.assign(Param.prototype, {
 
 Object.assign(Program.prototype, {
   gen() {
-    return `${this.block.gen()}`;
+      generateLibraryFunctions();
+      return `${this.block.gen()}`;
   },
 });
 
