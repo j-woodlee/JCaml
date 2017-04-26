@@ -186,7 +186,12 @@ Object.assign(FuncDec.prototype, {
 });
 
 Object.assign(List.prototype, {
-  gen() { return `(${this.binexps.gen()})`; },
+  gen() {
+      this.elements.forEach(element => {
+          element.gen();
+          console.log(element.gen());
+      });
+  },
 });
 
 /*
