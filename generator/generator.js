@@ -184,7 +184,7 @@ Object.assign(FuncDec.prototype, {
           parameters.push(param.gen());
       });
       emit(`let function ${jsName(this)} = (${parameters}) => {`);
-      genStatementList(this.body);
+      this.body.gen();
       emit("}");
   },
 });
@@ -302,7 +302,8 @@ Object.assign(Decl.prototype, {
     // const variables = this.variables.map(v => v.gen());
     // const initializers = this.initializers.map(i => i.gen());
     //return `let ${this.id} = ${this.exp.gen()};`;
-    return (this.value) ? `let ${jsName(this)} = ${this.exp.gen()}` : `let ${jsName(this)}`;
+    //return (this.value) ? `let ${jsName(this)} = ${this.exp.gen()}` : `let ${jsName(this)}`;
+    emit(`let let ${jsName(this)} = ${this.exp.gen()};`);
   },
 });
 
