@@ -184,8 +184,7 @@ Object.assign(FuncDec.prototype, {
           parameters.push(param.gen());
       });
       emit(`let function ${this.id} = (${parameters}) => {`);
-      this.body.gen();
-      //genStatementList(this.block.gen());
+      genStatementList(this.body);
       emit("}");
   },
 });
@@ -263,7 +262,7 @@ Object.assign(Block.prototype, {
 Object.assign(Return.prototype, {
   gen() {
     if (this.returnValue) {
-      emit(`return ${this.returnValue.gen()};`);
+      emit(`return ${this.parenexp.gen()};`);
     } else {
       emit("return;");
     }
@@ -302,7 +301,8 @@ Object.assign(Decl.prototype, {
   gen() {
     // const variables = this.variables.map(v => v.gen());
     // const initializers = this.initializers.map(i => i.gen());
-    return `let ${this.id} = ${this.exp.gen()};`;
+    //return `let ${this.id} = ${this.exp.gen()};`;
+    return (this.value) ? `let ${jsName(this)} = ${this.exp.gen()}` : `let ${jsName(this)}`;
   },
 });
 
