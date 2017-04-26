@@ -15,12 +15,4 @@ module.exports = class Return extends Stmt {
     toString() {
         return `(Return ${this.argument})`;
     }
-
-    gen() {
-        if (this.returnValue) {
-            // emit(`return ${this.returnValue.gen()};`);
-        } else {
-            // emit('return;');
-        }
-    }
 };
