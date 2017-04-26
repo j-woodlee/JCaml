@@ -305,7 +305,7 @@ Object.assign(Decl.prototype, {
     // const initializers = this.initializers.map(i => i.gen());
     //return `let ${this.id} = ${this.exp.gen()};`;
     //return (this.value) ? `let ${jsName(this)} = ${this.exp.gen()}` : `let ${jsName(this)}`;
-    emit(`let let ${jsName(this)} = ${this.exp.gen()};`);
+    emit(`let ${jsName(this)} = ${this.exp.gen()};`);
   },
 });
 
