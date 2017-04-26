@@ -302,10 +302,6 @@ Object.assign(UnaryExpression.prototype, {
 
 Object.assign(Decl.prototype, {
   gen() {
-    // const variables = this.variables.map(v => v.gen());
-    // const initializers = this.initializers.map(i => i.gen());
-    //return `let ${this.id} = ${this.exp.gen()};`;
-    //return (this.value) ? `let ${jsName(this)} = ${this.exp.gen()}` : `let ${jsName(this)}`;
     emit(`let ${jsName(this)} = ${this.exp.gen()};`);
   },
 });
