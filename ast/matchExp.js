@@ -5,7 +5,6 @@ module.exports = class MatchExp {
     }
 
     analyze(context) {
-        // this.id.analyze(context);
         if (!context.hasBeenDeclared(this.id)) {
             throw new Error(`${this.id} has not been declared.`);
         }
