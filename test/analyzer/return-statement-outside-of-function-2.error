@@ -1,0 +1,5 @@
+let fun matchTest = (test1, test2) => string :
+    match test1 with
+    | "hi" -> "hello, world!"
+;;
+hump "hello there"
