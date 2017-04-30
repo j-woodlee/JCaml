@@ -10,13 +10,14 @@ module.exports = class Decl extends Stmt {
 
     analyze(context) {
         this.exp.analyze(context);
-        if (this.declaredType !== this.exp.type) {
+        console.log(this.declaredType);
+        console.log(this.exp.type);
+        console.log(this.declaredType.equals(this.exp.type));
+        if (!this.declaredType.equals(this.exp.type)) {
             throw new Error("Declared type does not match the evaluated type.");
         }
         context.checkIfVariableIsAlreadyDeclared(this.id);
         context.addVariable(this.id, this.exp);
-        this.declaredType.analyze(context);
-        this.id.analyze(context);
     }
 
     toString() {

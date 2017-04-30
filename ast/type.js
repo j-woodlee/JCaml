@@ -2,7 +2,9 @@ class Type {
     constructor(type) {
         this.type = type;
     }
-
+    equals(typeO) {
+        return this.type === typeO.type;
+    }
     toString() {
         const typeString = `Type ${this.type}`;
         return typeString;
