@@ -1,0 +1,2 @@
+function print_1(_) {console.log(_);}
+[1,2,3,4,5];

@@ -1,0 +1,4 @@
+function print_1(_) {console.log(_);}
+let function testFunction_4 = (paramTest_2,paramTest1_3) => {
+  console.log("Hello, World");
+}
