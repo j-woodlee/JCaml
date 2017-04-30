@@ -98,9 +98,6 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
         return new ExpoExp(op.tree(), parenexp.tree(), expoexp.tree());
     },
     ParenExp_parens(_1, addexp, _2) { return new ParenExp(addexp.tree()); },
-    Matches_matches(restmatches) {
-        return (restmatches.tree());
-    },
     Match_match(_1, exp1, _2, exp2) {
         return new Match(exp1.tree(), exp2.tree());
     },
