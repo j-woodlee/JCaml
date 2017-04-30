@@ -1,6 +1,5 @@
 module.exports = class Matches {
-    constructor(firstMatch, restMatches) {
-        this.firstMatch = firstMatch;
+    constructor(restMatches) {
         this.restMatches = restMatches;
     }
 
@@ -12,6 +11,6 @@ module.exports = class Matches {
     }
 
     toString() {
-        return `(Matches ${this.firstMatch} ${this.restMatches})`;
+        return `(Matches ${this.restMatches})`;
     }
 };
