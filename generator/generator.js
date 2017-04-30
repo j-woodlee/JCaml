@@ -313,7 +313,6 @@ Object.assign(MatchExp.prototype, {
 
     this.matches.forEach((match) => {
       match.exp1.analyze(context);
-      console.log(match.exp1.type);
       if (match.exp1.type.equals(new Type("string")) || match.exp1.type.equals(new Type("bool")) || match.exp1.type.equals(new Type("float")) || match.exp1.type.equals(new Type("char")) || match.exp1.type.equals(new Type("int"))) {
         emit(`if (${this.id} === ${match.exp1}) {
             return ${match.exp2};
