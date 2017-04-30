@@ -29,10 +29,11 @@ const ExpBinary = require("./ast/exp_binary");
 const ExpTernary = require("./ast/exp_ternary");
 const BinExp = require("./ast/binExp");
 const MatchExp = require("./ast/matchExp");
+const Matches = require("./ast/matches");
+const Match = require("./ast/match");
 const AddExp = require("./ast/addExp");
 const MullExp = require("./ast/mullExp");
 const ParenExp = require("./ast/parenExp");
-const Matches = require("./ast/matches");
 const Tuplit = require("./ast/tuplit");
 const Numlit = require("./ast/numLit");
 const Charlit = require("./ast/charLit");
@@ -61,9 +62,13 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     FuncDec(_1, id, _2, params, _3, type, body) {
       return new FuncDec(id.sourceString, params.tree(), type.tree(), body.tree());
     },
-    FuncCall(id, _1, args, _2) { return new FuncCall(id.sourceString, args.tree()); },
+    FuncCall(id, _1, args, _2) {
+        return new FuncCall(id.sourceString, args.tree());
+    },
     // Args(arg) { return new Args(arg.tree()); },
-    NonemptyListOf(first, _, rest) { return [first.tree()].concat(rest.tree()); },
+    NonemptyListOf(first, _, rest) {
+        return [first.tree()].concat(rest.tree());
+    },
     EmptyListOf() { return []; },
     Arg(id) { return new Arg(id.sourceString); },
     // Params(params) {
@@ -74,7 +79,7 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     Body(_1, block, _2) { return new Body(block.tree()); },
     Exp_binary(exp, op, matchexp) { return new ExpBinary(op.tree(), exp.tree(), matchexp.tree()); },
     Exp_ternary(matchexp, _1, matchexp2, _2, matchexp3) {
-      return new ExpTernary(matchexp.tree(), matchexp2.tree(), matchexp3.tree());
+        return new ExpTernary(matchexp.tree(), matchexp2.tree(), matchexp3.tree());
     },
     BinExp_binary(binexp, op, addexp) {
         return new BinExp(op.tree(), binexp.tree(), addexp.tree());
@@ -83,20 +88,25 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
         return new MatchExp(id.sourceString, matches.tree());
     },
     AddExp_binary(addexp, op, mullexp) {
-      return new AddExp(op.tree(), addexp.tree(), mullexp.tree());
+        return new AddExp(op.tree(), addexp.tree(), mullexp.tree());
     },
     MullExp_binary(mullexp, op, prefixexp) {
-      return new MullExp(op.tree(), mullexp.tree(), prefixexp.tree());
+        return new MullExp(op.tree(), mullexp.tree(), prefixexp.tree());
     },
     PrefixExp_binary(op, expoexp) { return new PrefixExp(op.tree(), expoexp.tree()); },
     ExpoExp_binary(parenexp, op, expoexp) {
-      return new ExpoExp(op.tree(), parenexp.tree(), expoexp.tree());
+        return new ExpoExp(op.tree(), parenexp.tree(), expoexp.tree());
     },
     ParenExp_parens(_1, addexp, _2) { return new ParenExp(addexp.tree()); },
-    Matches(_1, exp1, _2, exp2) { return new Matches(exp1.tree(), exp2.tree()); },
+    Matches(_1, firstMatch, _2, restmatches) {
+        return [firstMatch.tree()].concat(restmatches.tree);
+    },
+    Match(_1, exp1, _2, exp2) {
+        return new Match(exp1.tree(), exp2.tree());
+    },
     Tuplit(_1, exp1, _2, exp2, _3) { return new Tuplit(exp1.tree(), exp2.tree()); },
     List_list(_1, first, _2, rest, _3) {
-      return new List([first.tree()].concat(rest.tree()));
+        return new List([first.tree()].concat(rest.tree()));
     },
     List_empty(_1, _2) { return new List([]); },
     numlit(value) { return new Numlit(this.sourceString); },

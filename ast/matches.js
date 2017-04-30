@@ -1,15 +1,17 @@
 module.exports = class Matches {
-    constructor(exp1, exp2) {
-        this.exp1 = exp1;
-        this.exp2 = exp2;
+    constructor(firstMatch, restMatches) {
+        this.firstMatch = firstMatch;
+        this.restMatches = restMatches;
     }
 
     analyze(context) {
-        this.exp1.analyze(context);
-        this.exp2.analyze(context);
+        this.firstMatch.analyze(context);
+        this.restMatches.forEach((match) => {
+            match.analyze(context);
+        });
     }
 
     toString() {
-        return `(Matches | ${this.exp1} -> ${this.exp2})`;
+        return `(Matches ${this.firstMatch} ${this.restMatches})`;
     }
 };

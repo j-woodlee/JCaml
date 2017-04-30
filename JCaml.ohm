@@ -43,7 +43,8 @@ JCaml {
                   |  stringlit
                   |  charlit
 
-    Matches       =  ("|" Exp "->" Exp)+
+    Matches        = Match+                                 -- matches
+    Match          = "|" Exp "->" Exp                       -- match
 
     keyword       =  ("if" | "else" | "with" | "in" | "bool" | "int" | "string"
                   |  "double" | "float" | "long" | "list" | "hump" | "tuplit" | "spit") ~idrest
