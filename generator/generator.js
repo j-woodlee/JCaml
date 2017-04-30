@@ -89,27 +89,27 @@ function bracketIfNecessary(a) {
 }
 
 function generateLibraryFunctions() {
-  function generateLibraryStub(name, params, body) {
-    const entity = Context.INITIAL.localVariables[name];
-    emit(`function ${jsName(entity)}(${params}) {${body}}`);
-  }
-  // This is sloppy. There should be a better way to do this.
-  generateLibraryStub("print", "_", "console.log(_);");
+    function generateLibraryStub(name, params, body) {
+        const entity = Context.INITIAL.localVariables[name];
+        emit(`function ${jsName(entity)}(${params}) {${body}}`);
+    }
+    // This is sloppy. There should be a better way to do this.
+    generateLibraryStub("print", "_", "console.log(_);");
 }
 
 
 Object.assign(Argument.prototype, {
-  gen() {
-    let translation = jsName(this);
-    if (this.id) {
-      translation += ` = ${this.id.gen()}`;
-    }
-    return translation;
-  },
+    gen() {
+        let translation = jsName(this);
+        if (this.id) {
+            translation += ` = ${this.id.gen()}`;
+        }
+        return translation;
+    },
 });
 
 Object.assign(Arguments.prototype, {
-  gen() { return this.args.forEach(arg => arg.gen()); },
+    gen() { return this.args.forEach(arg => arg.gen()); },
 });
 
 Object.assign(Params.prototype, {
@@ -129,32 +129,32 @@ Object.assign(AssignmentStatement.prototype, {
 */
 
 Object.assign(BinExp.prototype, {
-  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
 Object.assign(AddExp.prototype, {
-  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
 Object.assign(MullExp.prototype, {
-  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
 Object.assign(PrefixExp.prototype, {
-  gen() { return `(${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
 Object.assign(ExpoExp.prototype, {
-  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
 Object.assign(ParenExp.prototype, {
-  gen() { return `(${this.addexp.gen()})`; },
+    gen() { return `(${this.addexp.gen()})`; },
 });
 
 
 Object.assign(CharLit.prototype, {
-  gen() { return `${this.value}`; },
+    gen() { return `${this.value}`; },
 });
 
 /*
@@ -179,17 +179,17 @@ Object.assign(Call.prototype, {
 */
 
 Object.assign(FuncDec.prototype, {
-  gen() {
-      const parameters = [];
-      this.params.forEach((param) => {
-          parameters.push(param.gen());
-      });
-      emit(`let function ${jsName(this)} = (${parameters}) => {`);
-      indentLevel += 1;
-      this.body.gen();
-      indentLevel -= 1;
-      emit("}");
-  },
+    gen() {
+        const parameters = [];
+        this.params.forEach((param) => {
+            parameters.push(param.gen());
+        });
+        emit(`let function ${jsName(this)} = (${parameters}) => {`);
+            indentLevel += 1;
+            this.body.gen();
+            indentLevel -= 1;
+            emit("}");
+        },
 });
 
 Object.assign(List.prototype, {
