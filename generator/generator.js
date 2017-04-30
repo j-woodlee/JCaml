@@ -185,7 +185,7 @@ Object.assign(FuncDec.prototype, {
         this.params.forEach((param) => {
             parameters.push(param.gen());
         });
-        emit(`let function ${jsName(this)} = (${parameters}) => {`);
+        emit(`let ${jsName(this)} = (${parameters}) => {`);
             indentLevel += 1;
             this.body.gen();
             indentLevel -= 1;
@@ -238,7 +238,7 @@ Object.assign(NumLit.prototype, {
 
 Object.assign(Param.prototype, {
   gen() {
-      return `${jsName(this)}`;
+      return `${(this)}`;
   },
 });
 
@@ -310,19 +310,20 @@ Object.assign(Decl.prototype, {
 Object.assign(MatchExp.prototype, {
   gen() {
     const context = new Context();
-
+    emit(`let ${this.id}Compare;`);
     this.matches.forEach((match) => {
       match.exp1.analyze(context);
-      if (match.exp1.type.equals(new Type("string")) || match.exp1.type.equals(new Type("bool")) || match.exp1.type.equals(new Type("float")) || match.exp1.type.equals(new Type("char")) || match.exp1.type.equals(new Type("int"))) {
-        emit(`if (${this.id} === ${match.exp1}) {
-            return ${match.exp2};
-        }`);
-      } else {
+      emit(`${this.id}Compare = ${match.exp1}`);
+      if (match.exp1.isList) {
         emit(`for (let i = 0; i <= ${this.id}.length; i++) {
-            if (${this.id}[i] === ${match.exp1}[i]) {
-                return ${match.exp2};
-            }
-        }`);
+    if (${this.id}[i] === ${this.id}Compare[i]) {
+      return ${match.exp2};
+    }
+  }`);
+      } else {
+        emit(`if (${this.id} === ${this.id}Compare) {
+    return ${match.exp2};
+  }`);
       }
     });
   },

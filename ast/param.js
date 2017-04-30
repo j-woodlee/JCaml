@@ -6,7 +6,7 @@ module.exports = class Param {
     //     this.param.analyze(context);
     // }
     toString() {
-        const paramString = `Param ${this.id}`;
+        const paramString = `${this.id}`;
         return paramString;
     }
 };

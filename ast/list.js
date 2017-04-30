@@ -9,9 +9,10 @@ module.exports = class List {
              throw new Error("No heterogenous lists: All elements of a list must be of the same type.");
            }
         }
+        this.isList = true;
     }
 
     toString() {
-        return this.elements.toString();
+        return `[${this.elements.toString()}]`;
     }
 };

@@ -11,6 +11,6 @@ module.exports = class Stringlit {
     /* eslint-enable */
 
     toString() {
-        return `(${this.value})`;
+        return `${this.value}`;
     }
 };
