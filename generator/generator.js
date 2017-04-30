@@ -43,6 +43,7 @@ const Print = require("../ast/print");
 const StatementIfElse = require("../ast/statementIfElse");
 const TupLit = require("../ast/tuplit");
 const Type = require("../ast/type");
+const MatchExp = require("../ast/matchExp");
 
 const indentPadding = 2;
 let indentLevel = 0;
@@ -303,6 +304,28 @@ Object.assign(UnaryExpression.prototype, {
 Object.assign(Decl.prototype, {
   gen() {
     emit(`let ${jsName(this)} = ${this.exp.gen()};`);
+  },
+});
+
+Object.assign(MatchExp.prototype, {
+  gen() {
+    const context = new Context();
+
+    this.matches.forEach((match) => {
+      match.exp1.analyze(context);
+      console.log(match.exp1.type);
+      if (match.exp1.type.equals(new Type("string")) || match.exp1.type.equals(new Type("bool")) || match.exp1.type.equals(new Type("float")) || match.exp1.type.equals(new Type("char")) || match.exp1.type.equals(new Type("int"))) {
+        emit(`if (${this.id} === ${match.exp1}) {
+            return ${match.exp2};
+        }`);
+      } else {
+        emit(`for (let i = 0; i <= ${this.id}.length; i++) {
+            if (${this.id}[i] === ${match.exp1}[i]) {
+                return ${match.exp2};
+            }
+        }`);
+      }
+    });
   },
 });
 
