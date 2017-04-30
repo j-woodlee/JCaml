@@ -353,7 +353,7 @@
 
                 Diagram(
                   Choice(0,
-                          Sequence("match", NonTerminal("id"), "with", "\n", NonTerminal("Matches")),
+                          Sequence("match", NonTerminal("id"), "with", NonTerminal("Matches")),
                           NonTerminal("BinExp")
                   )
                 ).addTo();
@@ -453,8 +453,7 @@
                     Sequence("|",
                       NonTerminal("Exp"),
                       "->",
-                      NonTerminal("Exp"),
-                      "\n"
+                      NonTerminal("Exp")
                     )
                   )
                 ).addTo();
@@ -669,8 +668,7 @@
                 <script>
                   // comment       =  "##" (~"\n" any)* "\n"
                 Diagram(
-                  Sequence("##", ZeroOrMore(NonTerminal("any")),
-                    "\n"
+                  Sequence("##", ZeroOrMore(NonTerminal("any"))
                  )
                 ).addTo();
                 </script>
