@@ -5,7 +5,7 @@ module.exports = class Tuplit {
     }
     analyze(context) {
         this.exp1.analyze(context);
-        this.exp1.analyze(context);
+        this.exp2.analyze(context);
     }
 
     toString() {

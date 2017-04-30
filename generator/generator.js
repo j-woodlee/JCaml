@@ -181,7 +181,7 @@ Object.assign(Call.prototype, {
 Object.assign(FuncDec.prototype, {
   gen() {
       const parameters = [];
-      this.params.forEach(param => {
+      this.params.forEach((param) => {
           parameters.push(param.gen());
       });
       emit(`let function ${jsName(this)} = (${parameters}) => {`);
@@ -195,7 +195,7 @@ Object.assign(FuncDec.prototype, {
 Object.assign(List.prototype, {
   gen() {
       const eles = [];
-      this.elements.forEach(element => {
+      this.elements.forEach((element) => {
           eles.push(element.gen());
       });
       emit(`[${eles}];`);
