@@ -12,4 +12,9 @@ module.exports = class Program {
     toString() {
         return `(Program ${this.block})`;
     }
+
+    optimize() {
+      this.block.optimize();
+      return this;
+    }
 };

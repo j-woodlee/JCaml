@@ -16,4 +16,9 @@ module.exports = class Block {
         }
         return stmtString;
     }
+
+    optimize() {
+        this.statements.map(s => s.optimize()).filter(s => s != null);
+        return this;
+    }
 };
