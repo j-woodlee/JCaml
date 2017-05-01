@@ -1,5 +1,5 @@
 #/bin/sh
-echo "Generator Tests:"
+echo "Temporary Generator Tests:"
 numtests=4
 succeededtests=0;
 ./jcaml.js ./test/parser/variableTest.jml > ./test/generator/output.txt
@@ -13,7 +13,7 @@ else
     echo "Expected: "
     cat ./test/generator/expectedVarTest.txt
     echo "Received: "
-    cat ./output.txt
+    cat ./test/generator/output.txt
 fi
 
 

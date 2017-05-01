@@ -1,4 +1,4 @@
 function print_1(_) {console.log(_);}
-let variableTest_5 = (a_2,b_3,c_4) => {
-  let d_6 = 46;
+let variableTest_2 = (a,b,c) => {
+  let d_3 = 46;
 }
