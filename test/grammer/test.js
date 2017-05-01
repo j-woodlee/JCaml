@@ -38,15 +38,15 @@ describe("Arithmetic", () => {
     });
   });
   describe("44^g", () => {
-    it("should not be equivalent to result", () => {
-      const match = gram.match("44^3g");
-      assert.ok(!match.succeeded());
+    it("should be equivalent to result", () => {
+      const match = gram.match("44^g");
+      assert.ok(match.succeeded());
     });
   });
-  describe("44^g", () => {
+  describe("44^3 * g", () => {
     it("should not be equivalent to result", () => {
-      const match = gram.match("44^3g");
-      assert.ok(!match.succeeded());
+      const match = gram.match("44^3 * g");
+      assert.ok(match.succeeded());
     });
   });
   describe("5 = 5", () => {
