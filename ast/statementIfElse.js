@@ -27,14 +27,13 @@ module.exports = class StatementIfElse extends Stmt {
         });
     }
     toString() {
-        let ifString = `(ifStatement if ${this.exp} ${this.block})`;
-        for (const exps in this.exp2) {
-            ifString += `\n (else if ${this.exp2[exps]})`;
+        let ifString = `(ifStatement if ${this.expressions[0]} ${this.blocks[0]})`;
+        for (let i = 1; i < this.expressions.length; i += 1) {
+            ifString += `\n (else if ${this.expressions[i]})`;
+            ifString += `\n (${this.blocks[i]})`;
         }
-        for (const blocks in this.elseBlock) {
-            ifString += `\n (${this.elseBlock[blocks]})`;
-        }
-        ifString += `\n (else ${this.finalBlock})`;
+
+        ifString += `\n (else ${this.blocks[this.blocks.length - 1]})`;
         return ifString;
     }
 };

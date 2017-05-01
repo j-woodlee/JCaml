@@ -13,6 +13,6 @@ module.exports = class FuncCall extends Stmt {
     }
 
     toString() {
-        return `(funcCall ${this.id} ($this.args))`;
+        return `(${this.id} (${this.args}))`;
     }
 };

@@ -218,6 +218,12 @@ Object.assign(IdentifierExpression.prototype, {
 });
 */
 
+Object.assign(FuncCall.prototype, {
+    gen() {
+        emit(`${this.id} ${this.args}`);
+    },
+});
+
 Object.assign(StatementIfElse.prototype, {
   gen() {
     this.cases.forEach((c, index) => {

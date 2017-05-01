@@ -1,9 +1,8 @@
 let fun ifElseTest = (a, b, c) => int :
-    if a == b
+    if b == a
         spit("a equals b")
     else if a == c
         spit("WOW a equals c")
     else
         let int a = a + 1
-        ifElseTest(a, b, c)
-}
+;;
