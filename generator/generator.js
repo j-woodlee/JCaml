@@ -216,8 +216,9 @@ Object.assign(FunctionObject.prototype, {
 Object.assign(IdentifierExpression.prototype, {
   gen() { return this.referent.gen(); },
 });
+*/
 
-Object.assign(IfStatement.prototype, {
+Object.assign(StatementIfElse.prototype, {
   gen() {
     this.cases.forEach((c, index) => {
       const prefix = index === 0 ? "if" : "} else if";
@@ -231,7 +232,7 @@ Object.assign(IfStatement.prototype, {
     emit("}");
   },
 });
-*/
+
 Object.assign(NumLit.prototype, {
   gen() { return `${this.value}`; },
 });
@@ -286,20 +287,6 @@ Object.assign(Print.prototype, {
 Object.assign(StringLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
-/*
-
-Object.assign(SubscriptedExpression.prototype, {
-  gen() {
-    const base = this.variable.gen();
-    const subscript = this.subscript.gen();
-    return `${base}[${subscript}]`;
-  },
-});
-
-Object.assign(UnaryExpression.prototype, {
-  gen() { return `(${makeOp(this.op)} ${this.operand.gen()})`; },
-});
-*/
 
 Object.assign(Decl.prototype, {
   gen() {
