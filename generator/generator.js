@@ -226,14 +226,14 @@ Object.assign(FuncCall.prototype, {
 
 Object.assign(StatementIfElse.prototype, {
   gen() {
-      emit(`if ${this.expressions}
-        ${this.blocks}`);
-        for (let i = 0; i < this.otherExpressions.length; i += 1) {
-          emit(`else if ${this.otherExpressions[i]}
-            ${this.otherBlocks[0]}`);
+      emit(`if ${this.ifExpression}
+        ${this.ifBlock}`);
+        for (let i = 0; i < this.elseIfExpressions.length; i += 1) {
+          emit(`else if ${this.elseIfExpressions[i]}
+            ${this.elseIfBlocks[i]}`);
         }
       emit(`else
-        ${this.finalBlock}`);
+        ${this.elseBlock}`);
   },
 });
 

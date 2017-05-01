@@ -8,35 +8,49 @@ Type.BOOL = new Type("bool");
 Type.CHAR = new Type("char");
 
 module.exports = class StatementIfElse extends Stmt {
-    constructor(expressions, blocks, otherExpressions, otherBlocks, finalBlock) {
+    constructor(ifExpression, ifBlock, elseIfExpressions, elseIfBlocks, elseBlock) {
         super();
-        this.expressions = expressions;
-        this.blocks = blocks;
-        this.otherExpressions = otherExpressions;
-        this.otherBlocks = otherBlocks;
-        this.finalBlock = finalBlock;
+        this.ifExpression = ifExpression;
+        this.ifBlock = ifBlock;
+        this.elseIfExpressions = elseIfExpressions;
+        this.elseIfBlocks = elseIfBlocks;
+        this.elseBlock = elseBlock;
     }
 
     analyze(context) {
-        this.expressions.forEach((expression) => {
-            expression.analyze(context);
-            if (!(expression.type === Type.BOOL)) {
-                throw new Error("Type Error: If statement conditional must be a bool.");
-            }
-        });
+        if (!(this.ifExpression.type === Type.BOOL)) {
+            throw new Error("Type Error: If statement conditional must be a bool.");
+        }
+        this.ifBlock.analyze(context);
 
-        this.blocks.forEach((block) => {
-            block.analyze(context);
-        });
-    }
-    toString() {
-        let ifString = `(ifStatement if ${this.expressions} ${this.blocks})`;
-        for (let i = 1; i <= this.expressions.length; i += 1) {
-            ifString += `\n (else if ${this.expressions[i]})`;
-            ifString += `\n (${this.blocks[i]})`;
+        if (this.elseIfExpressions) {
+            this.elseIfExpressions.forEach((expression) => {
+                expression.analyze(context);
+                if (!(expression.type === Type.BOOL)) {
+                    throw new Error("Type Error: If statement conditional must be a bool.");
+                }
+            });
+        }
+        if (this.elseIfBlocks) {
+            this.elseIfBlocks.forEach((block) => {
+                block.analyze(context);
+            });
         }
 
-        ifString += `\n (else ${this.blocks[this.blocks.length - 1]})`;
+        if (this.elseBlock) {
+            this.elseBlock.analyze(context);
+        }
+    }
+    toString() {
+        let ifString = `(ifStatement if ${this.ifExpression} ${this.ifBlock})`;
+        if (this.elseIfExpressions) {
+            for (let i = 1; i <= this.elseIfExpressions.length; i += 1) {
+                ifString += `\n (else if ${this.elseIfExpressions})`;
+                ifString += `\n (${this.elseIfBlocks})`;
+            }
+        }
+
+        ifString += `\n (else ${this.elseBlock})`;
         return ifString;
     }
 };
