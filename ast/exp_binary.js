@@ -11,6 +11,6 @@ module.exports = class ExpBinary {
     }
 
     toString() {
-        return `(Exp_binary ${this.exp} ${this.op} ${this.matchexp})`;
+        return `(${this.exp} ${this.op} ${this.matchexp})`;
     }
 };

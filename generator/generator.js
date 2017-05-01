@@ -226,16 +226,14 @@ Object.assign(FuncCall.prototype, {
 
 Object.assign(StatementIfElse.prototype, {
   gen() {
-    this.cases.forEach((c, index) => {
-      const prefix = index === 0 ? "if" : "} else if";
-      emit(`${prefix} (${c.test.gen()}) {`);
-      genStatementList(c.body);
-    });
-    if (this.alternate) {
-      emit("} else {");
-      genStatementList(this.alternate);
-    }
-    emit("}");
+      emit(`if ${this.expressions}
+        ${this.blocks}`);
+        for (let i = 0; i < this.otherExpressions.length; i += 1) {
+          emit(`else if ${this.otherExpressions[i]}
+            ${this.otherBlocks[0]}`);
+        }
+      emit(`else
+        ${this.finalBlock}`);
   },
 });
 

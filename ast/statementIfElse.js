@@ -8,10 +8,13 @@ Type.BOOL = new Type("bool");
 Type.CHAR = new Type("char");
 
 module.exports = class StatementIfElse extends Stmt {
-    constructor(expressions, blocks) {
+    constructor(expressions, blocks, otherExpressions, otherBlocks, finalBlock) {
         super();
         this.expressions = expressions;
         this.blocks = blocks;
+        this.otherExpressions = otherExpressions;
+        this.otherBlocks = otherBlocks;
+        this.finalBlock = finalBlock;
     }
 
     analyze(context) {
@@ -27,8 +30,8 @@ module.exports = class StatementIfElse extends Stmt {
         });
     }
     toString() {
-        let ifString = `(ifStatement if ${this.expressions[0]} ${this.blocks[0]})`;
-        for (let i = 1; i < this.expressions.length; i += 1) {
+        let ifString = `(ifStatement if ${this.expressions} ${this.blocks})`;
+        for (let i = 1; i <= this.expressions.length; i += 1) {
             ifString += `\n (else if ${this.expressions[i]})`;
             ifString += `\n (${this.blocks[i]})`;
         }

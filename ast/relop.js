@@ -8,6 +8,6 @@ module.exports = class Relop {
     // }
 
     toString() {
-        return `(relop ${this.op})`;
+        return `${this.op}`;
     }
 };
