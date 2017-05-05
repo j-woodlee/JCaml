@@ -120,7 +120,7 @@ Object.assign(Params.prototype, {
 });
 
 Object.assign(BinExp.prototype, {
-    gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${this.binexp.gen()} ${makeOp(this.op)} ${this.addexp.gen()})`; },
 });
 
 Object.assign(AddExp.prototype, {
@@ -128,15 +128,15 @@ Object.assign(AddExp.prototype, {
 });
 
 Object.assign(MullExp.prototype, {
-    gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${this.mullexp.gen()} ${makeOp(this.op)} ${this.prefixexp.gen()})`; },
 });
 
 Object.assign(PrefixExp.prototype, {
-    gen() { return `(${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${makeOp(this.op)} ${this.expoexp.gen()})`; },
 });
 
 Object.assign(ExpoExp.prototype, {
-    gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${this.parenexp.gen()} ${makeOp(this.op)} ${this.expoexp.gen()})`; },
 });
 
 Object.assign(ParenExp.prototype, {
@@ -219,9 +219,7 @@ Object.assign(Block.prototype, {
         this.statements.forEach(statement => statement.gen());
     },
 });
-/*
 
-*/
 Object.assign(Return.prototype, {
   gen() {
     if (this.returnValue) {
