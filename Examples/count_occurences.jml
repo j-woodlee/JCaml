@@ -1,6 +1,6 @@
-let fun count_occurences = (int v, int list l) => (int) :
+let fun count_occurences = (v, l) => int :
     match l with:
     | [] -> 0
     | hd::[] ->  hump hd == v ? 1 : 0
-    | hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)
+    | hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) : count_occurences(v, tl)
 ;;
