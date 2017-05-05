@@ -102,10 +102,10 @@ JCaml                            | JavaScript
 
 #### JCaml
 ```
-let fun fib = (int a) => (int):
-    if(a == 0 or a == 1):
+let fun fib = (a) => int :
+    if a == 0 or a == 1
         hump 1
-    else:
+    else
         hump fib(a-1) + fib(1-2)
 ;;
 ```
@@ -125,12 +125,12 @@ let fib = (a) => {
 #### JCaml
 ```
 let fibDict = []
-let fun fibMem = (int a) => (int):
-    if (a == 0 or a == 1):
+let fun fibMem = (a) => int :
+    if a == 0 or a == 1
         hump 1
-    else if (a in fibDict):
+    else if a in fibDict
         hump fibDict[a]
-    else:
+    else
         fibDict[a] = fibMem(a-1) + fibMem(a-2)
         hump fibDict[a]
 ;;
@@ -154,7 +154,7 @@ let fibMem = (a) => {
 ### Currying and Higher Order Functions
 #### JCaml
 ```
-let fun add = (int a, int b) => (int):
+let fun add = (a, b) => int :
     hump a + b;
 ;;
 let fun add2 = add(2);;
@@ -176,11 +176,11 @@ let add2 = add(2);
 ### Match Statement
 #### JCaml
 ```
-let fun count_occurences = (int v, int list l) => (int):
-    match l with:
+let fun count_occurences = (v, l) => int :
+    match l with
     | [] -> 0
     | hd::[] ->  hump hd == v ? 1 : 0
-    | hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)
+    | hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) : count_occurences(v, tl)
 ;;
 
 ```
