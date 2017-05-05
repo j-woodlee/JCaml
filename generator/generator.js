@@ -119,6 +119,14 @@ Object.assign(Params.prototype, {
     },
 });
 
+Object.assign(ExpBinary.prototype, {
+    gen() { return `(${this.exp.gen()} ${makeOp(this.op)} ${this.matchexp.gen()})`; },
+});
+
+Object.assign(ExpTernary.prototype, {
+    gen() { return `(${this.matchexp1.gen()} ? ${this.matchexp2.gen()} : ${this.matchexp3})`; },
+});
+
 Object.assign(BinExp.prototype, {
     gen() { return `(${this.binexp.gen()} ${makeOp(this.op)} ${this.addexp.gen()})`; },
 });
