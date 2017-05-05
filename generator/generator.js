@@ -17,7 +17,7 @@ const Context = require("../ast/context");
 const Program = require("../ast/program");
 const Block = require("../ast/block");
 const Return = require("../ast/return");
-const Stmt = require("../ast/stmt");
+// const Stmt = require("../ast/stmt");
 const Argument = require("../ast/arg");
 const Arguments = require("../ast/args");
 const StringLiteral = require("../ast/stringLit");
@@ -33,7 +33,7 @@ const ExpoExp = require("../ast/expoExp");
 const ParenExp = require("../ast/parenExp");
 const FuncDec = require("../ast/funcDec");
 const List = require("../ast/list");
-const Matches = require("../ast/matches");
+// const Matches = require("../ast/matches");
 const MullExp = require("../ast/mullExp");
 const NumLit = require("../ast/numLit");
 const Param = require("../ast/param");
@@ -119,22 +119,12 @@ Object.assign(Params.prototype, {
     },
 });
 
-/*
-Object.assign(AssignmentStatement.prototype, {
-  gen() {
-    const targets = this.targets.map(t => t.gen());
-    const sources = this.sources.map(s => s.gen());
-    emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
-  },
-});
-*/
-
 Object.assign(BinExp.prototype, {
     gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
 });
 
 Object.assign(AddExp.prototype, {
-    gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+    gen() { return `(${this.addexp.gen()} ${makeOp(this.op)} ${this.mullexp.gen()})`; },
 });
 
 Object.assign(MullExp.prototype, {
@@ -158,27 +148,6 @@ Object.assign(CharLit.prototype, {
     gen() { return `${this.value}`; },
 });
 
-/*
-Object.assign(BreakStatement.prototype, {
-  gen() { return "break;"; },
-});
-
-Object.assign(CallStatement.prototype, {
-  gen() { emit(`${this.call.gen()};`); },
-});
-
-Object.assign(Call.prototype, {
-  gen() {
-    const fun = this.callee.referent;
-    const params = {};
-    const args = Array(this.args.length).fill(undefined);
-    fun.params.forEach((p, i) => { params[p.id] = i; });
-    this.args.forEach((a, i) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
-    return `${jsName(fun)}(${args.map(a => (a ? a.gen() : "undefined")).join(", ")})`;
-  },
-});
-*/
-
 Object.assign(FuncDec.prototype, {
     gen() {
         const parameters = [];
@@ -199,24 +168,9 @@ Object.assign(List.prototype, {
       this.elements.forEach((element) => {
           eles.push(element.gen());
       });
-      emit(`[${eles}];`);
+      emit(`[${eles}]`);
   },
 });
-
-/*
-
-Object.assign(FunctionObject.prototype, {
-  gen() {
-    emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(", ")}) {`);
-    genStatementList(this.body);
-    emit("}");
-  },
-});
-
-Object.assign(IdentifierExpression.prototype, {
-  gen() { return this.referent.gen(); },
-});
-*/
 
 Object.assign(FuncCall.prototype, {
     gen() {
@@ -226,14 +180,14 @@ Object.assign(FuncCall.prototype, {
 
 Object.assign(StatementIfElse.prototype, {
   gen() {
-      emit(`if ${this.ifExpression}
-        ${this.ifBlock}`);
-        for (let i = 0; i < this.elseIfExpressions.length; i += 1) {
-          emit(`else if ${this.elseIfExpressions[i]}
-            ${this.elseIfBlocks[i]}`);
-        }
-      emit(`else
-        ${this.elseBlock}`);
+      emit(`if ${this.ifExpression} {`);
+      this.ifBlock.gen();
+      for (let i = 0; i < this.elseIfExpressions.length; i += 1) {
+          emit(`} else if ${this.elseIfExpressions[i]} {`);
+          this.elseIfBlocks[i].gen();
+      }
+      emit("} else ");
+      this.elseBlock.gen();
   },
 });
 
@@ -304,7 +258,7 @@ Object.assign(MatchExp.prototype, {
     emit(`let ${this.id}Compare;`);
     this.matches.forEach((match) => {
       match.exp1.analyze(context);
-      emit(`${this.id}Compare = ${match.exp1}`);
+      emit(`${this.id}Compare = ${match.exp1};`);
       if (match.exp1.isList) {
         emit(`for (let i = 0; i <= ${this.id}.length; i++) {
     if (${this.id}[i] === ${this.id}Compare[i]) {
@@ -319,17 +273,3 @@ Object.assign(MatchExp.prototype, {
     });
   },
 });
-
-/*
-Object.assign(Variable.prototype, {
-  gen() { return jsName(this); },
-});
-
-Object.assign(WhileStatement.prototype, {
-  gen() {
-    emit(`while (${this.test.gen()}) {`);
-    genStatementList(this.body);
-    emit("}");
-  },
-});
-*/

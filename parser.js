@@ -49,7 +49,8 @@ const semantics = JCamlGrammar.createSemantics().addOperation("tree", {
     Program(block) { return new Program(block.tree()); },
     Block(stmt) { return new Block(stmt.tree()); },
     Stmt_if(_1, exp, block, _2, elseIfExprs, elseIfBlocks, _3, finalBlock) {
-        return new StatementIfElse(exp.tree(), block.tree(), elseIfExprs.tree(), finalBlock.tree());
+        return new StatementIfElse(exp.tree(), block.tree(), elseIfExprs.tree(),
+        elseIfBlocks.tree(), finalBlock.tree());
     },
     Decl_decl(_1, type, id, _2, exp) { return new Decl(type.tree(), id.sourceString, exp.tree()); },
     Print_print(_1, _2, binexp, _3) { return new Print(binexp.tree()); },

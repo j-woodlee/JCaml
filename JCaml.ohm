@@ -12,9 +12,9 @@ JCaml {
 
     Type          =  "string" | "int" | "bool" | "char" | "float"
 
-    FuncCall      =  id "(" Args ")"
-    Arg           =  (id)?
-    Args          =  ListOf<Arg, ",">
+    FuncCall      =  id"(" Args ")"
+    Arg           =  id
+    Args          =  Arg ("," Arg)*
 
     Params        =  ListOf<Param, ",">
     Param         =  id
@@ -43,7 +43,7 @@ JCaml {
                   |  stringlit
                   |  charlit
                   |  Param
-                  
+
     Matches        = Match+                                 -- matches
     Match          = "|" Exp "->" Exp                       -- match
 

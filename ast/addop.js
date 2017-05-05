@@ -8,6 +8,6 @@ module.exports = class Addop {
     // }
 
     toString() {
-        return `(addop ${this.op})`;
+        return `${this.op}`;
     }
 };

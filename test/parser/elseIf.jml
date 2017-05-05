@@ -4,5 +4,5 @@ let fun ifElseTest = (a, b, c) => int :
     else if a == c
         spit("WOW a equals c")
     else
-        let int a = a + 1
+        let int a = 5 + 1
 ;;

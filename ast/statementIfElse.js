@@ -14,7 +14,7 @@ module.exports = class StatementIfElse extends Stmt {
         this.ifBlock = ifBlock;
         this.elseIfExpressions = elseIfExpressions;
         this.elseIfBlocks = elseIfBlocks;
-        this.elseBlock = elseBlock;
+        this.elseBlock = elseBlock.length === 0 ? null : elseBlock[0];
     }
 
     analyze(context) {
@@ -44,9 +44,9 @@ module.exports = class StatementIfElse extends Stmt {
     toString() {
         let ifString = `(ifStatement if ${this.ifExpression} ${this.ifBlock})`;
         if (this.elseIfExpressions) {
-            for (let i = 1; i <= this.elseIfExpressions.length; i += 1) {
-                ifString += `\n (else if ${this.elseIfExpressions})`;
-                ifString += `\n (${this.elseIfBlocks})`;
+            for (let i = 0; i <= this.elseIfExpressions.length; i += 1) {
+                ifString += `\n (else if ${this.elseIfExpressions[i]})`;
+                ifString += `\n (${this.elseIfBlocks[i]})`;
             }
         }
 
