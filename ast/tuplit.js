@@ -9,6 +9,6 @@ module.exports = class Tuplit {
     }
 
     toString() {
-        return `(Tuplit (${this.exp1}, ${this.exp2}))`;
+        return `(${this.exp1}, ${this.exp2})`;
     }
 };

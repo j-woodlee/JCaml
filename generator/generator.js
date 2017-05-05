@@ -258,6 +258,12 @@ Object.assign(Decl.prototype, {
   },
 });
 
+Object.assign(TupLit.prototype, {
+    gen() {
+      emit(`(${this.exp1.gen()}, ${this.exp2.gen()})`);
+    },
+});
+
 Object.assign(MatchExp.prototype, {
   gen() {
     const context = new Context();
