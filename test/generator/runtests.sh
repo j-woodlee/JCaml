@@ -34,7 +34,7 @@ else
 fi
 
 ./jcaml.js ./test/parser/list.jml > ./test/generator/output.txt
-diff ./test/generator/output.txt ./test/generator/expectedList.txt
+diff ./test/generator/output.txt ./test/generator/expectedList.txt > /dev/null
 
 if [ $? = 0 ]
 then

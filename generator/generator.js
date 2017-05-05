@@ -176,7 +176,7 @@ Object.assign(List.prototype, {
       this.elements.forEach((element) => {
           eles.push(element.gen());
       });
-      emit(`[${eles}]`);
+      emit(`[${eles}];`);
   },
 });
 
