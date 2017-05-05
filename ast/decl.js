@@ -10,9 +10,6 @@ module.exports = class Decl extends Stmt {
 
     analyze(context) {
         this.exp.analyze(context);
-        console.log(this.declaredType);
-        console.log(this.exp.type);
-        console.log(this.declaredType.equals(this.exp.type));
         if (!this.declaredType.equals(this.exp.type)) {
             throw new Error("Declared type does not match the evaluated type.");
         }
