@@ -42,7 +42,7 @@ const PrefixExp = require("../ast/prefix_Exp");
 const Print = require("../ast/print");
 const StatementIfElse = require("../ast/statementIfElse");
 const TupLit = require("../ast/tuplit");
-const Type = require("../ast/type");
+// const Type = require("../ast/type");
 const MatchExp = require("../ast/matchExp");
 
 const indentPadding = 2;
