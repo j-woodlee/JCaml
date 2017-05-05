@@ -107,10 +107,10 @@
             <h3>Fibonacci Numbers</h3>
               <h4>JCaml</h4>
                 <code>
-                  let fun fib = (int a) => (int):<br/>
-                  &nbsp&nbspif(a == 0 or a == 1):<br/>
+                  let fun fib = (a) => int :<br/>
+                  &nbsp&nbspif a == 0 or a == 1<br/>
                   &nbsp&nbsp&nbsp&nbsphump 1<br/>
-                  &nbsp&nbspelse:<br/>
+                  &nbsp&nbspelse<br/>
                   &nbsp&nbsp&nbsp&nbsphump fib(a-1) + fib(1-2)<br/>
                   ;;<br/>
                 </code>
@@ -129,12 +129,12 @@
               <h4>JCaml</h4>
                 <code>
                   let fibDict = []<br/>
-                  let fun fibMem = (int a) => (int):<br/>
-                  &nbsp&nbspif (a == 0 or a == 1):<br/>
+                  let fun fibMem = (a) => int :<br/>
+                  &nbsp&nbspif a == 0 or a == 1<br/>
                   &nbsp&nbsp&nbsp&nbsphump 1<br/>
-                  &nbsp&nbspelse if (a in fibDict):<br/>
+                  &nbsp&nbspelse if a in fibDict<br/>
                   &nbsp&nbsp&nbsp&nbsphump fibDict[a]<br/>
-                  &nbsp&nbspelse:<br/>
+                  &nbsp&nbspelse<br/>
                   &nbsp&nbsp&nbsp&nbspfibDict[a] = fibMem(a-1) + fibMem(a-2)<br/>
                   &nbsp&nbsp&nbsp&nbsphump fibDict[a]<br/>
                   ;;
@@ -157,8 +157,8 @@
             <h3>Currying and Higher Order Functions</h3>
               <h4>JCaml</h4>
                 <code>
-                  let fun add = (int a, int b) => (int):<br/>
-                  &nbsp&nbsphump a + b;<br/>
+                  let fun add = (a, b) => int :<br/>
+                  &nbsp&nbsphump a + b<br/>
                   ;;<br/>
                   let fun add2 = add(2);;
                 </code>
@@ -175,11 +175,11 @@
             <h3>Match Statement</h3>
               <h4>JCaml</h4>
                 <code>
-                  let fun count_occurences = (int v, int list l) => (int):<br/>
-                  &nbsp&nbspmatch l with:<br/>
+                  let fun count_occurences = (v, l) => int :<br/>
+                  &nbsp&nbspmatch l with<br/>
                   &nbsp&nbsp| [] -> 0<br/>
                   &nbsp&nbsp| hd::[] ->  hump hd == v ? 1 : 0<br/>
-                  &nbsp&nbsp| hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) ; count_occurences(v, tl)<br/>
+                  &nbsp&nbsp| hd::tl ->  hump hd == v ? 1 + count_occurences(v, tl) : count_occurences(v, tl)<br/>
                   ;;
                 </code>
               <h4>JavaScript</h4>
